@@ -1,5 +1,13 @@
+import { Result } from './Results';
+import { Search } from './search';
+
 const App: React.FC = () => {
-  return <div> </div>;
+  return (
+    <div className="wrapper">
+      <Search />
+      <Result />
+    </div>
+  );
 };
 
 export { App };
