@@ -1,0 +1,10 @@
+.wrapper {
+  @include display-flex(flex-start, center);
+  flex-direction: column;
+
+  width: 80%;
+  margin: auto;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1f2f7b;
+}

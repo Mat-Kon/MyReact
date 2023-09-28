@@ -6,12 +6,12 @@ const checkServerAvailability = (): void => {
 
   xhr.open('GET', serverUrl, true);
 
-  xhr.onload = (): void => {
-    if (xhr.status >= 200 && xhr.status < 300) {
-      console.log('Сервер доступен!');
-    } else {
-      console.error('Сервер недоступен.');
-    }
+  xhr.onload = () => {
+    const message =
+      xhr.status >= 200 && xhr.status < 300
+        ? console.log('Сервер доступен')
+        : console.log('Сервер недоступен');
+    return message;
   };
 
   xhr.onerror = () => {
