@@ -9,6 +9,12 @@ interface ICategories {
 
 type Category = 'people' | 'planets' | 'films' | 'species' | 'vehicles' | 'starships';
 
+// interface IPlanet
+// interface IFilm
+// interface ISpecies
+// interface IVehicles
+// interface IStarShips
+
 interface IPeople {
   name: string;
   height: number;

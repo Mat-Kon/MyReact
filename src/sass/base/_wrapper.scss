@@ -1,10 +1,8 @@
 .wrapper {
   @include display-flex(flex-start, center);
   flex-direction: column;
-
-  width: 80%;
   margin: auto;
-  width: 100vw;
+  width: 80vw;
   height: 100vh;
-  background-color: #1f2f7b;
+  background-image: linear-gradient(to right, #091034, #1f2f7b, #091034);
 }

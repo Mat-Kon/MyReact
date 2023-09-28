@@ -1,5 +1,5 @@
 import { Result } from './Results';
-import { Search } from './search';
+import { Search } from './Search';
 
 const App: React.FC = () => {
   return (

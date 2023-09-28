@@ -1,4 +1,4 @@
-import { Category, ICategories, ICategory } from '../types/types';
+import { Category, ICategories, ICategory, IPeople } from '../types/types';
 
 class Api {
   private apiUrl: string = 'https://swapi.dev/api/?format=json';
@@ -8,42 +8,45 @@ class Api {
     this.response = fetch(this.apiUrl);
   }
 
-  public getAllCategories(): Promise<string[]> {
-    return this.response
-      .then((resp) => {
-        if (resp.ok) {
-          return resp.json();
-        }
+  public async getAll() {
+    try {
+      const resp = await this.response;
+      if (!resp.ok) {
         throw new Error('Network response was not ok');
-      })
-      .then((data) => {
-        const categories = Object.keys(data);
-        return categories;
-      });
+      }
+      const data: ICategories = await resp.json();
+      const categories: string[] = Object.keys(data);
+      const result = await Promise.all(
+        categories.map(async (category) => {
+          const newResp = await fetch(data[category as Category]);
+          const newData: ICategory = await newResp.json();
+          const resultsData: IPeople[] = newData.results;
+          return resultsData;
+        })
+      );
+      return result;
+    } catch (error) {
+      throw new Error(`Error in getAll: ${error}`);
+    }
   }
 
-  getCategory(category: Category): Promise<void | ICategory> {
-    return this.response
-      .then((resp: Response) => {
-        if (resp.ok) {
-          return resp.json();
+  public async getCategory(category: Category): Promise<void | ICategory> {
+    try {
+      const response = await this.response;
+      if (response.ok) {
+        const data: ICategories = await response.json();
+        console.log(data, category);
+        if (data[category]) {
+          const newUrl = data[category];
+          const newResponse = await fetch(newUrl);
+          const newData = await newResponse.json();
+          console.log(newData);
         }
-
-        throw new Error(`Network response was not ok, status is ${resp.status}`);
-      })
-      .then(async (data: ICategories) => {
-        const newUrl = data[category];
-        const peopleResponse = await fetch(newUrl);
-        if (peopleResponse.ok) {
-          const category: ICategory = await peopleResponse.json();
-          return category;
-        }
-
-        throw new Error(`Network response was not ok, status is ${peopleResponse.status}`);
-      })
-      .catch((err) => {
-        console.error(`Method getCategory is error message ${err.message}`);
-      });
+      }
+      throw new Error(`Network response was not ok, status is ${response.status}`);
+    } catch (error) {
+      throw new Error(`Error in getCategory ${error}`);
+    }
   }
 }
 
