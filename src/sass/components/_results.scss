@@ -2,8 +2,8 @@
   width: 100%;
 }
 .results__wrapper {
-  @include display-flex(flex-start, center);
-  flex-direction: column;
+  @include display-flex(space-evenly, stretch);
+  flex-wrap: wrap;
   color: #a9c600;
   padding-top: 50px;
 }
@@ -11,10 +11,11 @@
 .result__item {
   @include display-flex(flex-start, stretch);
   flex-direction: column;
-  width: 80%;
-  padding: 10px;
-  margin-bottom: 5px;
-  border: 1px solid #a9c600;
+  width: 40%;
+  padding: 15px;
+  margin-bottom: 10px;
+  box-shadow: 0px 0px 20px -6px #a9c600;
+  border-radius: 20px;
 }
 
 .item__name {
