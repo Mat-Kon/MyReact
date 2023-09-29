@@ -1,0 +1,30 @@
+.results {
+  width: 100%;
+}
+.results__wrapper {
+  @include display-flex(flex-start, center);
+  flex-direction: column;
+  color: #a9c600;
+  padding-top: 50px;
+}
+
+.result__item {
+  @include display-flex(flex-start, stretch);
+  flex-direction: column;
+  width: 80%;
+  padding: 10px;
+  margin-bottom: 5px;
+  border: 1px solid #a9c600;
+}
+
+.item__name {
+  width: fit-content;
+  margin: 0;
+  color: #f0d902;
+  border-bottom: 5px dotted #f0d902;
+}
+
+.item__value {
+  font-size: 25px;
+  margin: 5px 0 15px;
+}
