@@ -44,7 +44,9 @@ class Api {
     }
   }
 
-  public async getCategory(category: Category): Promise<null | ICategory> {
+  public async getCategory(
+    category: Category
+  ): Promise<null | (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]> {
     try {
       const response = await this.response;
       if (response.ok) {
@@ -52,8 +54,10 @@ class Api {
         if (data[category]) {
           const newUrl = data[category];
           const newResponse = await fetch(newUrl);
-          const newData = await newResponse.json();
-          return newData;
+          const newData: ICategory = await newResponse.json();
+          const results: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] =
+            newData.results;
+          return results;
         }
         return null;
       }

@@ -4,5 +4,6 @@
   margin: auto;
   width: 80vw;
   min-height: 100vh;
-  background-image: linear-gradient(to right, #091034, #1f2f7b, #091034);
+  background-image: linear-gradient(to right, $color-dark-blue, $color-blue, $color-dark-blue);
+  padding-bottom: 100px;
 }
