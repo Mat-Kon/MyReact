@@ -1,0 +1,18 @@
+@keyframes colorChange {
+  0% {
+    color: $color-heading;
+  }
+  100% {
+    color: $color-h;
+    filter: drop-shadow(0px 0px 10px $color-h);
+  }
+}
+
+.loader {
+  display: none;
+  margin: 0;
+  position: absolute;
+  top: 55px;
+  color: $color-heading;
+  animation: colorChange 1s infinite alternate;
+}

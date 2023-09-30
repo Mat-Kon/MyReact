@@ -1,5 +1,6 @@
 import { Api } from '../api/api';
 import { Category, IFilm, IPeople, IPlanet, ISpecies, IStarShips, IVehicles } from '../types/types';
+import { Loader } from './Loader';
 import { resultClasses } from './Results';
 
 const searchClasses = Object.freeze({
@@ -15,6 +16,7 @@ const categories = ['people', 'planets', 'films', 'species', 'vehicles', 'starsh
 const Search: React.FC = () => {
   window.onload = () => {
     getFromLocal();
+    viewAllValue();
   };
 
   const createItemBlock = (
@@ -46,33 +48,30 @@ const Search: React.FC = () => {
   };
 
   const viewAllValue = async (): Promise<void> => {
-    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`) as HTMLInputElement;
+    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`);
     const allInfo = await new Api().getAll();
-    const results: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] = (
-      [] as (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]
-    ).concat(...allInfo);
-    results.forEach((item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips) => {
+    allInfo.forEach((item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips) => {
       const resultItem = createItemBlock(item);
-      resultWrap.append(resultItem);
+      resultWrap?.append(resultItem);
     });
   };
 
   const viewCategory = async (value: string): Promise<void> => {
-    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`) as HTMLInputElement;
+    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`);
 
-    const items: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[] | null =
+    const items: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[] =
       await new Api().getCategory(value as Category);
 
     items?.forEach((item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips) => {
       const resultItem = createItemBlock(item);
-      resultWrap.append(resultItem);
+      resultWrap?.append(resultItem);
     });
   };
 
   const viewSearchValue = async (value: string) => {
-    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`) as HTMLInputElement;
+    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`);
     const regValue: RegExp = new RegExp(`\\b${value}\\b`, 'i');
-    const allCategories: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[][] =
+    const allCategories: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[] =
       await new Api().getAll();
     const items: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] = (
       [] as (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]
@@ -90,18 +89,21 @@ const Search: React.FC = () => {
     if (result.length > 0) {
       result.forEach((item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips) => {
         const resultItem = createItemBlock(item);
-        resultWrap.append(resultItem);
+        resultWrap?.append(resultItem);
       });
     } else {
-      const notFound = document.createElement('h1');
+      const notFound = document.createElement('p');
+      notFound.classList.add('not-found');
       notFound.textContent = `I not fond "${value}"`;
-      resultWrap.append(notFound);
+      resultWrap?.append(notFound);
     }
+    const resultItems = document.querySelectorAll('.result__item-wrapper').length;
+    console.log(resultItems);
   };
 
   const search: React.MouseEventHandler<HTMLInputElement> = (e) => {
     e.preventDefault();
-    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`) as HTMLInputElement;
+    const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`) as HTMLDivElement;
     resultWrap.innerHTML = '';
     const inputElem = document.querySelector(`.${searchClasses.INPUT}`) as HTMLInputElement;
     const value: string = inputElem.value.trim();
@@ -110,11 +112,11 @@ const Search: React.FC = () => {
 
     if (value === '') {
       viewAllValue();
-    }
-    if (hasCategory) {
+    } else if (hasCategory) {
       viewCategory(value);
+    } else {
+      viewSearchValue(value);
     }
-    viewSearchValue(value);
   };
 
   const getFromLocal = (): void => {
@@ -126,6 +128,7 @@ const Search: React.FC = () => {
   return (
     <div className={searchClasses.SEARCH}>
       <h1 className={searchClasses.HEADING}>Star Wars Searching</h1>
+      <Loader />
       <form className={searchClasses.FORM} action="search">
         <input className={searchClasses.INPUT} type="text" />
         <input className={searchClasses.BTN} type="submit" value="Search" onClick={search} />
