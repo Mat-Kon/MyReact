@@ -27,6 +27,9 @@ const Search: React.FC = () => {
     const resultItem = document.createElement('div');
     resultItem.classList.add(resultClasses.ITEM);
     resultItemWrapper.append(resultItem);
+    Object.entries(item).map((value) => {
+      console.log(`key: ${value[0]}, value: ${value[1]}`);
+    });
     const keys = Object.keys(item);
     const values: string | string[] | number = Object.values(item);
     keys.forEach((key, index) => {
@@ -97,8 +100,6 @@ const Search: React.FC = () => {
       notFound.textContent = `I not fond "${value}"`;
       resultWrap?.append(notFound);
     }
-    const resultItems = document.querySelectorAll('.result__item-wrapper').length;
-    console.log(resultItems);
   };
 
   const search: React.MouseEventHandler<HTMLInputElement> = (e) => {
