@@ -1,15 +1,5 @@
 import { hiddenLoader, viewLoader } from '../components/Loader';
-import {
-  Category,
-  ICategories,
-  ICategory,
-  IFilm,
-  IPeople,
-  IPlanet,
-  ISpecies,
-  IStarShips,
-  IVehicles,
-} from '../types/types';
+import { Category, ICategories, ICategory, ItemBlockList } from '../types/types';
 
 class Api {
   private apiUrl: string = 'https://swapi.dev/api/?format=json';
@@ -19,9 +9,7 @@ class Api {
     this.response = fetch(this.apiUrl);
   }
 
-  public async getAll(): Promise<
-    (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]
-  > {
+  public async getAll(): Promise<ItemBlockList> {
     try {
       const resp = await this.response;
       if (!resp.ok) {
@@ -30,17 +18,16 @@ class Api {
       viewLoader();
       const data: ICategories = await resp.json();
       const categories: string[] = Object.keys(data);
-      const allItems: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] = [];
+      const allItems: ItemBlockList = [];
       for (const category of categories) {
         let nextPage: string = data[category as Category];
 
         while (nextPage) {
           const newResp = await fetch(nextPage);
           const newData: ICategory = await newResp.json();
-          const resultsData: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] =
-            newData.results;
+          const resultsData: ItemBlockList = newData.results;
           allItems.push(...resultsData);
-          nextPage = newData.next; // Ссылка на следующую страницу, если есть
+          nextPage = newData.next;
         }
       }
       return allItems;
@@ -51,9 +38,7 @@ class Api {
     }
   }
 
-  public async getCategory(
-    category: Category
-  ): Promise<(IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]> {
+  public async getCategory(category: Category): Promise<ItemBlockList> {
     try {
       viewLoader();
       const response = await this.response;
@@ -61,7 +46,7 @@ class Api {
         throw new Error(`Network response was not ok, status is ${response.status}`);
       }
       const data: ICategories = await response.json();
-      const allItems: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] = [];
+      const allItems: ItemBlockList = [];
 
       if (data[category]) {
         let newUrl: string = data[category];
@@ -69,8 +54,7 @@ class Api {
         while (newUrl) {
           const newResponse = await fetch(newUrl);
           const newData: ICategory = await newResponse.json();
-          const results: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] =
-            newData.results;
+          const results: ItemBlockList = newData.results;
           allItems.push(...results);
           newUrl = newData.next;
         }

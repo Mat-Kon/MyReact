@@ -1,19 +1,41 @@
-import { Component, ReactNode } from 'react';
-// import { Api } from '../api/api';
-// import { Category, IFilm, IPeople, IPlanet, ISpecies, IStarShips, IVehicles } from '../types/types';
+import { Component, FormEvent, ReactNode } from 'react';
 import { Loader } from './Loader';
-// import { resultClasses } from './Results';
 
-// const categories = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
+type Text = {
+  text: string;
+};
 
-class Search extends Component {
+class Search extends Component<Text, { text: string }> {
+  constructor(props: Text) {
+    super(props);
+    this.state = { text: localStorage.getItem('searchValue') || '' };
+  }
+
+  handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    this.setState({ text: value });
+    console.log(value);
+  };
+
+  handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { text } = this.state;
+    localStorage.setItem('searchValue', text);
+  };
+
   render(): ReactNode {
+    const { text } = this.state;
     return (
       <div className="search">
         <h1 className="heading">Star Wars Searching</h1>
         <Loader />
-        <form className="search__form" action="search">
-          <input className="search__input" type="text" />
+        <form className="search__form" action="search" onSubmit={this.handleFormSubmit}>
+          <input
+            className="search__input"
+            type="text"
+            value={text}
+            onChange={this.handlerInputChange}
+          />
           <input className="search__btn" type="submit" value="Search" />
         </form>
       </div>

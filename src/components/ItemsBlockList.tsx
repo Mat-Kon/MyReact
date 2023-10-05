@@ -1,25 +1,32 @@
 import { Component, ReactNode } from 'react';
-import { IFilm, IPeople, IPlanet, ISpecies, IStarShips, IVehicles } from '../types/types';
 import { ItemBlock } from './ItemBlock';
+import { Api } from '../api/api';
+import { ItemBlockList, ItemBlockListProps } from '../types/types';
 
-type ItemBlockListProps = {
-  items: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[];
-};
-
-class ItemsBlokList extends Component<ItemBlockListProps> {
+class ItemsBlokList extends Component<ItemBlockListProps, { items: ItemBlockList }> {
   constructor(props: Readonly<ItemBlockListProps>) {
     super(props);
+    this.state = { items: [] };
+  }
+
+  async componentDidMount(): Promise<void> {
+    try {
+      const items: ItemBlockList = await new Api().getAll();
+      this.setState({ items });
+    } catch (error) {
+      console.error(`Error in ItemsBlockList`);
+    }
   }
 
   render(): ReactNode {
-    const { items } = this.props;
+    const { items } = this.state;
 
     return (
-      <div className="result__item-wrapper">
+      <>
         {items.map((item, index) => (
           <ItemBlock key={index} item={item} />
         ))}
-      </div>
+      </>
     );
   }
 }

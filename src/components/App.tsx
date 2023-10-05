@@ -6,7 +6,7 @@ class App extends Component {
   render(): ReactNode {
     return (
       <div className="wrapper">
-        <Search />
+        <Search text={''} />
         <Results />
       </div>
     );

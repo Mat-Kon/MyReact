@@ -2,12 +2,14 @@
   position: relative;
   width: 100%;
 }
+
 .results__wrapper {
   @include display-flex(space-evenly, stretch);
   flex-wrap: wrap;
   color: $color-p;
   padding-top: 50px;
 }
+
 .result__item {
   overflow: overlay;
   width: 90%;

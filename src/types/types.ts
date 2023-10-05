@@ -7,6 +7,13 @@ interface ICategories {
   starships: string;
 }
 
+type Item = IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople;
+
+type ItemBlockList = Item[];
+type ItemBlockListProps = {
+  items: Item[];
+};
+
 type Category = 'people' | 'planets' | 'films' | 'species' | 'vehicles' | 'starships';
 
 interface IPlanet {
@@ -135,4 +142,6 @@ export type {
   ISpecies,
   IVehicles,
   IStarShips,
+  ItemBlockList,
+  ItemBlockListProps,
 };
