@@ -1,13 +1,16 @@
-import { Result } from './Results';
+import { Component, ReactNode } from 'react';
+import { Results } from './Results';
 import { Search } from './Search';
 
-const App: React.FC = () => {
-  return (
-    <div className="wrapper">
-      <Search />
-      <Result />
-    </div>
-  );
-};
+class App extends Component {
+  render(): ReactNode {
+    return (
+      <div className="wrapper">
+        <Search />
+        <Results />
+      </div>
+    );
+  }
+}
 
 export { App };

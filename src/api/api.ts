@@ -55,6 +55,7 @@ class Api {
     category: Category
   ): Promise<(IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]> {
     try {
+      viewLoader();
       const response = await this.response;
       if (!response.ok) {
         throw new Error(`Network response was not ok, status is ${response.status}`);

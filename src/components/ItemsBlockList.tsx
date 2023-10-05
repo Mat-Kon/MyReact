@@ -1,21 +1,27 @@
+import { Component, ReactNode } from 'react';
 import { IFilm, IPeople, IPlanet, ISpecies, IStarShips, IVehicles } from '../types/types';
 import { ItemBlock } from './ItemBlock';
-import { resultClasses } from './Results';
 
-type props = {
+type ItemBlockListProps = {
   items: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[];
 };
 
-const ItemsBlokList: React.FC<props> = ({ items }) => {
-  return (
-    <div className={resultClasses.WRAPPER}>
-      {items.map((item) => (
-        <>
-          <ItemBlock item={item} />
-        </>
-      ))}
-    </div>
-  );
-};
+class ItemsBlokList extends Component<ItemBlockListProps> {
+  constructor(props: Readonly<ItemBlockListProps>) {
+    super(props);
+  }
+
+  render(): ReactNode {
+    const { items } = this.props;
+
+    return (
+      <div className="result__item-wrapper">
+        {items.map((item, index) => (
+          <ItemBlock key={index} item={item} />
+        ))}
+      </div>
+    );
+  }
+}
 
 export default ItemsBlokList;
