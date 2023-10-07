@@ -1,5 +1,4 @@
 import { Component, ReactNode } from 'react';
-import { Results } from './Results';
 import { Search } from './Search';
 
 class App extends Component {
@@ -7,7 +6,6 @@ class App extends Component {
     return (
       <div className="wrapper">
         <Search text={''} />
-        <Results />
       </div>
     );
   }

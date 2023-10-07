@@ -1,26 +1,65 @@
 import { Component, ReactNode } from 'react';
 import { ItemBlock } from './ItemBlock';
 import { Api } from '../api/api';
-import { ItemBlockList, ItemBlockListProps } from '../types/types';
+import { Item, ItemBlockListProps } from '../types/types';
 
-class ItemsBlokList extends Component<ItemBlockListProps, { items: ItemBlockList }> {
+class ItemsBlokList extends Component<ItemBlockListProps, { items: Item[] | string }> {
   constructor(props: Readonly<ItemBlockListProps>) {
     super(props);
     this.state = { items: [] };
   }
 
-  async componentDidMount(): Promise<void> {
-    try {
-      const items: ItemBlockList = await new Api().getAll();
-      this.setState({ items });
-    } catch (error) {
-      console.error(`Error in ItemsBlockList`);
+  componentDidMount = async (): Promise<void> => {
+    const value = this.props.value;
+    if (value !== '') {
+      try {
+        const items: Item[] = await new Api().getAll();
+        const filterItems = this.filterItems(value, items);
+        if (filterItems) {
+          this.setState({ items: filterItems });
+        }
+      } catch (error) {
+        console.error(`Error in ItemsBlockList`);
+      }
+    } else {
+      try {
+        const items: Item[] = await new Api().getAll();
+        this.setState({ items });
+      } catch (error) {
+        console.error(`Error in ItemsBlockList`);
+      }
     }
-  }
+  };
+
+  filterItems = (value: string, items: Item[]): Item[] | null => {
+    const regValue: RegExp = new RegExp(`\\b${value}\\b`, 'i');
+    const allItems = items;
+    const result: Item[] = [];
+    allItems.forEach((item: Item) => {
+      const keys = Object.keys(item);
+      const hasKeys = keys.filter((value) => regValue.test(value)).length > 0;
+      const values = Object.values(item);
+      const hasValues = values.filter((value) => regValue.test(value)).length > 0;
+      if (hasKeys || hasValues) {
+        result.push(item);
+      }
+    });
+    if (result.length > 0) {
+      return result.slice(0, 10);
+    } else {
+      return null;
+    }
+  };
 
   render(): ReactNode {
     const { items } = this.state;
-
+    if (typeof items === 'string') {
+      return (
+        <>
+          <p className="not-found">not found</p>
+        </>
+      );
+    }
     return (
       <>
         {items.map((item, index) => (

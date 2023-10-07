@@ -9,9 +9,9 @@ interface ICategories {
 
 type Item = IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople;
 
-type ItemBlockList = Item[];
 type ItemBlockListProps = {
-  items: Item[];
+  items: Item[] | string;
+  value: string;
 };
 
 type Category = 'people' | 'planets' | 'films' | 'species' | 'vehicles' | 'starships';
@@ -142,6 +142,6 @@ export type {
   ISpecies,
   IVehicles,
   IStarShips,
-  ItemBlockList,
   ItemBlockListProps,
+  Item,
 };

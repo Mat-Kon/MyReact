@@ -1,5 +1,6 @@
-import { Component, FormEvent, ReactNode } from 'react';
+import { Component, ReactNode } from 'react';
 import { Loader } from './Loader';
+import ItemsBlokList from './ItemsBlockList';
 
 type Text = {
   text: string;
@@ -8,37 +9,36 @@ type Text = {
 class Search extends Component<Text, { text: string }> {
   constructor(props: Text) {
     super(props);
-    this.state = { text: localStorage.getItem('searchValue') || '' };
+    this.state = { text: localStorage.getItem('searchValue') ?? '' };
   }
 
   handlerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     this.setState({ text: value });
-    console.log(value);
-  };
-
-  handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { text } = this.state;
-    localStorage.setItem('searchValue', text);
+    localStorage.setItem('searchValue', value);
   };
 
   render(): ReactNode {
     const { text } = this.state;
     return (
-      <div className="search">
-        <h1 className="heading">Star Wars Searching</h1>
-        <Loader />
-        <form className="search__form" action="search" onSubmit={this.handleFormSubmit}>
-          <input
-            className="search__input"
-            type="text"
-            value={text}
-            onChange={this.handlerInputChange}
-          />
-          <input className="search__btn" type="submit" value="Search" />
-        </form>
-      </div>
+      <>
+        <div className="search">
+          <h1 className="heading">Star Wars Searching</h1>
+          <Loader />
+          <form className="search__form" action="search">
+            <input
+              className="search__input"
+              type="text"
+              value={text}
+              onChange={this.handlerInputChange}
+            />
+            <input className="search__btn" type="submit" value="Search" />
+          </form>
+        </div>
+        <div className="results">
+          <div className="results__wrapper">{<ItemsBlokList items={[]} value={text} />}</div>
+        </div>
+      </>
     );
   }
 }
@@ -99,37 +99,6 @@ class Search extends Component<Text, { text: string }> {
 //       const resultItem = createItemBlock(item);
 //       resultWrap?.append(resultItem);
 //     });
-//   };
-
-//   const viewSearchValue = async (value: string) => {
-//     const resultWrap = document.querySelector(`.${resultClasses.WRAPPER}`);
-//     const regValue: RegExp = new RegExp(`\\b${value}\\b`, 'i');
-//     const allCategories: (IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople)[] =
-//       await new Api().getAll();
-//     const items: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] = (
-//       [] as (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[]
-//     ).concat(...allCategories);
-//     const result: (IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips)[] = [];
-//     items.forEach((item) => {
-//       const keys = Object.keys(item);
-//       const hasKeys = keys.filter((value) => regValue.test(value)).length > 0;
-//       const values = Object.values(item);
-//       const hasValues = values.filter((value) => regValue.test(value)).length > 0;
-//       if (hasKeys || hasValues) {
-//         result.push(item);
-//       }
-//     });
-//     if (result.length > 0) {
-//       result.forEach((item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips) => {
-//         const resultItem = createItemBlock(item);
-//         resultWrap?.append(resultItem);
-//       });
-//     } else {
-//       const notFound = document.createElement('p');
-//       notFound.classList.add('not-found');
-//       notFound.textContent = `I not fond "${value}"`;
-//       resultWrap?.append(notFound);
-//     }
 //   };
 
 //   const search: React.MouseEventHandler<HTMLInputElement> = (e) => {
