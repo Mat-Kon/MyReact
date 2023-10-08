@@ -17,6 +17,8 @@ class ItemsBlokList extends Component<ItemBlockListProps, { items: Item[] | stri
         const filterItems = this.filterItems(value, items);
         if (filterItems) {
           this.setState({ items: filterItems });
+        } else {
+          this.setState({ items: 'not founs' });
         }
       } catch (error) {
         console.error(`Error in ItemsBlockList`);
