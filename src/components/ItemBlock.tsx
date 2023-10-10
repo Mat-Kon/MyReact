@@ -21,4 +21,4 @@ const ItemBlock: React.FC<ItemProps> = ({ item }) => {
   );
 };
 
-export { ItemBlock };
+export default ItemBlock;

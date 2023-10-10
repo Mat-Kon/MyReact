@@ -1,16 +1,16 @@
 import { Component, ReactNode } from 'react';
-import { ItemBlock } from './ItemBlock';
+import ItemBlock from './ItemBlock';
 import { Api } from '../api/api';
 import { Item, ItemBlockListProps } from '../types/types';
 
-class ItemsBlokList extends Component<ItemBlockListProps, { items: Item[] | string }> {
+class ItemsBlokList extends Component<ItemBlockListProps, { items: Item[] | null }> {
   constructor(props: Readonly<ItemBlockListProps>) {
     super(props);
     this.state = { items: [] };
   }
 
   componentDidMount = async (): Promise<void> => {
-    const value = this.props.value;
+    const { value } = this.props;
     if (value !== '') {
       try {
         const items: Item[] = await new Api().getAll();
@@ -18,7 +18,7 @@ class ItemsBlokList extends Component<ItemBlockListProps, { items: Item[] | stri
         if (filterItems) {
           this.setState({ items: filterItems });
         } else {
-          this.setState({ items: 'not founs' });
+          this.setState({ items: null });
         }
       } catch (error) {
         console.error(`Error in ItemsBlockList`);
@@ -55,19 +55,10 @@ class ItemsBlokList extends Component<ItemBlockListProps, { items: Item[] | stri
 
   render(): ReactNode {
     const { items } = this.state;
-    if (typeof items === 'string') {
-      return (
-        <>
-          <p className="not-found">not found</p>
-        </>
-      );
-    }
-    return (
-      <>
-        {items.map((item, index) => (
-          <ItemBlock key={index} item={item} />
-        ))}
-      </>
+    return items ? (
+      items.map((item, index) => <ItemBlock key={index} item={item} />)
+    ) : (
+      <p className="not-found">not found</p>
     );
   }
 }

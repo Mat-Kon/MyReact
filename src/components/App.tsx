@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { Search } from './Search';
+import Search from './Search';
 
 class App extends Component {
   render(): ReactNode {
@@ -11,4 +11,4 @@ class App extends Component {
   }
 }
 
-export { App };
+export default App;

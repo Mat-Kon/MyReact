@@ -43,4 +43,4 @@ class Search extends Component<Text, { text: string }> {
   }
 }
 
-export { Search };
+export default Search;
