@@ -18,7 +18,9 @@
   &__btn {
     position: absolute;
     top: 3px;
-    right: -7px;
+    right: 2px;
+    text-align: center;
+    width: 15%;
     padding: 8px;
     border: none;
     border-radius: 20px;
@@ -27,7 +29,6 @@
 
     &:hover {
       cursor: pointer;
-      width: max-content;
       background-color: #605e5e;
     }
 
@@ -38,6 +39,7 @@
 }
 
 .heading {
+  padding: 20px 0 30px;
   color: $color-heading;
   text-align: center;
 }

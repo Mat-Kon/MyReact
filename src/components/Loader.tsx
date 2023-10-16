@@ -1,15 +1,14 @@
-const Loader: React.FC = () => {
-  return <h2 className="loader">Loading</h2>;
+import { Component, ReactNode } from 'react';
+
+type Props = {
+  isLoading: boolean;
 };
 
-const viewLoader = (): void => {
-  const loader = document.querySelector('.loader') as HTMLElement;
-  loader.style.display = 'flex';
-};
+class Loader extends Component<Props> {
+  render(): ReactNode {
+    const { isLoading } = this.props;
+    return isLoading ? <h2 className="loader">Loading</h2> : null;
+  }
+}
 
-const hiddenLoader = (): void => {
-  const loader = document.querySelector('.loader') as HTMLElement;
-  loader.style.display = 'none';
-};
-
-export { Loader, viewLoader, hiddenLoader };
+export default Loader;

@@ -1,4 +1,3 @@
-import { hiddenLoader, viewLoader } from '../components/Loader';
 import { Category, ICategories, ICategory, Item } from '../types/types';
 
 class Api {
@@ -15,7 +14,6 @@ class Api {
       if (!resp.ok) {
         throw new Error('Network response was not ok');
       }
-      viewLoader();
       const data: ICategories = await resp.json();
       const categories: string[] = Object.keys(data);
       const allItems: Item[] = [];
@@ -34,7 +32,6 @@ class Api {
     } catch (error) {
       throw new Error(`Error in getAll: ${error}`);
     } finally {
-      hiddenLoader();
     }
   }
 }

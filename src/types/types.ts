@@ -10,8 +10,13 @@ interface ICategories {
 type Item = IPlanet | IFilm | ISpecies | IVehicles | IStarShips | IPeople;
 
 type ItemBlockListProps = {
-  items: Item[] | string;
+  items: Item[] | null;
+};
+
+type ItemBlockListState = {
+  items: Item[] | null;
   value: string;
+  isLoading: boolean;
 };
 
 type Category = 'people' | 'planets' | 'films' | 'species' | 'vehicles' | 'starships';
@@ -143,5 +148,6 @@ export type {
   IVehicles,
   IStarShips,
   ItemBlockListProps,
+  ItemBlockListState,
   Item,
 };

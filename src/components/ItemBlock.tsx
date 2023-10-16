@@ -1,24 +1,36 @@
+import { Component, ReactNode } from 'react';
 import { IFilm, IPeople, IPlanet, ISpecies, IStarShips, IVehicles } from '../types/types';
 
 type ItemProps = {
-  item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips;
+  item: IPeople | IPlanet | IFilm | ISpecies | IVehicles | IStarShips | null;
 };
 
-const ItemBlock: React.FC<ItemProps> = ({ item }) => {
-  return (
-    <div className="result__item-wrapper">
-      <div className="result__item">
-        {Object.entries(item).map((value, index) => (
-          <div key={index}>
-            <h2 className="item__name">{value[0]}</h2>
-            <p className="item__value">
-              {Array.isArray(value[1]) ? value[1].map((value) => value + '\n') : value[1]}
-            </p>
-          </div>
-        ))}
+class ItemBlock extends Component<ItemProps> {
+  render(): ReactNode {
+    const { item } = this.props;
+    return (
+      <div className="result__item-wrapper">
+        <div className="result__item">
+          {Object.entries(item!).map((value, index) => {
+            if (index < 2) {
+              return (
+                <div key={index}>
+                  <h2 className="item__name">{value[0]}</h2>
+                  <p className="item__value">
+                    {Array.isArray(value[1])
+                      ? (value[1] as string[]).map((value) => value + '\n')
+                      : String(value[1])}
+                  </p>
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default ItemBlock;
