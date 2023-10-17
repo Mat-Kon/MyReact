@@ -14,7 +14,7 @@ class ItemBlock extends Component<ItemProps> {
           {Object.entries(item!).map((value, index) => {
             if (index < 2) {
               return (
-                <div key={index}>
+                <div className="item" key={index}>
                   <h2 className="item__name">{value[0]}</h2>
                   <p className="item__value">
                     {Array.isArray(value[1])

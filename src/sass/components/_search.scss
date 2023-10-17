@@ -1,6 +1,7 @@
 .search {
   @include display-flex(flex-start, center);
   flex-direction: column;
+  gap: 10px;
   width: 40%;
 
   &__form {
@@ -38,6 +39,28 @@
   }
 }
 
+.error-btn {
+  width: max-content;
+  padding: 8px;
+  border: none;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #f0da78;
+  background-color: #8f0000;
+  transition: all 0.5s;
+  &:hover {
+    cursor: pointer;
+    color: #ffd001;
+    background-color: #ff0000;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+}
+
 .heading {
   padding: 20px 0 30px;
   color: $color-heading;
@@ -48,4 +71,9 @@
   position: absolute;
   top: -30px;
   font-size: 45px;
+}
+
+.error-message {
+  font-size: 24px;
+  color: #f42929;
 }

@@ -1,8 +1,8 @@
 import { Component, ReactNode } from 'react';
 import Loader from './Loader';
-import ItemsBlokList from './ItemsBlockList';
 import { Item, ItemBlockListState } from '../types/types';
 import { Api } from '../api/api';
+import ItemsBlockList from './ItemsBlockList';
 
 type SearchProps = unknown;
 
@@ -13,6 +13,7 @@ class Search extends Component<SearchProps, ItemBlockListState> {
       items: [],
       value: localStorage.getItem('searchValue') ?? '',
       isLoading: false,
+      isError: false,
     };
   }
 
@@ -24,10 +25,20 @@ class Search extends Component<SearchProps, ItemBlockListState> {
 
   componentDidMount(): void {
     this.getItems();
+    window.addEventListener('error', this.handleError);
   }
+
+  handleError = () => {
+    this.setState({ isError: true, isLoading: false });
+  };
+
+  getError = () => {
+    throw new Error('You caused is Error');
+  };
 
   handlerSearchBtn = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault();
+    this.setState({ isError: false });
     this.getItems();
   };
 
@@ -62,7 +73,7 @@ class Search extends Component<SearchProps, ItemBlockListState> {
         this.setState({ items: null });
       }
     } catch (error) {
-      console.error(`Error in ItemsBlockList`);
+      console.error(`Error in getFilterItems`);
     } finally {
       this.setState({ isLoading: false });
     }
@@ -89,7 +100,7 @@ class Search extends Component<SearchProps, ItemBlockListState> {
   };
 
   render(): ReactNode {
-    const { value, items, isLoading } = this.state;
+    const { value, items, isLoading, isError } = this.state;
     return (
       <>
         <div className="search">
@@ -106,9 +117,18 @@ class Search extends Component<SearchProps, ItemBlockListState> {
               Search
             </button>
           </form>
+          <button className="error-btn" onClick={this.getError}>
+            Get an error
+          </button>
         </div>
         <div className="results">
-          <div className="results__wrapper">{<ItemsBlokList items={items} />}</div>
+          <div className="results__wrapper">
+            {isError ? (
+              <p className="error-message">You caused a mistake, now the empire will fall!</p>
+            ) : (
+              <ItemsBlockList items={items} />
+            )}
+          </div>
         </div>
       </>
     );
