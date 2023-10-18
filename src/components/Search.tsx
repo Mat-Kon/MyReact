@@ -3,6 +3,7 @@ import Loader from './Loader';
 import { Item, ItemBlockListState } from '../types/types';
 import { Api } from '../api/api';
 import ItemsBlockList from './ItemsBlockList';
+import ErrorBtn from './ErrorBtn';
 
 type SearchProps = unknown;
 
@@ -113,13 +114,11 @@ class Search extends Component<SearchProps, ItemBlockListState> {
               value={value}
               onChange={this.handlerInputChange}
             />
-            <button className="search__btn" onClick={this.handlerSearchBtn}>
+            <button className="search__btn" onClick={this.handlerSearchBtn} disabled={isLoading}>
               Search
             </button>
           </form>
-          <button className="error-btn" onClick={this.getError}>
-            Get an error
-          </button>
+          <ErrorBtn handleError={this.handleError} />
         </div>
         <div className="results">
           <div className="results__wrapper">
