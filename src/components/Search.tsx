@@ -2,9 +2,9 @@ import { Component, FormEvent, ReactNode } from 'react';
 import Loader from './Loader';
 import { Item, ItemBlockListState } from '../types/types';
 import { Api } from '../api/api';
-import ItemsBlockList from './ItemsBlockList';
 import ErrorBtn from './ErrorBtn';
 import Form from './Form';
+import Results from './Results';
 
 type SearchProps = unknown;
 
@@ -105,15 +105,7 @@ class Search extends Component<SearchProps, ItemBlockListState> {
           <Form handlerSubmitForm={this.handlerSubmitForm} isLoading={isLoading} />
           <ErrorBtn handleError={this.handleError} />
         </div>
-        <div className="results">
-          <div className="results__wrapper">
-            {isError ? (
-              <p className="error-message">You caused a mistake, now the empire will fall!</p>
-            ) : (
-              <ItemsBlockList items={items} />
-            )}
-          </div>
-        </div>
+        <Results items={items} isError={isError} />
       </>
     );
   }
