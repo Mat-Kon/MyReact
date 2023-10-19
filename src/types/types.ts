@@ -15,7 +15,6 @@ type ItemBlockListProps = {
 
 type ItemBlockListState = {
   items: Item[] | null;
-  value: string;
   isLoading: boolean;
   isError: boolean;
 };
