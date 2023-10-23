@@ -1,4 +1,0 @@
-{
-  "*.(tsx)": ["npm run lint:fix", "npm run prettier"],
-  "*.(ts)": ["npm run lint:fix", "npm run prettier"]
-}
