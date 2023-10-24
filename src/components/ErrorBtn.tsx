@@ -1,21 +1,14 @@
 import { Component, ReactNode } from 'react';
 
 type Props = {
-  handleError: () => void;
+  throwError: () => never;
 };
 
 class ErrorBtn extends Component<Props> {
-  componentDidMount(): void {
-    const { handleError } = this.props;
-    window.addEventListener('error', handleError);
-  }
-
-  getError = () => {
-    throw new Error('You caused is Error');
-  };
   render(): ReactNode {
+    const { throwError } = this.props;
     return (
-      <button className="error-btn" onClick={this.getError}>
+      <button className="error-btn" onClick={throwError}>
         Get an error
       </button>
     );

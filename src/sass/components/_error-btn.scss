@@ -1,0 +1,21 @@
+.error-btn {
+  width: max-content;
+  padding: 8px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 600;
+  color: #f0da78;
+  background-color: #8f0000;
+  transition: all 0.5s;
+  &:hover {
+    cursor: pointer;
+    color: #ffd001;
+    background-color: #ff0000;
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+}

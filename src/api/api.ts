@@ -4,11 +4,6 @@ const categories: string[] = ['people', 'planets', 'films', 'species', 'vehicles
 
 class Api {
   private apiUrl: string = 'https://swapi.dev/api/';
-  private response: Promise<Response>;
-
-  constructor() {
-    this.response = fetch(this.apiUrl);
-  }
 
   private async getItems(data: ICategories): Promise<Item[]> {
     const categories: string[] = Object.keys(data);
@@ -32,19 +27,19 @@ class Api {
 
   public async getAll(): Promise<Item[]> {
     try {
-      const resp = await this.response;
+      const resp = await fetch(this.apiUrl);
       if (!resp.ok) {
         throw new Error('Network response was not ok');
       }
       const data: ICategories = await resp.json();
       const items: Promise<Item[]> = this.getItems(data);
       return items;
-    } catch (error) {
+    } catch (error: unknown) {
       throw new Error(`Error in getAll: ${error}`);
     }
   }
 
-  public async getSearchItems(value: string): Promise<Item[]> {
+  public async getSearchItems(value: string): Promise<Item[] | undefined> {
     try {
       const searchValue: string = value.trim();
       const items: Item[] = [];
@@ -58,8 +53,12 @@ class Api {
       });
       await Promise.all(fetchPromises);
       return items;
-    } catch (error) {
-      throw new Error(`Error in getAll: ${error}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(error);
+      } else {
+        throw new Error(`Error in getAll: ${error}`);
+      }
     }
   }
 }

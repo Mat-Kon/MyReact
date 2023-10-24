@@ -1,4 +1,4 @@
-const apiUrl = 'https://swapi.dev/api/?format=json';
+const apiUrl = 'https://swapi.dev/api/';
 
 const checkServerAvailability = (): void => {
   const xhr: XMLHttpRequest = new XMLHttpRequest();

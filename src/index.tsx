@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './components/App';
 import { checkServerAvailability } from './api/check-server';
+import ErrorBoundary from './components/ErrorBoundary';
 import './sass/main.scss';
+
+checkServerAvailability();
 
 ReactDOM.createRoot(document.querySelector('#root')!).render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>
 );
-
-checkServerAvailability();

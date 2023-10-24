@@ -17,6 +17,7 @@ class Search extends Component<SearchProps, ItemBlockListState> {
   }
 
   componentDidMount(): void {
+    this.setState({ isLoading: true });
     const value = localStorage.getItem('searchValue') ?? '';
     if (value) {
       this.searchItem(value);
@@ -39,7 +40,7 @@ class Search extends Component<SearchProps, ItemBlockListState> {
   getAllItems = async (): Promise<void> => {
     try {
       this.setState({ isLoading: true });
-      const items: Item[] = await new Api().getAll();
+      const items: Item[] | undefined = await new Api().getAll();
       this.setState({ items: items });
     } catch (error) {
       console.error(`Error in ItemsBlockList`);
@@ -52,7 +53,11 @@ class Search extends Component<SearchProps, ItemBlockListState> {
     try {
       this.setState({ isLoading: true });
       const items = await new Api().getSearchItems(value);
-      this.setState({ items: items });
+      if (items && items.length > 0) {
+        this.setState({ items: items });
+      } else {
+        this.setState({ items: null });
+      }
     } catch (error) {
       console.error(`Error in Search component${error}`);
     } finally {
