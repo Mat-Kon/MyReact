@@ -16,7 +16,6 @@ type ItemBlockListProps = {
 type ItemBlockListState = {
   items: Item[] | null;
   isLoading: boolean;
-  isError: boolean;
 };
 
 type Category = 'people' | 'planets' | 'films' | 'species' | 'vehicles' | 'starships';

@@ -18,7 +18,11 @@ class Form extends Component<Props, { value: string }> {
 
   handlerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value: string = e.target.value;
-    this.setState({ value });
+    this.setState({ value: value });
+  };
+
+  saveValueInStorage = () => {
+    const { value } = this.state;
     localStorage.setItem('searchValue', value);
   };
 
@@ -32,8 +36,9 @@ class Form extends Component<Props, { value: string }> {
           type="text"
           value={value}
           onChange={this.handlerInputChange}
+          disabled={isLoading}
         />
-        <button className="search__btn" disabled={isLoading}>
+        <button className="search__btn" onClick={this.saveValueInStorage} disabled={isLoading}>
           Search
         </button>
       </form>

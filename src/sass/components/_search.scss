@@ -27,12 +27,13 @@
     border-radius: 20px;
     color: #ffffff;
     background-color: #3a3838;
+    transition: all 0.5s;
 
     &:hover {
       cursor: pointer;
       background-color: #605e5e;
     }
-    
+
     &:active {
       transform: scale(0.9);
     }

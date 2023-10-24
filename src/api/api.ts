@@ -1,14 +1,16 @@
 import { Category, ICategories, ICategory, Item } from '../types/types';
 
+const categories: string[] = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
+
 class Api {
-  private apiUrl: string = 'https://swapi.dev/api/?format=json';
+  private apiUrl: string = 'https://swapi.dev/api/';
   private response: Promise<Response>;
 
   constructor() {
     this.response = fetch(this.apiUrl);
   }
 
-  private async getItems(data: ICategories) {
+  private async getItems(data: ICategories): Promise<Item[]> {
     const categories: string[] = Object.keys(data);
     const allItems: Item[] = [];
     for (const category of categories) {
@@ -35,7 +37,26 @@ class Api {
         throw new Error('Network response was not ok');
       }
       const data: ICategories = await resp.json();
-      const items = this.getItems(data);
+      const items: Promise<Item[]> = this.getItems(data);
+      return items;
+    } catch (error) {
+      throw new Error(`Error in getAll: ${error}`);
+    }
+  }
+
+  public async getSearchItems(value: string): Promise<Item[]> {
+    try {
+      const searchValue: string = value.trim();
+      const items: Item[] = [];
+      const fetchPromises = categories.map(async (category: string) => {
+        const resp = await fetch(`${this.apiUrl}/${category}/?search=${searchValue}`);
+        const data: ICategory = await resp.json();
+        if (data.results.length > 0) {
+          const results = data.results;
+          items.push(...results);
+        }
+      });
+      await Promise.all(fetchPromises);
       return items;
     } catch (error) {
       throw new Error(`Error in getAll: ${error}`);
