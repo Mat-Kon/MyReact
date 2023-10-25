@@ -9,4 +9,8 @@
   flex-wrap: wrap;
   color: $color-p;
   padding-top: 50px;
+  @include media-mobile {
+    flex-direction: column;
+    align-items: center;
+  }
 }

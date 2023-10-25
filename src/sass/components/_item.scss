@@ -8,13 +8,20 @@
   color: $color-h;
   letter-spacing: 2px;
   border-bottom: 5px dotted $color-h;
+  @include media-table {
+    font-size: 20px;
+  }
 }
 
 .item__value {
   font-size: 25px;
   text-align: right;
   margin: 5px 0 15px;
+  @include media-table {
+    font-size: 17px;
+  }
 }
+
 .result__item {
   overflow: overlay;
   width: 90%;
@@ -30,6 +37,12 @@
   box-shadow: 0px 0px 20px -6px $color-p;
   border-radius: 20px;
   transition: all 1s;
+  @include media-table {
+    width: 45%;
+  }
+  @include media-mobile {
+    width: 95%;
+  }
 
   &:hover {
     z-index: 10;

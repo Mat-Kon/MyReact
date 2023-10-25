@@ -6,4 +6,8 @@
   min-height: 100vh;
   background-image: linear-gradient(to right, $color-dark-blue, $color-blue, $color-dark-blue);
   padding-bottom: 100px;
+
+  @include media-laptop {
+    width: 95vw;
+  }
 }

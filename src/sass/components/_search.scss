@@ -3,6 +3,12 @@
   flex-direction: column;
   gap: 10px;
   width: 40%;
+  @include media-laptop {
+    width: 50%;
+  }
+  @include media-table {
+    width: 80%;
+  }
 
   &__form {
     position: relative;
@@ -21,7 +27,7 @@
     top: 2px;
     right: 2px;
     text-align: center;
-    width: 15%;
+    width: max-content;
     padding: 8px;
     border: none;
     border-radius: 20px;
