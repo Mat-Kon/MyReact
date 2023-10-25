@@ -45,10 +45,10 @@ class Api {
       const items: Item[] = [];
       const fetchPromises = categories.map(async (category: string) => {
         const resp = await fetch(`${this.apiUrl}/${category}/?search=${searchValue}`);
-        const data: ICategory = await resp.json();
         if (resp.status > 400) {
           return;
         }
+        const data: ICategory = await resp.json();
         if (data.results.length > 0) {
           const results = data.results;
           items.push(...results);

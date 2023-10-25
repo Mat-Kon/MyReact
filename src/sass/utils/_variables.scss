@@ -3,3 +3,8 @@ $color-h: #f0d902;
 $color-heading: #f0a902;
 $color-dark-blue: #091034;
 $color-blue: #1f2f7b;
+
+%pagination {
+  font-size: 40px;
+  color: $color-h;
+}

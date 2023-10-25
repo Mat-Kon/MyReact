@@ -44,8 +44,9 @@ class Search extends Component<SearchProps, ItemBlockListState> {
   };
 
   searchItem = async (value: string) => {
-    const items = await new Api().getSearchItems(value);
+    let items = await new Api().getSearchItems(value);
     if (items && items.length > 0) {
+      items = items.slice(0, 10);
       this.setState({ items: items });
     } else {
       this.setState({ items: null });

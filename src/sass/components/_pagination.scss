@@ -1,0 +1,17 @@
+.pagination {
+  @include display-flex(space-between, center);
+  width: 5vw;
+  margin: auto;
+}
+
+.page-number {
+  @extend %pagination;
+}
+
+.prev {
+  @extend %pagination;
+}
+
+.next {
+  @extend %pagination;
+}
