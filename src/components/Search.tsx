@@ -38,31 +38,19 @@ class Search extends Component<SearchProps, ItemBlockListState> {
   };
 
   getAllItems = async (): Promise<void> => {
-    try {
-      this.setState({ isLoading: true });
-      const items: Item[] | undefined = await new Api().getAll();
-      this.setState({ items: items });
-    } catch (error) {
-      console.error(`Error in ItemsBlockList`);
-    } finally {
-      this.setState({ isLoading: false });
-    }
+    const items: Item[] | undefined = await new Api().getAll();
+    this.setState({ items: items });
+    this.setState({ isLoading: false });
   };
 
   searchItem = async (value: string) => {
-    try {
-      this.setState({ isLoading: true });
-      const items = await new Api().getSearchItems(value);
-      if (items && items.length > 0) {
-        this.setState({ items: items });
-      } else {
-        this.setState({ items: null });
-      }
-    } catch (error) {
-      console.error(`Error in Search component${error}`);
-    } finally {
-      this.setState({ isLoading: false });
+    const items = await new Api().getSearchItems(value);
+    if (items && items.length > 0) {
+      this.setState({ items: items });
+    } else {
+      this.setState({ items: null });
     }
+    this.setState({ isLoading: false });
   };
 
   render(): ReactNode {

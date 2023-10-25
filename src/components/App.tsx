@@ -8,14 +8,21 @@ type State = {
 };
 
 class App extends Component<Props, State> {
-  throwError = (): never => {
-    throw new Error('This is a test error!');
+  constructor(props: Props) {
+    super(props);
+    this.state = { isError: false };
+  }
+
+  handlerErr = (): void => {
+    this.setState({ isError: true }, () => {
+      throw new Error('This is a test error!');
+    });
   };
 
   render(): ReactNode {
     return (
       <div className="wrapper">
-        <ErrorBtn throwError={this.throwError} />
+        <ErrorBtn handlerErr={this.handlerErr} />
         <Search />
       </div>
     );

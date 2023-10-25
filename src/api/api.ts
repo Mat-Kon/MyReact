@@ -46,6 +46,9 @@ class Api {
       const fetchPromises = categories.map(async (category: string) => {
         const resp = await fetch(`${this.apiUrl}/${category}/?search=${searchValue}`);
         const data: ICategory = await resp.json();
+        if (resp.status > 400) {
+          return;
+        }
         if (data.results.length > 0) {
           const results = data.results;
           items.push(...results);
@@ -55,9 +58,9 @@ class Api {
       return items;
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error);
+        console.log(error.message);
       } else {
-        throw new Error(`Error in getAll: ${error}`);
+        throw new Error(`Error in getSearchItems: ${error}`);
       }
     }
   }

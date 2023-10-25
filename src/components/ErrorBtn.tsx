@@ -1,14 +1,14 @@
 import { Component, ReactNode } from 'react';
 
 type Props = {
-  throwError: () => never;
+  handlerErr: () => void;
 };
 
 class ErrorBtn extends Component<Props> {
   render(): ReactNode {
-    const { throwError } = this.props;
+    const { handlerErr } = this.props;
     return (
-      <button className="error-btn" onClick={throwError}>
+      <button className="error-btn" onClick={handlerErr}>
         Get an error
       </button>
     );

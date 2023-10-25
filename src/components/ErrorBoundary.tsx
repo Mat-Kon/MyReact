@@ -1,32 +1,35 @@
 import { Component, ErrorInfo, ReactNode } from 'react';
+import ErrorPage from './ErrorPage';
 
 type Props = {
   children: ReactNode;
 };
 
-class ErrorBoundary extends Component<Props, { hasError: boolean }> {
+type State = {
+  hasError: boolean;
+};
+
+class ErrorBoundary extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: Error) {
+  static getDerivedStateFromError = (error: Error): State => {
     console.log(error);
     return { hasError: true };
-  }
+  };
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    this.setState({ hasError: true });
-    console.log(error);
-    console.log(errorInfo);
-  }
+  componentDidCatch = (error: Error, errorInfo: ErrorInfo): void => {
+    console.log(error, errorInfo);
+  };
 
   render() {
-    if (this.state.hasError) {
-      return <p>Error</p>;
-    } else {
-      return this.props.children;
+    const { hasError } = this.state;
+    if (hasError) {
+      return <ErrorPage />;
     }
+    return this.props.children;
   }
 }
 

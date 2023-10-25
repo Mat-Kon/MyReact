@@ -16,11 +16,6 @@ class Form extends Component<Props, { value: string }> {
     if (localStorageValue) this.setState({ value: localStorageValue });
   }
 
-  handlerInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value: string = e.target.value;
-    this.setState({ value: value });
-  };
-
   saveValueInStorage = () => {
     const { value } = this.state;
     localStorage.setItem('searchValue', value);
@@ -35,7 +30,7 @@ class Form extends Component<Props, { value: string }> {
           className="search__input"
           type="text"
           value={value}
-          onChange={this.handlerInputChange}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => this.setState({ value: e.target.value })}
           disabled={isLoading}
         />
         <button className="search__btn" onClick={this.saveValueInStorage} disabled={isLoading}>
