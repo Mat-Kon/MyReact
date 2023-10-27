@@ -1,12 +1,17 @@
-type Item = IPeople;
+type Items = IPeople[];
 
 type ItemBlockListProps = {
-  items: Item[] | null;
+  items: Items | null;
 };
 
 type ItemBlockListState = {
-  items: Item[] | null;
+  items: Items | null;
   isLoading: boolean;
+};
+
+type Result = {
+  items: IPeople[];
+  count: number;
 };
 
 interface IPeople {
@@ -35,4 +40,4 @@ interface ICategory {
   results: IPeople[];
 }
 
-export type { ICategory, IPeople, ItemBlockListProps, ItemBlockListState, Item };
+export type { ICategory, IPeople, ItemBlockListProps, ItemBlockListState, Items, Result };
