@@ -8,9 +8,7 @@ import './sass/main.scss';
 checkServerAvailability();
 
 ReactDOM.createRoot(document.querySelector('#root')!).render(
-  <React.StrictMode>
-    <ErrorBoundary>
-      <App />
-    </ErrorBoundary>
-  </React.StrictMode>
+  <ErrorBoundary>
+    <App />
+  </ErrorBoundary>
 );

@@ -63,10 +63,8 @@ class Api {
         if (data.results.length > 0) {
           items.push(...data.results);
         }
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          console.log(error.message);
-        }
+      } catch {
+        console.log('Error in getSearchItems');
       }
     });
     await Promise.all(fetchPromises);
