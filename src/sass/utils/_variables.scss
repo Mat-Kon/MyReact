@@ -4,7 +4,19 @@ $color-heading: #f0a902;
 $color-dark-blue: #091034;
 $color-blue: #1f2f7b;
 
-%pagination {
-  font-size: 40px;
+%pagination-btn {
+  @include display-flex(center, center);
+  font-size: 100px;
   color: $color-h;
+  width: 30px;
+  height: 30px;
+  transition: all 0.5s;
+  &:hover {
+    cursor: pointer;
+    color: $color-p;
+  }
+
+  &:active {
+    opacity: 0.8;
+  }
 }

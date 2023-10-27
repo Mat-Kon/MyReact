@@ -8,7 +8,7 @@ const ItemBlock: React.FC<ItemProps> = ({ item }) => {
   return (
     <div className="result__item-wrapper">
       <div className="result__item">
-        {Object.entries(item!).map((value, index) => {
+        {Object.entries(item).map((value, index) => {
           if (index < 2) {
             return (
               <div className="item" key={index}>

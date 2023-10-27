@@ -1,9 +1,13 @@
-const Pagination: React.FC = () => {
+type Props = {
+  page: number;
+};
+
+const Pagination: React.FC<Props> = ({ page }) => {
   return (
     <div className="pagination">
-      <span className="prev">&#8249;</span>
-      <p className="page-number">1</p>
-      <span className="next">&#8250;</span>
+      <div className="prev">&#8249;</div>
+      <p className="page-number">{page}</p>
+      <div className="next">&#8250;</div>
     </div>
   );
 };

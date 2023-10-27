@@ -9,6 +9,7 @@ const Search: React.FC = () => {
   const [items, setItems] = useState<Item[] | null>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [value, setValue] = useState<string | null>(localStorage.getItem('searchValue'));
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
     if (value) {
@@ -25,15 +26,14 @@ const Search: React.FC = () => {
   };
 
   const getAllItems = async (): Promise<void> => {
-    const items: Item[] = await new Api().getAll();
+    const items: Item[] = await new Api().getItems(1);
     setItems(items);
     setIsLoading(false);
   };
 
   const searchItem = async (value: string) => {
-    let items = await new Api().getSearchItems(value);
+    const items = await new Api().getSearchItems(value);
     if (items && items.length > 0) {
-      items = items.slice(0, 10);
       setItems(items);
     } else {
       setItems(null);
@@ -48,7 +48,7 @@ const Search: React.FC = () => {
         <Loader isLoading={isLoading} />
         <Form handlerSubmitForm={handlerSubmitForm} isLoading={isLoading} />
       </div>
-      <Results items={items} />
+      <Results items={items} page={page} />
     </>
   );
 };

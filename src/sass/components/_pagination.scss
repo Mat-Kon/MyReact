@@ -1,17 +1,20 @@
 .pagination {
   @include display-flex(space-between, center);
+  gap: 10px;
   width: 5vw;
+  padding-top: 20px;
   margin: auto;
 }
 
 .page-number {
-  @extend %pagination;
+  font-size: 40px;
+  color: $color-h;
 }
 
 .prev {
-  @extend %pagination;
+  @extend %pagination-btn;
 }
 
 .next {
-  @extend %pagination;
+  @extend %pagination-btn;
 }

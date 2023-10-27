@@ -1,9 +1,7 @@
-import { Category, ICategories, ICategory, Item } from '../types/types';
-
-const categories: string[] = ['people', 'planets', 'films', 'species', 'vehicles', 'starships'];
+import { ICategory, Item } from '../types/types';
 
 class Api {
-  private apiUrl: string = 'https://swapi.dev/api/';
+  private apiUrl: string = 'https://swapi.dev/api/people';
 
   private getItemsFromCategory = async (categoryUrl: string) => {
     const newResp = await fetch(categoryUrl);
@@ -19,56 +17,46 @@ class Api {
     return result;
   };
 
-  private getItemsFromCategories = async (data: ICategories): Promise<Item[]> => {
-    const categories: string[] = Object.keys(data);
-    const allItems: Item[] = [];
-    for (const category of categories) {
-      let nextPage: string = data[category as Category];
-      while (nextPage) {
-        try {
-          const item = await this.getItemsFromCategory(nextPage);
-          if (item) {
-            allItems.push(...item.items);
-            nextPage = item.url.next;
-          }
-        } catch {
-          console.error('Error in getItems');
+  private getItemsFromCategories = async (data: ICategory): Promise<Item[]> => {
+    const items: Item[] = [];
+    items.push(...data.results);
+    let nextPage = data.next;
+    while (nextPage) {
+      try {
+        const item = await this.getItemsFromCategory(nextPage);
+        if (item) {
+          items.push(...item.items);
+          nextPage = item.url.next;
         }
+      } catch {
+        console.error('Error in getItems');
       }
     }
-    return allItems;
+    return items;
   };
 
-  public getAll = async (): Promise<Item[]> => {
+  public getItems = async (page: number): Promise<Item[]> => {
     try {
-      const resp = await fetch(this.apiUrl);
-      const data: ICategories = await resp.json();
-      const items: Promise<Item[]> = this.getItemsFromCategories(data);
-      return items;
-    } catch (error: unknown) {
+      const resp = await fetch(`${this.apiUrl}/?page=${page}`);
+      const data: ICategory = await resp.json();
+      const result: Item[] = data.results;
+      return result;
+    } catch {
       throw new Error(`Error in getAll`);
     }
   };
 
   public getSearchItems = async (value: string): Promise<Item[]> => {
-    const searchValue: string = value.trim();
-    const items: Item[] = [];
-    const fetchPromises = categories.map(async (category: string) => {
-      try {
-        const resp = await fetch(`${this.apiUrl}/${category}/?search=${searchValue}`);
-        const data: ICategory = await resp.json();
-        if (data.next !== null) {
-          items.push(...data.results);
-        }
-        if (data.results.length > 0) {
-          items.push(...data.results);
-        }
-      } catch {
-        console.log('Error in getSearchItems');
-      }
-    });
-    await Promise.all(fetchPromises);
-    return items;
+    try {
+      const searchValue: string = value.trim();
+      const resp = await fetch(`${this.apiUrl}/?search=${searchValue}`);
+      const data: ICategory = await resp.json();
+      console.log(data);
+      const items: Promise<Item[]> = this.getItemsFromCategories(data);
+      return items;
+    } catch {
+      throw new Error(`Error in getAll`);
+    }
   };
 }
 
