@@ -1,32 +1,24 @@
-import { Component, ReactNode } from 'react';
 import Search from './Search';
 import ErrorBtn from './ErrorBtn';
+import { useState } from 'react';
 
-type Props = unknown;
-type State = {
-  isError: boolean;
-};
+const App: React.FC = () => {
+  const [isError, setIsError] = useState(false);
 
-class App extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { isError: false };
-  }
-
-  handlerErr = (): void => {
-    this.setState({ isError: true }, () => {
-      throw new Error('This is a test error!');
-    });
+  const handlerErr = (): void => {
+    setIsError(true);
   };
 
-  render(): ReactNode {
-    return (
-      <div className="wrapper">
-        <ErrorBtn handlerErr={this.handlerErr} />
-        <Search />
-      </div>
-    );
+  if (isError) {
+    throw new Error('This is a test error!');
   }
-}
+
+  return (
+    <div className="wrapper">
+      <ErrorBtn handlerErr={handlerErr} />
+      <Search />
+    </div>
+  );
+};
 
 export default App;

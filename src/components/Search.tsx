@@ -1,72 +1,56 @@
-import { Component, FormEvent, ReactNode } from 'react';
+import { Component, FormEvent, ReactNode, useEffect, useState } from 'react';
 import Loader from './Loader';
-import { Item, ItemBlockListState } from '../types/types';
+import { Item } from '../types/types';
 import { Api } from '../api/api';
 import Form from './Form';
 import Results from './Results';
 
-type SearchProps = unknown;
+const Search: React.FC = () => {
+  const [items, setItems] = useState<Item[] | null>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [value, setValue] = useState<string | null>(localStorage.getItem('searchValue'));
 
-class Search extends Component<SearchProps, ItemBlockListState> {
-  constructor(props: SearchProps) {
-    super(props);
-    this.state = {
-      items: [],
-      isLoading: false,
-    };
-  }
-
-  componentDidMount(): void {
-    this.setState({ isLoading: true });
-    const value = localStorage.getItem('searchValue') ?? '';
+  useEffect(() => {
     if (value) {
-      this.searchItem(value);
+      searchItem(value);
     } else {
-      this.getAllItems();
+      getAllItems();
     }
-  }
+  }, [value]);
 
-  handlerSubmitForm = (e: FormEvent<HTMLFormElement>): void => {
+  const handlerSubmitForm = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    this.setState({ isLoading: true });
-    const value = localStorage.getItem('searchValue') ?? '';
-    if (value === '') {
-      this.getAllItems();
-    } else {
-      this.searchItem(value);
-    }
+    setIsLoading(true);
+    setValue(localStorage.getItem('searchValue') ?? '');
   };
 
-  getAllItems = async (): Promise<void> => {
-    const items: Item[] | undefined = await new Api().getAll();
-    this.setState({ items: items });
-    this.setState({ isLoading: false });
+  const getAllItems = async (): Promise<void> => {
+    const items: Item[] = await new Api().getAll();
+    setItems(items);
+    setIsLoading(false);
   };
 
-  searchItem = async (value: string) => {
+  const searchItem = async (value: string) => {
     let items = await new Api().getSearchItems(value);
     if (items && items.length > 0) {
       items = items.slice(0, 10);
-      this.setState({ items: items });
+      setItems(items);
     } else {
-      this.setState({ items: null });
+      setItems(null);
     }
-    this.setState({ isLoading: false });
+    setIsLoading(false);
   };
 
-  render(): ReactNode {
-    const { items, isLoading } = this.state;
-    return (
-      <>
-        <div className="search">
-          <h1 className="heading">Star Wars Searching</h1>
-          <Loader isLoading={isLoading} />
-          <Form handlerSubmitForm={this.handlerSubmitForm} isLoading={isLoading} />
-        </div>
-        <Results items={items} />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <div className="search">
+        <h1 className="heading">Star Wars Searching</h1>
+        <Loader isLoading={isLoading} />
+        <Form handlerSubmitForm={handlerSubmitForm} isLoading={isLoading} />
+      </div>
+      <Results items={items} />
+    </>
+  );
+};
 
 export default Search;

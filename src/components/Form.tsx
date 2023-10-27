@@ -1,44 +1,36 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 
 type Props = {
   handlerSubmitForm: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
 };
 
-class Form extends Component<Props, { value: string }> {
-  constructor(props: Readonly<Props>) {
-    super(props);
-    this.state = { value: '' };
-  }
+const Form: React.FC<Props> = ({ isLoading, handlerSubmitForm }) => {
+  const [value, setValue] = useState('');
 
-  componentDidMount() {
+  useEffect(() => {
     const localStorageValue = localStorage.getItem('searchValue');
-    if (localStorageValue) this.setState({ value: localStorageValue });
-  }
+    if (localStorageValue) setValue(localStorageValue);
+  }, []);
 
-  saveValueInStorage = () => {
-    const { value } = this.state;
+  const saveValueInStorage = () => {
     localStorage.setItem('searchValue', value);
   };
 
-  render(): ReactNode {
-    const { value } = this.state;
-    const { handlerSubmitForm, isLoading } = this.props;
-    return (
-      <form className="search__form" action="search" onSubmit={handlerSubmitForm}>
-        <input
-          className="search__input"
-          type="text"
-          value={value}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => this.setState({ value: e.target.value })}
-          disabled={isLoading}
-        />
-        <button className="search__btn" onClick={this.saveValueInStorage} disabled={isLoading}>
-          Search
-        </button>
-      </form>
-    );
-  }
-}
+  return (
+    <form className="search__form" action="search" onSubmit={handlerSubmitForm}>
+      <input
+        className="search__input"
+        type="text"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        disabled={isLoading}
+      />
+      <button className="search__btn" onClick={saveValueInStorage} disabled={isLoading}>
+        Search
+      </button>
+    </form>
+  );
+};
 
 export default Form;
