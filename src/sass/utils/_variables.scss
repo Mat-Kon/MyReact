@@ -3,12 +3,12 @@ $color-h: #f0d902;
 $color-heading: #f0a902;
 $color-dark-blue: #091034;
 $color-blue: #1f2f7b;
+$color-white-blue: #6877c3;
 
 %pagination-btn {
   @include display-flex(center, center);
-  width: 30%;
-  height: 30px;
-  color: $color-blue;
+  width: 40px;
+  height: 40px;
   font-size: 20px;
   border: none;
   border-radius: 10px;
@@ -17,10 +17,15 @@ $color-blue: #1f2f7b;
   transition: all 0.5s;
   &:hover {
     cursor: pointer;
-    color: $color-p;
+    background-color: $color-white-blue;
   }
 
   &:active {
     opacity: 0.8;
+  }
+
+  &:disabled {
+    cursor: default;
+    background-color: $color-dark-blue;
   }
 }

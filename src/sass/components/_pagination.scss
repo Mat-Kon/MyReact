@@ -1,7 +1,7 @@
 .pagination {
   @include display-flex(space-between, center);
   gap: 10px;
-  width: 10vw;
+  width: 30vw;
   padding-top: 20px;
   margin: auto;
 }
@@ -13,8 +13,16 @@
 
 .prev {
   @extend %pagination-btn;
+  background-image: url('../../../publice/icons8-galactic-senate-32.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(-90deg);
 }
 
 .next {
   @extend %pagination-btn;
+  background-image: url('../../../publice/icons8-galactic-senate-32.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: rotate(90deg);
 }
