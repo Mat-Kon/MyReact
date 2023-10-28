@@ -1,7 +1,7 @@
 .pagination {
   @include display-flex(space-between, center);
   gap: 10px;
-  width: 5vw;
+  width: 10vw;
   padding-top: 20px;
   margin: auto;
 }

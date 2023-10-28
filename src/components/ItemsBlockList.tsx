@@ -3,7 +3,7 @@ import { ItemBlockListProps } from '../types/types';
 
 const ItemsBlokList: React.FC<ItemBlockListProps> = ({ items }) => {
   return items ? (
-    items.map((item, index) => <ItemBlock key={index} item={item} />)
+    items.map((item, index) => <ItemBlock key={item.created} item={item} />)
   ) : (
     <p className="not-found">not found</p>
   );

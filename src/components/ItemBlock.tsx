@@ -5,6 +5,7 @@ type ItemProps = {
 };
 
 const ItemBlock: React.FC<ItemProps> = ({ item }) => {
+  console.log('list');
   return (
     <div className="result__item-wrapper">
       <div className="result__item">

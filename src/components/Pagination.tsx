@@ -8,9 +8,9 @@ type Props = {
 const Pagination: React.FC<Props> = ({ page, nextPage }) => {
   return (
     <div className="pagination" onClick={nextPage}>
-      <div className="prev">&#8249;</div>
+      <button className="prev">&#8249;</button>
       <p className="page-number">{page}</p>
-      <div className="next">&#8250;</div>
+      <button className="next">&#8250;</button>
     </div>
   );
 };
