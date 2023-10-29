@@ -11,12 +11,12 @@ class Form extends Component<Props, { value: string }> {
     this.state = { value: '' };
   }
 
-  componentDidMount() {
-    const localStorageValue = localStorage.getItem('searchValue');
+  componentDidMount(): void {
+    const localStorageValue: string | null = localStorage.getItem('searchValue');
     if (localStorageValue) this.setState({ value: localStorageValue });
   }
 
-  saveValueInStorage = () => {
+  saveValueInStorage = (): void => {
     const { value } = this.state;
     localStorage.setItem('searchValue', value);
   };

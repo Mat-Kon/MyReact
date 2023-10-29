@@ -9,13 +9,13 @@ const checkServerAvailability = (): void => {
   xhr.onload = () => {
     const message =
       xhr.status >= 200 && xhr.status < 300
-        ? console.log('Сервер доступен')
-        : console.log('Сервер недоступен');
+        ? console.log('Server is available')
+        : console.log('Server is unavailable');
     return message;
   };
 
   xhr.onerror = () => {
-    throw new Error('Запусти или правильно настрой сервер!');
+    throw new Error('Error on server!');
   };
 
   xhr.send();

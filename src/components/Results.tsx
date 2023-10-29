@@ -1,10 +1,10 @@
 import { Component, ReactNode } from 'react';
-import { Item } from '../types/types';
+import { Items } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import Pagination from './Pagination';
 
 type Props = {
-  items: Item[] | null;
+  items: Items | null;
 };
 
 class Results extends Component<Props> {

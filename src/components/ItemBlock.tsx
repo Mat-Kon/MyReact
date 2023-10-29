@@ -1,8 +1,8 @@
 import { Component, ReactNode } from 'react';
-import { Item } from '../types/types';
+import { IPeople } from '../types/types';
 
 type ItemProps = {
-  item: Item;
+  item: IPeople;
 };
 
 class ItemBlock extends Component<ItemProps> {
