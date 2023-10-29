@@ -1,16 +1,17 @@
-import { Component, FormEvent, MouseEventHandler, ReactNode, useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import Loader from './Loader';
 import { Items, Result } from '../types/types';
 import { Api } from '../api/api';
 import Form from './Form';
 import Results from './Results';
+import Pagination from './Pagination';
 
 const Search: React.FC = () => {
   const [items, setItems] = useState<Items | null>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [value, setValue] = useState<string | null>(localStorage.getItem('searchValue'));
   const [page, setPage] = useState(1);
-  const [maxPage, setMaxPage] = useState(0);
+  const [maxPage, setMaxPage] = useState(1);
 
   useEffect(() => {
     if (value) {
@@ -22,47 +23,31 @@ const Search: React.FC = () => {
 
   const handlerSubmitForm = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    setIsLoading(true);
     setPage(1);
+    setIsLoading(true);
     setValue(localStorage.getItem('searchValue') ?? '');
   };
 
   const getAllItems = async (): Promise<void> => {
-    const items: Items = await new Api().getItems(page);
-    setItems(items);
+    setIsLoading(true);
+    const data: Result = await new Api().getItems(page);
+    const curMaxPage = Math.ceil(data.count / 10);
+    setMaxPage(curMaxPage);
+    setItems(data.items);
     setIsLoading(false);
   };
 
   const searchItem = async (value: string) => {
+    setIsLoading(true);
     const data: Result = await new Api().getSearchItems(value, page);
-    const resItems = data.items;
     const curMaxPage = Math.ceil(data.count / 10);
-    if (resItems.length > 0) {
-      setItems(resItems);
+    if (data.items.length > 0) {
+      setItems(data.items);
       setMaxPage(curMaxPage);
       setIsLoading(false);
     } else {
       setItems(null);
       setIsLoading(false);
-    }
-  };
-
-  const nextPage = () => {
-    if (items!.length < 10 || page === maxPage) {
-      setIsLoading(false);
-      return;
-    }
-    setPage((prevCount) => prevCount + 1);
-  };
-
-  const paginationHandler: MouseEventHandler<HTMLDivElement> = async (e) => {
-    setIsLoading(true);
-    const targetElem = e.target as HTMLElement;
-    if (targetElem.className === 'next') {
-      nextPage();
-    }
-    if (targetElem.className === 'prev') {
-      console.log(targetElem.className);
     }
   };
 
@@ -73,7 +58,10 @@ const Search: React.FC = () => {
         <Loader isLoading={isLoading} />
         <Form handlerSubmitForm={handlerSubmitForm} isLoading={isLoading} />
       </div>
-      <Results items={items} page={page} nextPage={paginationHandler} />
+      <Results items={items} />
+      {items && items.length !== 0 ? (
+        <Pagination page={page} maxPage={maxPage} isLoading={isLoading} setPage={setPage} />
+      ) : null}
     </>
   );
 };
