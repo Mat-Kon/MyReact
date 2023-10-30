@@ -13,7 +13,7 @@
 
 .prev {
   @extend %pagination-btn;
-  background-image: url('../../../publice/icons8-galactic-senate-32.png');
+  background-image: url('/icons8-galactic-senate-32.png');
   background-repeat: no-repeat;
   background-position: center;
   transform: rotate(-90deg);
@@ -21,7 +21,7 @@
 
 .next {
   @extend %pagination-btn;
-  background-image: url('../../../publice/icons8-galactic-senate-32.png');
+  background-image: url('/icons8-galactic-senate-32.png');
   background-repeat: no-repeat;
   background-position: center;
   transform: rotate(90deg);

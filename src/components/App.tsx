@@ -1,23 +1,19 @@
-import Search from './Search';
-import ErrorBtn from './ErrorBtn';
+import { Route, Routes } from 'react-router';
+import NotFoundPage from './NotFoundPage';
 import { useState } from 'react';
+import Wrapper from './Wrapper';
 
 const App: React.FC = () => {
-  const [isError, setIsError] = useState(false);
-
-  const handlerErr = (): void => {
-    setIsError(true);
-  };
-
-  if (isError) {
-    throw new Error('This is a test error!');
-  }
+  const [page, setPage] = useState(1);
 
   return (
-    <div className="wrapper">
-      <ErrorBtn handlerErr={handlerErr} />
-      <Search />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Wrapper page={1} setPage={setPage} />} />
+        <Route path="/page/:numPage" element={<Wrapper page={page} setPage={setPage} />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </>
   );
 };
 

@@ -1,23 +1,16 @@
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import App from './components/App';
+import { BrowserRouter, RouterProvider } from 'react-router-dom';
 import { checkServerAvailability } from './api/check-server';
 import ErrorBoundary from './components/ErrorBoundary';
 import './sass/main.scss';
-import NotFoundPage from './components/NotFoundPage';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <App />,
-    errorElement: <NotFoundPage />,
-  },
-]);
+import App from './components/App';
 
 checkServerAvailability();
 
 ReactDOM.createRoot(document.querySelector('#root')!).render(
   <ErrorBoundary>
-    <RouterProvider router={router} />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </ErrorBoundary>
 );

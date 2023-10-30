@@ -1,4 +1,5 @@
 import { MouseEventHandler, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
   page: number;
@@ -17,9 +18,17 @@ const Pagination: React.FC<Props> = ({ page, maxPage, isLoading, setPage }) => {
 
   return (
     <div className="pagination">
-      <button className="prev" onClick={prevPage} disabled={isLoading || page === 1}></button>
+      <Link to={`page/${page}`}>
+        <button className="prev" onClick={prevPage} disabled={isLoading || page === 1}></button>
+      </Link>
       <p className="page-number">{page}</p>
-      <button className="next" onClick={nextPage} disabled={isLoading || page === maxPage}></button>
+      <Link to={`page/${page}`}>
+        <button
+          className="next"
+          onClick={nextPage}
+          disabled={isLoading || page === maxPage}
+        ></button>
+      </Link>
     </div>
   );
 };

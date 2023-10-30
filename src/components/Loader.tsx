@@ -1,9 +1,5 @@
-type Props = {
-  isLoading: boolean;
-};
-
-const Loader: React.FC<Props> = ({ isLoading }) => {
-  return isLoading ? <div className="loader"></div> : null;
+const Loader: React.FC = () => {
+  return <div className="loader"></div>;
 };
 
 export default Loader;

@@ -1,24 +1,27 @@
 import { FormEvent, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 type Props = {
-  handlerSubmitForm: (e: FormEvent<HTMLFormElement>) => void;
   isLoading: boolean;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Form: React.FC<Props> = ({ isLoading, handlerSubmitForm }) => {
-  const [value, setValue] = useState('');
-
-  useEffect(() => {
-    const localStorageValue = localStorage.getItem('searchValue');
-    if (localStorageValue) setValue(localStorageValue);
-  }, []);
+const Form: React.FC<Props> = ({ isLoading, setSearchValue, setPage }) => {
+  const [value, setValue] = useState(localStorage.getItem('searchValue') ?? '');
 
   const saveValueInStorage = () => {
     localStorage.setItem('searchValue', value);
   };
 
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setPage(1);
+    setSearchValue(localStorage.getItem('searchValue') ?? '');
+  };
+
   return (
-    <form className="search__form" action="search" onSubmit={handlerSubmitForm}>
+    <form className="search__form" action="search" onSubmit={handlerSubmit}>
       <input
         className="search__input"
         type="text"

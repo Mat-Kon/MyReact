@@ -31,6 +31,8 @@ class Api {
       throw new Error(`Error in getAll`);
     }
   };
+
+  // public getItemByName
 }
 
 export { Api };
