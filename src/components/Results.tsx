@@ -1,53 +1,21 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Items, Result } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import { Api } from '../api/api';
-import Pagination from './Pagination';
+import { useParams } from 'react-router-dom';
+import { IsLoading, MaxPage } from './Wrapper';
 
-type Props = {
-  value: string;
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-  isLoading: boolean;
-  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  maxPage: number;
-  setMaxPage: React.Dispatch<React.SetStateAction<number>>;
-};
-
-const Results: React.FC<Props> = ({
-  value,
-  page,
-  setPage,
-  maxPage,
-  setMaxPage,
-  isLoading,
-  setIsLoading,
-}) => {
-  const [items, setItems] = useState<Items | null>([]);
+const Results: React.FC = () => {
+  const { page } = useParams();
+  const { setMaxPage } = useContext(MaxPage);
+  const { setLoading } = useContext(IsLoading);
+  const [items, setItems] = useState<Items>([]);
+  const [value, setValue] = useState<string>('');
 
   useEffect(() => {
-    const getAllItems = async (): Promise<void> => {
-      setIsLoading(true);
-      const data: Result = await new Api().getItems(page);
-      const curMaxPage = Math.ceil(data.count / 10);
-      setMaxPage(curMaxPage);
-      setItems(data.items);
-      setIsLoading(false);
-    };
-
-    const searchItem = async (value: string) => {
-      setIsLoading(true);
-      const data: Result = await new Api().getSearchItems(value, page);
-      const curMaxPage = Math.ceil(data.count / 10);
-      if (data.items.length > 0) {
-        setItems(data.items);
-        setMaxPage(curMaxPage);
-        setIsLoading(false);
-      } else {
-        setItems(null);
-        setIsLoading(false);
-      }
-    };
+    if (setLoading) setLoading(true);
+    const localValue = localStorage.getItem('searchValue');
+    if (localValue) setValue(localValue);
     if (value !== '') {
       searchItem(value);
     } else {
@@ -55,14 +23,29 @@ const Results: React.FC<Props> = ({
     }
   }, [value, page]);
 
+  const getAllItems = async (): Promise<void> => {
+    const data: Result = await new Api().getItems(+page!);
+    setItems(data.items);
+    if (setLoading) setLoading(false);
+  };
+
+  const searchItem = async (value: string) => {
+    const data: Result = await new Api().getSearchItems(value, +page!);
+    const curMaxPage = Math.ceil(data.count / 10);
+    if (setMaxPage) setMaxPage(curMaxPage);
+    if (data.items.length > 0) {
+      setItems(data.items);
+    } else {
+      setItems([]);
+    }
+    if (setLoading) setLoading(false);
+  };
+
   return (
     <div className="results">
       <div className="results__wrapper">
         <ItemsBlockList items={items} />
       </div>
-      {items ? (
-        <Pagination page={page} maxPage={maxPage} isLoading={isLoading} setPage={setPage} />
-      ) : null}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 type Props = {
@@ -10,18 +10,14 @@ type Props = {
 const Form: React.FC<Props> = ({ isLoading, setSearchValue, setPage }) => {
   const [value, setValue] = useState(localStorage.getItem('searchValue') ?? '');
 
-  const saveValueInStorage = () => {
+  const handlerSubmit = () => {
     localStorage.setItem('searchValue', value);
-  };
-
-  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     setPage(1);
-    setSearchValue(localStorage.getItem('searchValue') ?? '');
+    setSearchValue(value);
   };
 
   return (
-    <form className="search__form" action="search" onSubmit={handlerSubmit}>
+    <form className="search__form" action="search">
       <input
         className="search__input"
         type="text"
@@ -29,9 +25,14 @@ const Form: React.FC<Props> = ({ isLoading, setSearchValue, setPage }) => {
         onChange={(e) => setValue(e.target.value)}
         disabled={isLoading}
       />
-      <button className="search__btn" onClick={saveValueInStorage} disabled={isLoading}>
+      <Link
+        to={`search-page/1`}
+        className="search__btn"
+        onClick={handlerSubmit}
+        style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
+      >
         Search
-      </button>
+      </Link>
     </form>
   );
 };

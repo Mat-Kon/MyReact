@@ -1,34 +1,43 @@
-import { MouseEventHandler, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { MouseEventHandler, useContext, useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { IsLoading } from './Wrapper';
 
 type Props = {
-  page: number;
   maxPage: number;
-  isLoading: boolean;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Pagination: React.FC<Props> = ({ page, maxPage, isLoading, setPage }) => {
+const Pagination: React.FC<Props> = ({ maxPage }) => {
+  const { isLoading } = useContext(IsLoading);
+  const { page } = useParams();
+  const [curPage, setCurPage] = useState(0);
+
+  useEffect(() => {
+    if (page) setCurPage(+page);
+  }, [page]);
+
   const nextPage = () => {
-    setPage((prevCount) => prevCount + 1);
+    setCurPage((prev) => prev + 1);
   };
   const prevPage = () => {
-    setPage((prevCount) => prevCount - 1);
+    setCurPage((prev) => prev - 1);
   };
 
+  console.log(curPage);
   return (
     <div className="pagination">
-      <Link to={`page/${page}`}>
-        <button className="prev" onClick={prevPage} disabled={isLoading || page === 1}></button>
-      </Link>
-      <p className="page-number">{page}</p>
-      <Link to={`page/${page}`}>
-        <button
-          className="next"
-          onClick={nextPage}
-          disabled={isLoading || page === maxPage}
-        ></button>
-      </Link>
+      <Link
+        to={`search-page/${curPage}`}
+        className="prev"
+        onClick={prevPage}
+        style={{ pointerEvents: isLoading || curPage === 1 ? 'none' : 'auto' }}
+      ></Link>
+      <p className="page-number">{curPage}</p>
+      <Link
+        to={`search-page/${curPage}`}
+        className="next"
+        onClick={nextPage}
+        style={{ pointerEvents: isLoading || curPage === maxPage ? 'none' : 'auto' }}
+      ></Link>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 type Items = IPeople[];
 
 type ItemBlockListProps = {
-  items: Items | null;
+  items: Items;
 };
 
 type ItemBlockListState = {

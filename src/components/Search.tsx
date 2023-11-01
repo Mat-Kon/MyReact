@@ -1,4 +1,3 @@
-import { FormEvent } from 'react';
 import Loader from './Loader';
 import Form from './Form';
 import ErrorBtn from './ErrorBtn';

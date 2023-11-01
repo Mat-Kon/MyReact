@@ -1,39 +1,47 @@
-import * as React from 'react';
-import Results from './Results';
 import Search from './Search';
-import { useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router';
+import Pagination from './Pagination';
 
-type IWrapperProps = {
-  page: number;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
+type MaxPageType = {
+  maxPage: number;
+  setMaxPage: React.Dispatch<React.SetStateAction<number>> | null;
+};
+type IsLoadingType = {
+  isLoading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>> | null;
 };
 
-const Wrapper: React.FC<IWrapperProps> = ({ page, setPage }) => {
+const MaxPage = createContext<MaxPageType>({ maxPage: 0, setMaxPage: null });
+const IsLoading = createContext<IsLoadingType>({ isLoading: false, setLoading: null });
+
+const Wrapper: React.FC = () => {
+  const [maxPage, setMaxPage] = useState(0);
+  const navigate = useNavigate();
+  const [page, setPage] = useState(1);
   const [searchValue, setSearchValue] = useState('');
-  const [maxPage, setMaxPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
+  const localStorageValue = localStorage.getItem('searchValue');
 
   useEffect(() => {
-    const localStorageValue = localStorage.getItem('searchValue');
     if (localStorageValue) {
       setSearchValue(localStorageValue);
+      navigate('search-page/1');
     }
-  }, []);
+  }, [localStorageValue]);
 
   return (
-    <div className="wrapper">
-      <Search isLoading={isLoading} setSearchValue={setSearchValue} setPage={setPage} />
-      <Results
-        value={searchValue}
-        page={page}
-        setPage={setPage}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
-        maxPage={maxPage}
-        setMaxPage={setMaxPage}
-      />
-    </div>
+    <MaxPage.Provider value={{ maxPage, setMaxPage }}>
+      <IsLoading.Provider value={{ isLoading, setLoading }}>
+        <div className="wrapper">
+          <Search isLoading={isLoading} setSearchValue={setSearchValue} setPage={setPage} />
+          <Outlet />
+          {maxPage !== 0 ? <Pagination maxPage={maxPage} /> : null}
+        </div>
+      </IsLoading.Provider>
+    </MaxPage.Provider>
   );
 };
 
 export default Wrapper;
+export { MaxPage, IsLoading };
