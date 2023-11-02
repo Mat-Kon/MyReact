@@ -5,6 +5,9 @@
   width: 100%;
   min-height: 100vh;
   padding-top: 30px;
+  @include media-mobile {
+    flex-direction: column-reverse;
+  }
 }
 
 .results__wrapper {

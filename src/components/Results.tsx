@@ -1,23 +1,20 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { IPeople, Items, Result } from '../types/types';
+import { useContext, useEffect, useState } from 'react';
+import { IContext, Items, Result } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import { Api } from '../api/api';
-import { Outlet, useParams } from 'react-router-dom';
-import { IsLoading, MaxPage, SearchValue } from './Wrapper';
+import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { SearchValue } from './Wrapper';
 import Loader from './Loader';
 import Pagination from './Pagination';
 
-const ItemResult = createContext<IPeople | null>(null);
-
 const Results: React.FC = () => {
   const { page } = useParams();
-  const { maxPage, setMaxPage } = useContext(MaxPage);
-  const { isLoading, setLoading } = useContext(IsLoading);
+  const { maxPage, setMaxPage, isLoading, setLoading } = useOutletContext<IContext>();
   const [items, setItems] = useState<Items>([]);
   const { search } = useContext(SearchValue);
 
   useEffect(() => {
-    if (setLoading) setLoading(true);
+    setLoading(true);
     if (search !== '') {
       searchItem(search);
     } else {
@@ -27,14 +24,14 @@ const Results: React.FC = () => {
 
   const getAllItems = async (): Promise<void> => {
     if (!page) {
-      if (setLoading) setLoading(false);
+      setLoading(false);
       return;
     } else {
       const data: Result = await new Api().getItems(+page);
       const curMaxPage = Math.ceil(data.count / 10);
       setItems(data.items);
       if (setMaxPage) setMaxPage(curMaxPage);
-      if (setLoading) setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -46,9 +43,9 @@ const Results: React.FC = () => {
       setItems(data.items);
     } else {
       setItems([]);
-      if (setLoading) setLoading(false);
+      setLoading(false);
     }
-    if (setLoading) setLoading(false);
+    setLoading(false);
   };
 
   return (
@@ -61,7 +58,7 @@ const Results: React.FC = () => {
           {maxPage > 1 && !isLoading ? <Pagination /> : null}
         </div>
       )}
-      <Outlet />
+      <Outlet context={{ isLoading, setLoading }} />
       {!items.length && maxPage === 0 ? <p className="not-found">not found</p> : null}
     </div>
   );

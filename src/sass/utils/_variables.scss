@@ -12,7 +12,6 @@ $color-white-blue: #6877c3;
   font-size: 20px;
   border: none;
   border-radius: 10px;
-  background-color: $color-h;
   box-shadow: 0px 0px 24px -6px yellow;
   transition: all 0.5s;
   &:hover {
@@ -22,10 +21,5 @@ $color-white-blue: #6877c3;
 
   &:active {
     opacity: 0.8;
-  }
-
-  &:disabled {
-    cursor: default;
-    background-color: $color-dark-blue;
   }
 }

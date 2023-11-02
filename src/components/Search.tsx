@@ -1,10 +1,10 @@
 import Form from './Form';
 import ErrorBtn from './ErrorBtn';
 import { useContext } from 'react';
-import { IsLoading } from './Wrapper';
+import { useOutletContext } from 'react-router';
+import { IContext } from '../types/types';
 
-const Search: React.FC = () => {
-  const { isLoading } = useContext(IsLoading);
+const Search: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
   return (
     <>
       <ErrorBtn />

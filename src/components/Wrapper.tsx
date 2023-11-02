@@ -1,12 +1,10 @@
 import Search from './Search';
 import { createContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
-import { IIsLoading, IMaxPage, ISearchValue } from '../types/types';
+import { IContext, ISearchValue } from '../types/types';
 
 const localStorageValue = localStorage.getItem('searchValue');
 
-const MaxPage = createContext<IMaxPage>({ maxPage: 0, setMaxPage: null });
-const IsLoading = createContext<IIsLoading>({ isLoading: false, setLoading: null });
 const SearchValue = createContext<ISearchValue>({ search: '', setSearch: null });
 
 const Wrapper: React.FC = () => {
@@ -15,28 +13,29 @@ const Wrapper: React.FC = () => {
   const [search, setSearch] = useState('');
   const [isLoading, setLoading] = useState(false);
 
+  const context: IContext = {
+    maxPage,
+    setMaxPage,
+    isLoading,
+    setLoading,
+  };
+
   useEffect(() => {
-    if (!localStorageValue) {
-      console.log(localStorageValue);
-    } else {
+    if (localStorageValue) {
       setSearch(localStorageValue);
     }
     navigate('/search-page/1');
   }, []);
 
   return (
-    <MaxPage.Provider value={{ maxPage, setMaxPage }}>
-      <IsLoading.Provider value={{ isLoading, setLoading }}>
-        <SearchValue.Provider value={{ search, setSearch }}>
-          <div className="wrapper">
-            <Search />
-            <Outlet />
-          </div>
-        </SearchValue.Provider>
-      </IsLoading.Provider>
-    </MaxPage.Provider>
+    <SearchValue.Provider value={{ search, setSearch }}>
+      <div className="wrapper">
+        <Search isLoading={isLoading} />
+        <Outlet context={context} />
+      </div>
+    </SearchValue.Provider>
   );
 };
 
 export default Wrapper;
-export { MaxPage, IsLoading, SearchValue };
+export { SearchValue };

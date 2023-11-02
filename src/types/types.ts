@@ -40,14 +40,11 @@ interface ICategory {
   results: IPeople[];
 }
 
-interface IMaxPage {
+interface IContext {
   maxPage: number;
-  setMaxPage: React.Dispatch<React.SetStateAction<number>> | null;
-}
-
-interface IIsLoading {
+  setMaxPage: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>> | null;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface ISearchValue {
@@ -62,7 +59,6 @@ export type {
   ItemBlockListState,
   Items,
   Result,
-  IMaxPage,
-  IIsLoading,
+  IContext,
   ISearchValue,
 };

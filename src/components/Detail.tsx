@@ -1,13 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import { IPeople } from '../types/types';
-import { useParams } from 'react-router';
+import { useEffect, useState } from 'react';
+import { IContext, IPeople } from '../types/types';
+import { useOutletContext, useParams } from 'react-router';
 import { Api } from '../api/api';
-import { IsLoading } from './Wrapper';
 
 const Detail: React.FC = () => {
   const [curItem, setCurItem] = useState<IPeople | null>(null);
   const { name } = useParams();
-  const { isLoading, setLoading } = useContext(IsLoading);
+  const { isLoading, setLoading } = useOutletContext<IContext>();
 
   useEffect(() => {
     if (name) {
@@ -27,7 +26,7 @@ const Detail: React.FC = () => {
         <div className="detail__wrapper">
           {Object.entries(curItem).map((value, index) => {
             return (
-              <div className="detail-item" key={index}>
+              <div className="detail__item" key={index}>
                 <h2 className="detail__name">{value[0]}</h2>
                 <p className="detail__value">
                   {Array.isArray(value[1])

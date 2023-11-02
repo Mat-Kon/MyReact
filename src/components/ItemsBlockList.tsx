@@ -1,12 +1,11 @@
 import ItemBlock from './ItemBlock';
-import { ItemBlockListProps } from '../types/types';
-import { Link, useParams } from 'react-router-dom';
+import { IContext, ItemBlockListProps } from '../types/types';
+import { Link, useOutlet, useOutletContext, useParams } from 'react-router-dom';
 import { useContext } from 'react';
-import { IsLoading } from './Wrapper';
 
 const ItemsBlokList: React.FC<ItemBlockListProps> = ({ items }) => {
   const { page } = useParams();
-  const { setLoading } = useContext(IsLoading);
+  const { setLoading } = useOutletContext<IContext>();
 
   return items.length > 0 && page
     ? items.map((item) => (
