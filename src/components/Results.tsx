@@ -1,11 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
-import { Items, Result } from '../types/types';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { IPeople, Items, Result } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import { Api } from '../api/api';
 import { Outlet, useParams } from 'react-router-dom';
 import { IsLoading, MaxPage, SearchValue } from './Wrapper';
 import Loader from './Loader';
 import Pagination from './Pagination';
+
+const ItemResult = createContext<IPeople | null>(null);
 
 const Results: React.FC = () => {
   const { page } = useParams();
@@ -21,7 +23,6 @@ const Results: React.FC = () => {
     } else {
       getAllItems();
     }
-    console.log(search);
   }, [search, page]);
 
   const getAllItems = async (): Promise<void> => {
@@ -29,7 +30,6 @@ const Results: React.FC = () => {
       if (setLoading) setLoading(false);
       return;
     } else {
-      console.log('getAll');
       const data: Result = await new Api().getItems(+page);
       const curMaxPage = Math.ceil(data.count / 10);
       setItems(data.items);
@@ -58,9 +58,10 @@ const Results: React.FC = () => {
       ) : (
         <div className="results__wrapper">
           <ItemsBlockList items={items} />
-          {maxPage !== 0 && !isLoading ? <Pagination /> : null}
+          {maxPage > 1 && !isLoading ? <Pagination /> : null}
         </div>
       )}
+      <Outlet />
       {!items.length && maxPage === 0 ? <p className="not-found">not found</p> : null}
     </div>
   );

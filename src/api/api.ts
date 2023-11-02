@@ -1,4 +1,4 @@
-import { ICategory, Items, Result } from '../types/types';
+import { ICategory, IPeople, Items, Result } from '../types/types';
 
 class Api {
   private apiUrl: string = 'https://swapi.dev/api/people';
@@ -29,6 +29,17 @@ class Api {
       return result;
     } catch {
       throw new Error(`Error in getAll`);
+    }
+  };
+
+  public getItemByName = async (value: string) => {
+    try {
+      const searchValue: string = value.trim();
+      const resp = await fetch(`${this.apiUrl}/?search=${searchValue}`);
+      const data: ICategory = await resp.json();
+      return data.results[0];
+    } catch {
+      throw new Error('Error in getItemByName');
     }
   };
 }

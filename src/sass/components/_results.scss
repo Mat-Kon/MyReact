@@ -1,13 +1,17 @@
 .results {
   position: relative;
   @include display-flex(center, center);
+  gap: 20px;
   width: 100%;
   min-height: 100vh;
+  padding-top: 30px;
 }
 
 .results__wrapper {
   @include display-flex(space-evenly, stretch);
   flex-wrap: wrap;
+  gap: 15px;
+  flex: 1;
   color: $color-p;
   padding-top: 50px;
   @include media-mobile {
