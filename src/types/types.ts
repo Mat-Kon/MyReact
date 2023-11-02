@@ -40,4 +40,29 @@ interface ICategory {
   results: IPeople[];
 }
 
-export type { ICategory, IPeople, ItemBlockListProps, ItemBlockListState, Items, Result };
+interface IMaxPage {
+  maxPage: number;
+  setMaxPage: React.Dispatch<React.SetStateAction<number>> | null;
+}
+
+interface IIsLoading {
+  isLoading: boolean;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>> | null;
+}
+
+interface ISearchValue {
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>> | null;
+}
+
+export type {
+  ICategory,
+  IPeople,
+  ItemBlockListProps,
+  ItemBlockListState,
+  Items,
+  Result,
+  IMaxPage,
+  IIsLoading,
+  ISearchValue,
+};

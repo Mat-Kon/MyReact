@@ -1,21 +1,16 @@
-import Loader from './Loader';
 import Form from './Form';
 import ErrorBtn from './ErrorBtn';
+import { useContext } from 'react';
+import { IsLoading } from './Wrapper';
 
-type Props = {
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
-  isLoading: boolean;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
-};
-
-const Search: React.FC<Props> = ({ isLoading, setSearchValue, setPage }) => {
+const Search: React.FC = () => {
+  const { isLoading } = useContext(IsLoading);
   return (
     <>
       <ErrorBtn />
       <div className="search">
         <h1 className="heading">Star Wars Searching</h1>
-        {isLoading ? <Loader /> : null}
-        <Form setPage={setPage} isLoading={isLoading} setSearchValue={setSearchValue} />
+        <Form isLoading={isLoading} />
       </div>
     </>
   );

@@ -2,15 +2,14 @@ import { Route, Routes } from 'react-router';
 import NotFoundPage from './NotFoundPage';
 import Wrapper from './Wrapper';
 import Results from './Results';
-
-const localValue = localStorage.getItem('searchValue');
+import Pagination from './Pagination';
 
 const App: React.FC = () => {
   return (
     <>
       <Routes>
         <Route path="/" element={<Wrapper />}>
-          <Route index element={localValue ? <Results /> : <p>What you search?</p>} />
+          <Route index element={<Results />} />
           <Route path="search-page/:page" element={<Results />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

@@ -1,38 +1,47 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { SearchValue } from './Wrapper';
 
 type Props = {
   isLoading: boolean;
-  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
-  setPage: React.Dispatch<React.SetStateAction<number>>;
 };
 
-const Form: React.FC<Props> = ({ isLoading, setSearchValue, setPage }) => {
-  const [value, setValue] = useState(localStorage.getItem('searchValue') ?? '');
+const Form: React.FC<Props> = ({ isLoading }) => {
+  const navigate = useNavigate();
+  const { setSearch } = useContext(SearchValue);
+  const [value, setValue] = useState('');
 
-  const handlerSubmit = () => {
+  useEffect(() => {
+    const localValue = localStorage.getItem('searchValue');
+    if (localValue) {
+      setValue(localValue);
+    }
+  }, []);
+
+  const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (setSearch) setSearch(value);
     localStorage.setItem('searchValue', value);
-    setPage(1);
-    setSearchValue(value);
+    navigate('search-page/1');
+  };
+
+  const handlerInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setValue(value);
   };
 
   return (
-    <form className="search__form" action="search">
+    <form className="search__form" onSubmit={handlerSubmit}>
       <input
         className="search__input"
         type="text"
         value={value}
-        onChange={(e) => setValue(e.target.value)}
+        onChange={handlerInput}
         disabled={isLoading}
       />
-      <Link
-        to={`search-page/1`}
-        className="search__btn"
-        onClick={handlerSubmit}
-        style={{ pointerEvents: isLoading ? 'none' : 'auto' }}
-      >
+      <button className="search__btn" type="submit" disabled={isLoading}>
         Search
-      </Link>
+      </button>
     </form>
   );
 };
