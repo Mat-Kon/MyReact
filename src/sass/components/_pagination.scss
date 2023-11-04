@@ -1,4 +1,8 @@
 .pagination {
+  flex: 100%;
+}
+
+.btn-container {
   @include display-flex(space-between, center);
   gap: 10px;
   width: 30vw;

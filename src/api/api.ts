@@ -6,6 +6,9 @@ class Api {
   public getItems = async (page: number): Promise<Result> => {
     try {
       const resp = await fetch(`${this.apiUrl}/?page=${page}`);
+      if (resp.status === 404) {
+        throw new Error(`404`);
+      }
       const data: ICategory = await resp.json();
       const result = {
         items: data.results,

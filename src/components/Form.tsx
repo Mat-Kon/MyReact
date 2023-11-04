@@ -7,6 +7,7 @@ const Form: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
   const navigate = useNavigate();
   const { setSearch } = useContext(SearchValue);
   const [value, setValue] = useState('');
+  const [selectValue, setSelectValue] = useState(10);
 
   useEffect(() => {
     const localValue = localStorage.getItem('searchValue');
@@ -29,6 +30,7 @@ const Form: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
 
   const handlerChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
     setQuantity(+e.target.value);
+    setSelectValue(+e.target.value);
     navigate('/search-page/1');
   };
 
@@ -44,12 +46,16 @@ const Form: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
       <button className="search__btn" type="submit" disabled={isLoading}>
         Search
       </button>
-      <select name="select" id="quantity" className="quantity" onChange={handlerChange}>
+      <select
+        value={selectValue}
+        name="select"
+        id="quantity"
+        className="quantity"
+        onChange={handlerChange}
+      >
         <option value="2">2</option>
-        <option value="6">6</option>
-        <option selected value="10">
-          10
-        </option>
+        <option value="5">5</option>
+        <option value="10">10</option>
       </select>
     </form>
   );

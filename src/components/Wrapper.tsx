@@ -10,7 +10,7 @@ const SearchValue = createContext<ISearchValue>({ search: '', setSearch: null })
 const Wrapper: React.FC = () => {
   const [maxPage, setMaxPage] = useState(1);
   const navigate = useNavigate();
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(false);
   const [isDetail, setDetail] = useState(false);
   const [quantity, setQuantity] = useState(10);

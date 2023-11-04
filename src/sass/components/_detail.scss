@@ -3,8 +3,32 @@
   bottom: 20px;
   flex: 1;
   @include display-flex(center, center);
+  flex-direction: column;
   box-shadow: 0px 0px 20px -6px #a9c600;
   border-radius: 20px;
+
+  &__close {
+    width: max-content;
+    color: $color-h;
+    padding: 15px;
+    margin-top: 20px;
+    box-shadow: inset 0px 0px 20px -6px $color-p;
+    border: none;
+    background-color: transparent;
+    border-radius: 20px;
+    transition: all 0.5s;
+
+    &:hover {
+      cursor: pointer;
+      transform: scale(101%);
+      box-shadow: inset 0px 0px 10px 0px $color-p;
+      background-color: $color-blue;
+    }
+    
+    &:active {
+      transform: scale(95%);
+    }
+  }
 
   &__wrapper {
     width: 90%;
