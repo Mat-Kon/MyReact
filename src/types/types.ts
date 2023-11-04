@@ -45,11 +45,19 @@ interface IContext {
   setMaxPage: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  isDetail: boolean;
+  setDetail: React.Dispatch<React.SetStateAction<boolean>>;
+  quantity: number;
 }
 
 interface ISearchValue {
   search: string;
   setSearch: React.Dispatch<React.SetStateAction<string>> | null;
+}
+
+interface ISearchProps {
+  isLoading: boolean;
+  setQuantity: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export type {
@@ -61,4 +69,5 @@ export type {
   Result,
   IContext,
   ISearchValue,
+  ISearchProps,
 };

@@ -9,18 +9,20 @@ import Pagination from './Pagination';
 
 const Results: React.FC = () => {
   const { page } = useParams();
-  const { maxPage, setMaxPage, isLoading, setLoading } = useOutletContext<IContext>();
+  const { maxPage, setMaxPage, isLoading, setLoading, isDetail, quantity } =
+    useOutletContext<IContext>();
   const [items, setItems] = useState<Items>([]);
   const { search } = useContext(SearchValue);
 
   useEffect(() => {
+    console.log(quantity);
     setLoading(true);
     if (search !== '') {
       searchItem(search);
     } else {
       getAllItems();
     }
-  }, [search, page]);
+  }, [search, page, quantity]);
 
   const getAllItems = async (): Promise<void> => {
     if (!page) {
@@ -29,7 +31,8 @@ const Results: React.FC = () => {
     } else {
       const data: Result = await new Api().getItems(+page);
       const curMaxPage = Math.ceil(data.count / 10);
-      setItems(data.items);
+      const newItem = data.items.slice(0, quantity);
+      setItems(newItem);
       if (setMaxPage) setMaxPage(curMaxPage);
       setLoading(false);
     }
@@ -40,7 +43,8 @@ const Results: React.FC = () => {
     const curMaxPage = isNaN(Math.ceil(data.count / 10)) ? 0 : Math.ceil(data.count / 10);
     if (setMaxPage) setMaxPage(curMaxPage);
     if (data.items.length) {
-      setItems(data.items);
+      const newItem = data.items.slice(0, quantity);
+      setItems(newItem);
     } else {
       setItems([]);
       setLoading(false);
@@ -58,7 +62,7 @@ const Results: React.FC = () => {
           {maxPage > 1 && !isLoading ? <Pagination /> : null}
         </div>
       )}
-      <Outlet context={{ isLoading, setLoading }} />
+      {isDetail ? <Outlet context={{ isLoading, setLoading }} /> : null}
       {!items.length && maxPage === 0 ? <p className="not-found">not found</p> : null}
     </div>
   );

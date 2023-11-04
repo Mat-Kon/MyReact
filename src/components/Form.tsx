@@ -1,12 +1,9 @@
-import { ChangeEvent, FormEvent, useContext, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SearchValue } from './Wrapper';
+import { ISearchProps } from '../types/types';
 
-type Props = {
-  isLoading: boolean;
-};
-
-const Form: React.FC<Props> = ({ isLoading }) => {
+const Form: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
   const navigate = useNavigate();
   const { setSearch } = useContext(SearchValue);
   const [value, setValue] = useState('');
@@ -22,12 +19,17 @@ const Form: React.FC<Props> = ({ isLoading }) => {
     e.preventDefault();
     if (setSearch) setSearch(value);
     localStorage.setItem('searchValue', value);
-    navigate('search-page/1');
+    navigate('/search-page/1');
   };
 
   const handlerInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setValue(value);
+  };
+
+  const handlerChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
+    setQuantity(+e.target.value);
+    navigate('/search-page/1');
   };
 
   return (
@@ -42,6 +44,13 @@ const Form: React.FC<Props> = ({ isLoading }) => {
       <button className="search__btn" type="submit" disabled={isLoading}>
         Search
       </button>
+      <select name="select" id="quantity" className="quantity" onChange={handlerChange}>
+        <option value="2">2</option>
+        <option value="6">6</option>
+        <option selected value="10">
+          10
+        </option>
+      </select>
     </form>
   );
 };

@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import NotFoundPage from './NotFoundPage';
 import Wrapper from './Wrapper';
 import Results from './Results';
@@ -11,6 +11,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Wrapper />} errorElement={<ErrorPage />}>
           <Route index element={<Results />} />
+          <Route path="search-page" element={<Navigate to="search-page/1" replace />} />
           <Route path="search-page/:page" element={<Results />}>
             <Route path=":name" element={<Detail />} />
           </Route>

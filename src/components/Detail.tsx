@@ -9,6 +9,7 @@ const Detail: React.FC = () => {
   const { isLoading, setLoading } = useOutletContext<IContext>();
 
   useEffect(() => {
+    if (setLoading) setLoading(true);
     if (name) {
       getItem(name);
     }
@@ -17,7 +18,7 @@ const Detail: React.FC = () => {
   const getItem = async (value: string) => {
     const item = await new Api().getItemByName(value);
     setCurItem(item);
-    if (setLoading) setLoading((prev) => !prev);
+    if (setLoading) setLoading(false);
   };
 
   if (curItem) {
@@ -39,8 +40,6 @@ const Detail: React.FC = () => {
         </div>
       </div>
     );
-  } else {
-    null;
   }
 };
 

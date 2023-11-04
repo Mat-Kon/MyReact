@@ -12,12 +12,17 @@ const Wrapper: React.FC = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [isLoading, setLoading] = useState(false);
+  const [isDetail, setDetail] = useState(false);
+  const [quantity, setQuantity] = useState(10);
 
   const context: IContext = {
     maxPage,
     setMaxPage,
     isLoading,
     setLoading,
+    isDetail,
+    setDetail,
+    quantity,
   };
 
   useEffect(() => {
@@ -30,7 +35,7 @@ const Wrapper: React.FC = () => {
   return (
     <SearchValue.Provider value={{ search, setSearch }}>
       <div className="wrapper">
-        <Search isLoading={isLoading} />
+        <Search isLoading={isLoading} setQuantity={setQuantity} />
         <Outlet context={context} />
       </div>
     </SearchValue.Provider>

@@ -1,16 +1,14 @@
 import Form from './Form';
 import ErrorBtn from './ErrorBtn';
-import { useContext } from 'react';
-import { useOutletContext } from 'react-router';
-import { IContext } from '../types/types';
+import { ISearchProps } from '../types/types';
 
-const Search: React.FC<{ isLoading: boolean }> = ({ isLoading }) => {
+const Search: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
   return (
     <>
       <ErrorBtn />
       <div className="search">
         <h1 className="heading">Star Wars Searching</h1>
-        <Form isLoading={isLoading} />
+        <Form isLoading={isLoading} setQuantity={setQuantity} />
       </div>
     </>
   );
