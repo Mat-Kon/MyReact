@@ -1,5 +1,5 @@
 import Search from './Search';
-import { MouseEvent, MouseEventHandler, createContext, useEffect, useState } from 'react';
+import { MouseEventHandler, createContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import { IContext, ILoading, IQuantity, ISearchValue } from '../types/types';
 

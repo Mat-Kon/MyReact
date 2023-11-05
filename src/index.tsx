@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, RouterProvider } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { checkServerAvailability } from './api/check-server';
 import ErrorBoundary from './components/ErrorBoundary';
 import './sass/main.scss';
