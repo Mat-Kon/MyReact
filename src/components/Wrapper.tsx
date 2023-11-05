@@ -1,5 +1,5 @@
 import Search from './Search';
-import { MouseEventHandler, createContext, useEffect, useState } from 'react';
+import { MouseEvent, createContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import { IContext, ILoading, IQuantity, ISearchValue } from '../types/types';
 
@@ -34,7 +34,7 @@ const Wrapper: React.FC = () => {
     navigate('/search-page/1');
   }, []);
 
-  const handlerClick: MouseEventHandler<HTMLDivElement> = (e) => {
+  const handlerClick = (e: MouseEvent) => {
     const targElem = e.target as HTMLElement;
     if (
       targElem.className === 'results' ||
@@ -42,6 +42,7 @@ const Wrapper: React.FC = () => {
       targElem.className === 'search'
     ) {
       setDetail(false);
+      navigate('/search-page/1');
     }
   };
 

@@ -1,15 +1,16 @@
 import ItemBlock from './ItemBlock';
 import { IContext } from '../types/types';
-import { NavLink, useOutletContext, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { useContext } from 'react';
 import { ItemsContext } from './Results';
+import { useOutletContext } from 'react-router';
 
 const ItemsBlokList: React.FC = () => {
   const { page } = useParams();
   const { setDetail } = useOutletContext<IContext>();
   const { items } = useContext(ItemsContext);
 
-  const setActive = ({ isActive }: { isActive: boolean }) => {
+  const setActive = ({ isActive }: { isActive: string }) => {
     return isActive ? 'result__item-wrapper active' : 'result__item-wrapper';
   };
 
@@ -20,10 +21,9 @@ const ItemsBlokList: React.FC = () => {
   return items.length > 0 && page
     ? items.map((item) => (
         <NavLink
-          end
           to={`${item.name}`}
           key={item.created}
-          className={setActive}
+          className="result__item-wrapper"
           onClick={handlerClick}
         >
           <ItemBlock item={item} />

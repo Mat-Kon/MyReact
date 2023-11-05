@@ -1,6 +1,6 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { IsLoading, Quantity, SearchValue } from './Wrapper';
+import { useNavigate } from 'react-router';
 
 const Form: React.FC = () => {
   const navigate = useNavigate();

@@ -2,10 +2,11 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { IContext, IItems, Items, Result } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import { Api } from '../api/api';
-import { Outlet, useOutletContext, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { SearchValue } from './Wrapper';
 import Loader from './Loader';
 import Pagination from './Pagination';
+import { Outlet, useOutletContext } from 'react-router';
 
 const ItemsContext = createContext<IItems>({ items: [], setItems: null });
 

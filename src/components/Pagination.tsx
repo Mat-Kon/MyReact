@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useOutletContext, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { IContext } from '../types/types';
+import { useOutletContext } from 'react-router';
 
 const Pagination: React.FC = () => {
   const { maxPage, isLoading } = useOutletContext<IContext>();
