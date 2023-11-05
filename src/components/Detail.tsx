@@ -29,7 +29,7 @@ const Detail: React.FC = () => {
 
   if (curItem) {
     return isLoading ? null : (
-      <div className="detail">
+      <div className="detail" onClick={(e) => e.stopPropagation()}>
         <button className="detail__close" onClick={handlerClick}>
           Close
         </button>

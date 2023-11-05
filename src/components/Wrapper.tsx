@@ -34,13 +34,8 @@ const Wrapper: React.FC = () => {
     navigate('/search-page/1');
   }, []);
 
-  const handlerClick = (e: MouseEvent) => {
-    const targElem = e.target as HTMLElement;
-    if (
-      targElem.className === 'results' ||
-      targElem.className === 'wrapper' ||
-      targElem.className === 'search'
-    ) {
+  const handlerClick = () => {
+    if (isDetail) {
       setDetail(false);
       navigate('/search-page/1');
     }
