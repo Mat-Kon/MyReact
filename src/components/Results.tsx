@@ -26,30 +26,40 @@ const Results: React.FC = () => {
   }, [search, page, quantity]);
 
   const getAllItems = async (): Promise<void> => {
-    if (!page) {
+    try {
+      if (!page) {
+        setLoading(false);
+        return;
+      } else {
+        const data: Result = await new Api().getItems(+page);
+        const curMaxPage = Math.ceil(data.count / 10);
+        const newItem = data.items.slice(0, quantity);
+        setItems(newItem);
+        if (setMaxPage) setMaxPage(curMaxPage);
+      }
+    } catch {
+      console.log('No items');
+    } finally {
       setLoading(false);
-      return;
-    } else {
-      const data: Result = await new Api().getItems(+page);
-      const curMaxPage = Math.ceil(data.count / 10);
-      const newItem = data.items.slice(0, quantity);
-      setItems(newItem);
-      if (setMaxPage) setMaxPage(curMaxPage);
     }
-    setLoading(false);
   };
 
   const searchItem = async (value: string) => {
-    const data: Result = await new Api().getSearchItems(value, +page!);
-    const curMaxPage = isNaN(Math.ceil(data.count / 10)) ? 0 : Math.ceil(data.count / 10);
-    if (setMaxPage) setMaxPage(curMaxPage);
-    if (data.items.length) {
-      const newItem = data.items.slice(0, quantity);
-      setItems(newItem);
-    } else {
-      setItems([]);
+    try {
+      const data: Result = await new Api().getSearchItems(value, +page!);
+      const curMaxPage = isNaN(Math.ceil(data.count / 10)) ? 0 : Math.ceil(data.count / 10);
+      if (setMaxPage) setMaxPage(curMaxPage);
+      if (data.items.length) {
+        const newItem = data.items.slice(0, quantity);
+        setItems(newItem);
+      } else {
+        setItems([]);
+      }
+    } catch {
+      console.log('No items');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
