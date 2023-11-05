@@ -1,9 +1,5 @@
 type Items = IPeople[];
 
-type ItemBlockListProps = {
-  items: Items;
-};
-
 type ItemBlockListState = {
   items: Items | null;
   isLoading: boolean;
@@ -55,19 +51,30 @@ interface ISearchValue {
   setSearch: React.Dispatch<React.SetStateAction<string | null>> | null;
 }
 
-interface ISearchProps {
+interface ILoading {
   isLoading: boolean;
-  setQuantity: React.Dispatch<React.SetStateAction<number>>;
+  setLoading: React.Dispatch<React.SetStateAction<boolean>> | null;
+}
+
+interface IQuantity {
+  quantity: number;
+  setQuantity: React.Dispatch<React.SetStateAction<number>> | null;
+}
+
+interface IItems {
+  items: Items;
+  setItems: React.Dispatch<React.SetStateAction<Items>> | null;
 }
 
 export type {
   ICategory,
   IPeople,
-  ItemBlockListProps,
   ItemBlockListState,
   Items,
   Result,
   IContext,
   ISearchValue,
-  ISearchProps,
+  ILoading,
+  IQuantity,
+  IItems,
 };

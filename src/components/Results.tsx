@@ -1,11 +1,13 @@
-import { useContext, useEffect, useState } from 'react';
-import { IContext, Items, Result } from '../types/types';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { IContext, IItems, Items, Result } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import { Api } from '../api/api';
 import { Outlet, useOutletContext, useParams } from 'react-router-dom';
 import { SearchValue } from './Wrapper';
 import Loader from './Loader';
 import Pagination from './Pagination';
+
+const ItemsContext = createContext<IItems>({ items: [], setItems: null });
 
 const Results: React.FC = () => {
   const { page } = useParams();
@@ -46,25 +48,27 @@ const Results: React.FC = () => {
       setItems(newItem);
     } else {
       setItems([]);
-      // setLoading(false);
     }
     setLoading(false);
   };
 
   return (
-    <div className="results">
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <div className="results__wrapper">
-          <ItemsBlockList items={items} />
-          {maxPage > 1 && !isLoading ? <Pagination /> : null}
-        </div>
-      )}
-      {isDetail ? <Outlet context={{ isLoading, setLoading, setDetail }} /> : null}
-      {!items.length && maxPage === 0 ? <p className="not-found">not found</p> : null}
-    </div>
+    <ItemsContext.Provider value={{ items, setItems }}>
+      <div className="results">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="results__wrapper">
+            <ItemsBlockList />
+            {maxPage > 1 && !isLoading ? <Pagination /> : null}
+          </div>
+        )}
+        {isDetail ? <Outlet context={{ isLoading, setLoading, setDetail }} /> : null}
+        {!items.length && maxPage === 0 ? <p className="not-found">not found</p> : null}
+      </div>
+    </ItemsContext.Provider>
   );
 };
 
 export default Results;
+export { ItemsContext };

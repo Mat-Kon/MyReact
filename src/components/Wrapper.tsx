@@ -1,11 +1,13 @@
 import Search from './Search';
-import { createContext, useEffect, useState } from 'react';
+import { MouseEvent, MouseEventHandler, createContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
-import { IContext, ISearchValue } from '../types/types';
+import { IContext, ILoading, IQuantity, ISearchValue } from '../types/types';
 
 const localStorageValue = localStorage.getItem('searchValue');
 
 const SearchValue = createContext<ISearchValue>({ search: '', setSearch: null });
+const IsLoading = createContext<ILoading>({ isLoading: false, setLoading: null });
+const Quantity = createContext<IQuantity>({ quantity: 0, setQuantity: null });
 
 const Wrapper: React.FC = () => {
   const [maxPage, setMaxPage] = useState(1);
@@ -32,15 +34,30 @@ const Wrapper: React.FC = () => {
     navigate('/search-page/1');
   }, []);
 
+  const handlerClick: MouseEventHandler<HTMLDivElement> = (e) => {
+    const targElem = e.target as HTMLElement;
+    if (
+      targElem.className === 'results' ||
+      targElem.className === 'wrapper' ||
+      targElem.className === 'search'
+    ) {
+      setDetail(false);
+    }
+  };
+
   return (
     <SearchValue.Provider value={{ search, setSearch }}>
-      <div className="wrapper">
-        <Search isLoading={isLoading} setQuantity={setQuantity} />
-        <Outlet context={context} />
-      </div>
+      <IsLoading.Provider value={{ isLoading, setLoading }}>
+        <Quantity.Provider value={{ quantity, setQuantity }}>
+          <div className="wrapper" onClick={handlerClick}>
+            <Search />
+            <Outlet context={context} />
+          </div>
+        </Quantity.Provider>
+      </IsLoading.Provider>
     </SearchValue.Provider>
   );
 };
 
 export default Wrapper;
-export { SearchValue };
+export { SearchValue, IsLoading, Quantity };

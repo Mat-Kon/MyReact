@@ -1,11 +1,12 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { SearchValue } from './Wrapper';
-import { ISearchProps } from '../types/types';
+import { IsLoading, Quantity, SearchValue } from './Wrapper';
 
-const Form: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
+const Form: React.FC = () => {
   const navigate = useNavigate();
   const { setSearch } = useContext(SearchValue);
+  const { isLoading } = useContext(IsLoading);
+  const { setQuantity } = useContext(Quantity);
   const [value, setValue] = useState('');
   const [selectValue, setSelectValue] = useState(10);
 
@@ -29,7 +30,7 @@ const Form: React.FC<ISearchProps> = ({ isLoading, setQuantity }) => {
   };
 
   const handlerChange: ChangeEventHandler<HTMLSelectElement> = (e) => {
-    setQuantity(+e.target.value);
+    if (setQuantity) setQuantity(+e.target.value);
     setSelectValue(+e.target.value);
     navigate('/search-page/1');
   };
