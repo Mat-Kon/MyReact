@@ -6,7 +6,7 @@ type ItemProps = {
 
 const ItemBlock: React.FC<ItemProps> = ({ item }) => {
   return (
-    <div className="result__item">
+    <div className="result__item" data-testid="item">
       {Object.entries(item).map((value, index) => {
         if (index < 2) {
           return (

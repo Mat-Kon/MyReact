@@ -10,10 +10,6 @@ const ItemsBlokList: React.FC = () => {
   const { setDetail } = useOutletContext<IContext>();
   const { items } = useContext(ItemsContext);
 
-  const setActive = ({ isActive }: { isActive: string }) => {
-    return isActive ? 'result__item-wrapper active' : 'result__item-wrapper';
-  };
-
   const handlerClick = () => {
     setDetail(true);
   };

@@ -11,7 +11,8 @@
     "prepare": "husky install",
     "lint:fix": "eslint \"{**/*.ts,**/*.tsx}\" --fix",
     "format:fix": "npx prettier --write **/*.{ts,tsx,json}",
-    "test": "vitest run --coverage"
+    "test": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "dependencies": {
     "@types/react-router": "^5.1.20",
@@ -26,7 +27,7 @@
   "devDependencies": {
     "@testing-library/dom": "^9.3.3",
     "@testing-library/jest-dom": "^6.1.4",
-    "@testing-library/react": "^14.0.0",
+    "@testing-library/react": "^14.1.0",
     "@testing-library/user-event": "^14.5.1",
     "@types/jest": "^29.5.7",
     "@types/react": "^18.2.15",

@@ -69,8 +69,8 @@ const Results: React.FC = () => {
         {isLoading ? (
           <Loader />
         ) : (
-          <div className="results__wrapper">
-            <ItemsBlockList />
+          <div className="results__wrapper" data-testid="results__wrapper">
+            <ItemsBlockList data-testid="items" />
             {maxPage > 1 && !isLoading ? <Pagination /> : null}
           </div>
         )}
