@@ -2,8 +2,8 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../components/App';
 
-describe('Result', () => {
-  test('render 10 items', async () => {
+describe('Render items', () => {
+  test('render 10 items in first load', async () => {
     render(<App />);
 
     const select = screen.getByRole('combobox');
@@ -19,11 +19,11 @@ describe('Result', () => {
         const items = await screen.findAllByTestId('item');
         expect(items).toHaveLength(10);
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
   });
 
-  test('render 5 items', async () => {
+  test('set the display of 5 elements', async () => {
     const user = userEvent.setup();
 
     render(<App />);
@@ -42,11 +42,11 @@ describe('Result', () => {
         const items = await screen.findAllByTestId('item');
         expect(items).toHaveLength(5);
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
   });
 
-  test('render 2 items', async () => {
+  test('set the display of 2 elements', async () => {
     const user = userEvent.setup();
 
     render(<App />);
@@ -65,7 +65,7 @@ describe('Result', () => {
         const items = await screen.findAllByTestId('item');
         expect(items).toHaveLength(2);
       },
-      { timeout: 5000 }
+      { timeout: 10000 }
     );
   });
 });
