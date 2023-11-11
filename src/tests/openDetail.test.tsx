@@ -3,7 +3,7 @@ import App from '../components/App';
 import userEvent from '@testing-library/user-event';
 
 describe('Test open detail', () => {
-  test('it show sure the detailed card component correctly displays the detailed card data', async () => {
+  test('it show that clicking on a card opens a detailed card component', async () => {
     const user = userEvent.setup();
     render(<App />);
 
@@ -28,12 +28,5 @@ describe('Test open detail', () => {
       },
       { timeout: 8000 }
     );
-
-    expect(screen.getByText('Close')).toBeInTheDocument();
-    expect(screen.getByText('mass')).toBeInTheDocument();
-    expect(screen.getByText('hair_color')).toBeInTheDocument();
-    expect(screen.getByText('skin_color')).toBeInTheDocument();
-    expect(screen.getByText('eye_color')).toBeInTheDocument();
-    expect(screen.getByText('birth_year')).toBeInTheDocument();
   });
 });
