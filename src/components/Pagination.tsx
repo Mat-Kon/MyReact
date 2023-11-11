@@ -20,9 +20,10 @@ const Pagination: React.FC = () => {
   };
 
   return (
-    <div className="pagination">
+    <div className="pagination" data-testid="pagination">
       <div className="btn-container">
         <Link
+          data-testid="prev"
           to={`/search-page/${curPage - 1}`}
           className="prev"
           onClick={prevPage}
@@ -34,6 +35,7 @@ const Pagination: React.FC = () => {
         ></Link>
         <p className="page-number">{page}</p>
         <Link
+          data-testid="next"
           to={`/search-page/${curPage + 1}`}
           className="next"
           onClick={nextPage}
