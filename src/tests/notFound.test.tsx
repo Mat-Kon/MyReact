@@ -18,7 +18,7 @@ test('Checking the display of the message in the absence of cards', async () => 
       const items = await screen.findAllByTestId('item');
       expect(items).toHaveLength(10);
     },
-    { timeout: 10000 }
+    { timeout: 8000 }
   );
 
   const input = screen.getByRole('textbox');
@@ -36,6 +36,6 @@ test('Checking the display of the message in the absence of cards', async () => 
       const text = await screen.findByText('not found');
       expect(text).toBeInTheDocument();
     },
-    { timeout: 10000 }
+    { timeout: 8000 }
   );
 });

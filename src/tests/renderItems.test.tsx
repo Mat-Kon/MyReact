@@ -19,7 +19,7 @@ describe('Render items', () => {
         const items = await screen.findAllByTestId('item');
         expect(items).toHaveLength(10);
       },
-      { timeout: 10000 }
+      { timeout: 8000 }
     );
   });
 
@@ -42,7 +42,7 @@ describe('Render items', () => {
         const items = await screen.findAllByTestId('item');
         expect(items).toHaveLength(5);
       },
-      { timeout: 10000 }
+      { timeout: 8000 }
     );
   });
 
@@ -65,7 +65,7 @@ describe('Render items', () => {
         const items = await screen.findAllByTestId('item');
         expect(items).toHaveLength(2);
       },
-      { timeout: 10000 }
+      { timeout: 8000 }
     );
   });
 });
