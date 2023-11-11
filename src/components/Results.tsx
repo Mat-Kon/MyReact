@@ -19,8 +19,8 @@ const Results: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (search) searchItem(search);
-    if (!search) getAllItems();
+    if (search !== '') searchItem(search);
+    if (search === '') getAllItems();
   }, [search, page, quantity]);
 
   const getAllItems = async (): Promise<void> => {

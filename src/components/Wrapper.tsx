@@ -3,8 +3,6 @@ import { MouseEvent, createContext, useEffect, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import { IContext, ILoading, IQuantity, ISearchValue } from '../types/types';
 
-const localStorageValue = localStorage.getItem('searchValue');
-
 const SearchValue = createContext<ISearchValue>({ search: '', setSearch: null });
 const IsLoading = createContext<ILoading>({ isLoading: false, setLoading: null });
 const Quantity = createContext<IQuantity>({ quantity: 0, setQuantity: null });
@@ -12,7 +10,7 @@ const Quantity = createContext<IQuantity>({ quantity: 0, setQuantity: null });
 const Wrapper: React.FC = () => {
   const [maxPage, setMaxPage] = useState(1);
   const navigate = useNavigate();
-  const [search, setSearch] = useState<string | null>(null);
+  const [search, setSearch] = useState<string>(localStorage.getItem('searchValue') ?? '');
   const [isLoading, setLoading] = useState(false);
   const [isDetail, setDetail] = useState(false);
   const [quantity, setQuantity] = useState(10);
@@ -28,9 +26,6 @@ const Wrapper: React.FC = () => {
   };
 
   useEffect(() => {
-    if (localStorageValue) {
-      setSearch(localStorageValue);
-    }
     navigate('/search-page/1');
   }, [search]);
 

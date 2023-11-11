@@ -6,4 +6,9 @@
   margin: auto;
   background-color: #f0a902;
   box-shadow: inset 0px 0px 10px 2px #1f2f7b;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 }
