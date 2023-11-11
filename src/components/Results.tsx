@@ -19,19 +19,19 @@ const Results: React.FC = () => {
 
   useEffect(() => {
     setLoading(true);
-    if (search) {
-      searchItem(search);
-    } else {
-      getAllItems();
-    }
+    if (search) searchItem(search);
+    if (!search) getAllItems();
   }, [search, page, quantity]);
 
   const getAllItems = async (): Promise<void> => {
     try {
       if (!page) {
         setLoading(false);
+        setItems([]);
+        if (setMaxPage) setMaxPage(0);
         return;
       } else {
+        if (isNaN(+page)) return;
         const data: Result = await new Api().getItems(+page);
         const curMaxPage = Math.ceil(data.count / 10);
         const newItem = data.items.slice(0, quantity);

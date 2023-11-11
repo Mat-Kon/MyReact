@@ -14,6 +14,7 @@ const Form: React.FC = () => {
     const localValue = localStorage.getItem('searchValue');
     if (localValue) {
       setValue(localValue);
+      if (setSearch) setSearch(localValue);
     }
   }, []);
 

@@ -32,7 +32,7 @@ const Wrapper: React.FC = () => {
       setSearch(localStorageValue);
     }
     navigate('/search-page/1');
-  }, []);
+  }, [search]);
 
   const handlerClick = (e: MouseEvent) => {
     const targElem = e.target as HTMLElement;
