@@ -47,8 +47,8 @@ interface IContext {
 }
 
 interface ISearchValue {
-  search: string | null;
-  setSearch: React.Dispatch<React.SetStateAction<string | null>> | null;
+  search: string;
+  setSearch: React.Dispatch<React.SetStateAction<string>> | null;
 }
 
 interface ILoading {
