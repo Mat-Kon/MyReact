@@ -61,11 +61,6 @@ interface IQuantity {
   setQuantity: React.Dispatch<React.SetStateAction<number>> | null;
 }
 
-interface IItems {
-  items: Items;
-  setItems: React.Dispatch<React.SetStateAction<Items>> | null;
-}
-
 export type {
   ICategory,
   IPeople,
@@ -76,5 +71,4 @@ export type {
   ISearchValue,
   ILoading,
   IQuantity,
-  IItems,
 };
