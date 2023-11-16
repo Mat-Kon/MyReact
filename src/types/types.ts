@@ -37,12 +37,8 @@ interface ICategory {
 }
 
 interface IContext {
-  maxPage: number;
-  setMaxPage: React.Dispatch<React.SetStateAction<number>>;
   isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  isDetail: boolean;
-  setDetail: React.Dispatch<React.SetStateAction<boolean>>;
   quantity: number;
 }
 
@@ -57,7 +53,6 @@ interface ILoading {
 }
 
 interface IQuantity {
-  quantity: number;
   setQuantity: React.Dispatch<React.SetStateAction<number>> | null;
 }
 

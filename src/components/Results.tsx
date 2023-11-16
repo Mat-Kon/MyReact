@@ -1,64 +1,60 @@
-import { useContext, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { IContext, Items, Result } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
-import { Api } from '../api/api';
+import { useGetItemsQuery, useSearchItemsQuery } from '../api/api';
 import { useParams } from 'react-router-dom';
-import { SearchValue } from './Wrapper';
 import Loader from './Loader';
 import Pagination from './Pagination';
 import { Outlet, useOutletContext } from 'react-router';
-import { useAppDispatch } from '../hooks/hooks';
-import { setItems } from '../redux/itemsSlice';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import { setItems } from '../store/itemsSlice';
 
 const Results: React.FC = () => {
   const { page } = useParams();
-  const { maxPage, setMaxPage, isLoading, setLoading, isDetail, setDetail, quantity } =
-    useOutletContext<IContext>();
+  const [maxPage, setMaxPage] = useState(0);
+  const { setLoading, quantity } = useOutletContext<IContext>();
   const dispatch = useAppDispatch();
-  const { search } = useContext(SearchValue);
+  const search = useAppSelector((store) => store.search.value);
+  const isDetail = useAppSelector((store) => store.detail.isOpen);
+  const {
+    data: itemsData,
+    isLoading: itemsIsLoading,
+    isFetching: itemsIsFetching,
+  } = useGetItemsQuery(page);
+  const {
+    data: searchData,
+    isLoading: searchIsLoading,
+    isFetching: searchIsFetching,
+  } = useSearchItemsQuery({ value: search, page: page });
+
+  const isLoading = itemsIsLoading || itemsIsFetching || searchIsLoading || searchIsFetching;
+
+  console.log('result');
 
   useEffect(() => {
-    setLoading(true);
-    if (search !== '') searchItem(search);
-    if (search === '') getAllItems();
-  }, [search, page, quantity]);
+    if (search !== '') {
+      searchItem();
+    } else {
+      getAllItems();
+    }
+  }, [isLoading]);
 
   const updateItems = (newItems: Items) => {
     dispatch(setItems({ items: newItems }));
   };
 
-  const getAllItems = async (): Promise<void> => {
-    try {
-      if (!page) return;
-      const data: Result = await new Api().getItems(+page);
-      const curMaxPage = Math.ceil(data.count / 10);
-      const newItem = data.items.slice(0, quantity);
-      updateItems(newItem);
-      if (setMaxPage) setMaxPage(curMaxPage);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+  const getAllItems = (): void => {
+    const curMaxPage: number = itemsData ? Math.ceil(itemsData.count / 10) : 0;
+    const newItem: Items = itemsData ? itemsData.results.slice(0, quantity) : [];
+    updateItems(newItem);
+    setMaxPage(curMaxPage);
   };
 
-  const searchItem = async (value: string) => {
-    try {
-      if (!page) return;
-      const data: Result = await new Api().getSearchItems(value, +page!);
-      const curMaxPage = isNaN(Math.ceil(data.count / 10)) ? 0 : Math.ceil(data.count / 10);
-      if (setMaxPage) setMaxPage(curMaxPage);
-      if (data.items.length) {
-        const newItem = data.items.slice(0, quantity);
-        updateItems(newItem);
-      } else {
-        updateItems([]);
-      }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+  const searchItem = () => {
+    const curMaxPage = searchData ? Math.ceil(searchData.count / 10) : 0;
+    const newItem = searchData ? searchData.results.slice(0, quantity) : [];
+    updateItems(newItem);
+    setMaxPage(curMaxPage);
   };
 
   return (
@@ -68,10 +64,10 @@ const Results: React.FC = () => {
       ) : (
         <div className="results__wrapper" data-testid="results__wrapper">
           <ItemsBlockList data-testid="items" />
-          {maxPage > 1 && !isLoading ? <Pagination /> : null}
+          {maxPage > 1 && !isLoading ? <Pagination maxPage={maxPage} /> : null}
         </div>
       )}
-      {isDetail ? <Outlet context={{ isLoading, setLoading, setDetail }} /> : null}
+      {isDetail ? <Outlet context={{ isLoading, setLoading }} /> : null}
     </div>
   );
 };

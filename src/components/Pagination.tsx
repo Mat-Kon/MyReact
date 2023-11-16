@@ -3,8 +3,12 @@ import { Link, useParams } from 'react-router-dom';
 import { IContext } from '../types/types';
 import { useOutletContext } from 'react-router';
 
-const Pagination: React.FC = () => {
-  const { maxPage, isLoading } = useOutletContext<IContext>();
+type Props = {
+  maxPage: number;
+};
+
+const Pagination: React.FC<Props> = ({ maxPage }) => {
+  const { isLoading } = useOutletContext<IContext>();
   const { page } = useParams();
   const [curPage, setCurPage] = useState(0);
 

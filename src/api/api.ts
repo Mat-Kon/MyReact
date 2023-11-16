@@ -1,54 +1,23 @@
-import { ICategory, IPeople, Items, Result } from '../types/types';
+import { ICategory, IPeople, Result } from '../types/types';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-class Api {
-  private apiUrl: string = 'https://swapi.dev/api/people';
+const BASE_URL = 'https://swapi.dev/api/people';
 
-  public getItems = async (page: number): Promise<Result> => {
-    try {
-      const resp = await fetch(`${this.apiUrl}/?page=${page}`);
-      if (!resp.ok) {
-        if (resp.status === 404) {
-          console.log(`status ${resp.status} replace to search-page/1`);
-        } else {
-          throw new Error('Unexpected error occurred');
-        }
-      }
-      const data: ICategory = await resp.json();
-      const result = {
-        items: data.results,
-        count: data.count,
-      };
-      return result;
-    } catch {
-      throw new Error(`Error in getAll`);
-    }
-  };
+export const swapApi = createApi({
+  reducerPath: 'swapApi',
+  baseQuery: fetchBaseQuery({ baseUrl: BASE_URL }),
+  endpoints: (builder) => ({
+    getItems: builder.query({
+      query: (page: string | undefined) => `?page=${page ?? 1}`,
+    }),
+    searchItems: builder.query({
+      query: (arg: { value: string; page: string | undefined }) =>
+        `?search=${arg.value ?? ''}&page=${arg.page ?? ''}`,
+    }),
+    getByName: builder.query({
+      query: (name: string) => `?search=${name}`,
+    }),
+  }),
+});
 
-  public getSearchItems = async (value: string, page: number): Promise<Result> => {
-    try {
-      const searchValue: string = value.trim();
-      const resp = await fetch(`${this.apiUrl}/?search=${searchValue}&page=${page}`);
-      const data: ICategory = await resp.json();
-      const result = {
-        items: data.results,
-        count: data.count,
-      };
-      return result;
-    } catch {
-      throw new Error(`Error in getAll`);
-    }
-  };
-
-  public getItemByName = async (value: string) => {
-    try {
-      const searchValue: string = value.trim();
-      const resp = await fetch(`${this.apiUrl}/?search=${searchValue}`);
-      const data: ICategory = await resp.json();
-      return data.results[0];
-    } catch {
-      throw new Error('Error in getItemByName');
-    }
-  };
-}
-
-export { Api };
+export const { useGetItemsQuery, useSearchItemsQuery, useGetByNameQuery } = swapApi;

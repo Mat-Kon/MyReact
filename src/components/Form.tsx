@@ -1,10 +1,12 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useState } from 'react';
-import { IsLoading, Quantity, SearchValue } from './Wrapper';
+import { IsLoading, Quantity } from './Wrapper';
 import { useNavigate } from 'react-router';
+import { updateSearch } from '../store/searchSlice';
+import { useAppDispatch } from '../hooks/reduxHooks';
 
 const Form: React.FC = () => {
   const navigate = useNavigate();
-  const { setSearch } = useContext(SearchValue);
+  const dispatch = useAppDispatch();
   const { isLoading } = useContext(IsLoading);
   const { setQuantity } = useContext(Quantity);
   const [value, setValue] = useState('');
@@ -14,14 +16,13 @@ const Form: React.FC = () => {
     const localValue = localStorage.getItem('searchValue');
     if (localValue) {
       setValue(localValue);
-      if (setSearch) setSearch(localValue);
     }
   }, []);
 
   const handlerSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (setSearch) setSearch(value);
     localStorage.setItem('searchValue', value);
+    dispatch(updateSearch(value));
     navigate('/search-page/1');
   };
 

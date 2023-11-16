@@ -1,17 +1,12 @@
 import ItemBlock from './ItemBlock';
-import { IContext } from '../types/types';
 import { NavLink, useParams } from 'react-router-dom';
-import { useOutletContext } from 'react-router';
-import { useAppSelector } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import { toggleDetail } from '../store/detailSlice';
 
 const ItemsBlokList: React.FC = () => {
   const { page } = useParams();
-  const { setDetail } = useOutletContext<IContext>();
+  const dispatch = useAppDispatch();
   const items = useAppSelector((store) => store.items);
-
-  const handlerClick = () => {
-    setDetail(true);
-  };
 
   if (items.length > 0 && page) {
     return items.map((item) => (
@@ -19,7 +14,7 @@ const ItemsBlokList: React.FC = () => {
         to={`${item.name}`}
         key={item.created}
         className="result__item-wrapper"
-        onClick={handlerClick}
+        onClick={() => dispatch(toggleDetail())}
       >
         <ItemBlock item={item} />
       </NavLink>
