@@ -37,8 +37,6 @@ interface ICategory {
 }
 
 interface IContext {
-  isLoading: boolean;
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>;
   quantity: number;
 }
 

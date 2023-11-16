@@ -1,13 +1,14 @@
 import { ChangeEvent, ChangeEventHandler, FormEvent, useContext, useEffect, useState } from 'react';
-import { IsLoading, Quantity } from './Wrapper';
+import { Quantity } from './Wrapper';
 import { useNavigate } from 'react-router';
 import { updateSearch } from '../store/searchSlice';
-import { useAppDispatch } from '../hooks/reduxHooks';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
+import { toggleLoading } from '../store/loadingSlice';
 
 const Form: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { isLoading } = useContext(IsLoading);
+  const { isLoading } = useAppSelector((store) => store.loading);
   const { setQuantity } = useContext(Quantity);
   const [value, setValue] = useState('');
   const [selectValue, setSelectValue] = useState(10);

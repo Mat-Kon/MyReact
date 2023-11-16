@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { IContext } from '../types/types';
-import { useOutletContext } from 'react-router';
+import { useAppSelector } from '../hooks/reduxHooks';
 
 type Props = {
   maxPage: number;
 };
 
 const Pagination: React.FC<Props> = ({ maxPage }) => {
-  const { isLoading } = useOutletContext<IContext>();
+  const { isLoading } = useAppSelector((store) => store.loading);
   const { page } = useParams();
   const [curPage, setCurPage] = useState(0);
 

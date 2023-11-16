@@ -8,11 +8,13 @@ import Pagination from './Pagination';
 import { Outlet, useOutletContext } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setItems } from '../store/itemsSlice';
+import { toggleDetail } from '../store/detailSlice';
+import { toggleLoading } from '../store/loadingSlice';
 
 const Results: React.FC = () => {
   const { page } = useParams();
   const [maxPage, setMaxPage] = useState(0);
-  const { setLoading, quantity } = useOutletContext<IContext>();
+  const { quantity } = useOutletContext<IContext>();
   const dispatch = useAppDispatch();
   const search = useAppSelector((store) => store.search.value);
   const isDetail = useAppSelector((store) => store.detail.isOpen);
@@ -29,15 +31,14 @@ const Results: React.FC = () => {
 
   const isLoading = itemsIsLoading || itemsIsFetching || searchIsLoading || searchIsFetching;
 
-  console.log('result');
-
   useEffect(() => {
+    dispatch(toggleLoading(isLoading));
     if (search !== '') {
       searchItem();
     } else {
       getAllItems();
     }
-  }, [isLoading]);
+  }, [isLoading, page, quantity, search]);
 
   const updateItems = (newItems: Items) => {
     dispatch(setItems({ items: newItems }));
@@ -67,7 +68,7 @@ const Results: React.FC = () => {
           {maxPage > 1 && !isLoading ? <Pagination maxPage={maxPage} /> : null}
         </div>
       )}
-      {isDetail ? <Outlet context={{ isLoading, setLoading }} /> : null}
+      {isDetail ? <Outlet context={{ isLoading }} /> : null}
     </div>
   );
 };
