@@ -1,11 +1,18 @@
+import '@testing-library/jest-dom';
 import { render, waitFor, screen } from '@testing-library/react';
 import App from '../components/App';
 import userEvent from '@testing-library/user-event';
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
 
 describe('Test close detail', () => {
   test('it show that detailed card is close after clicking on the Close button', async () => {
     const user = userEvent.setup();
-    render(<App />);
+    render(
+      <Provider store={store}>
+        <App />
+      </Provider>
+    );
 
     await waitFor(
       async () => {

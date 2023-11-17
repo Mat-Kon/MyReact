@@ -1,3 +1,4 @@
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import ItemBlock from '../components/ItemBlock';
 import { IPeople } from '../types/types';
