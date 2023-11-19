@@ -1,14 +1,13 @@
 import { useEffect, useState } from 'react';
-import { IContext, Items, Result } from '../types/types';
+import { IContext, Items } from '../types/types';
 import ItemsBlockList from './ItemsBlockList';
 import { useGetItemsQuery, useSearchItemsQuery } from '../api/api';
 import { useParams } from 'react-router-dom';
 import Loader from './Loader';
 import Pagination from './Pagination';
-import { Outlet, useOutletContext } from 'react-router';
+import { Outlet, useNavigate, useOutletContext } from 'react-router';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { setItems } from '../store/itemsSlice';
-import { toggleDetail } from '../store/detailSlice';
 import { toggleLoading } from '../store/loadingSlice';
 
 const Results: React.FC = () => {
@@ -28,15 +27,19 @@ const Results: React.FC = () => {
     isLoading: searchIsLoading,
     isFetching: searchIsFetching,
   } = useSearchItemsQuery({ value: search, page: page });
+  const navigate = useNavigate();
 
   const isLoading = itemsIsLoading || itemsIsFetching || searchIsLoading || searchIsFetching;
 
   useEffect(() => {
+    if (!page) {
+      navigate('/search-page/1');
+    }
     dispatch(toggleLoading(isLoading));
     if (search !== '') {
-      searchItem();
+      searchItems();
     } else {
-      getAllItems();
+      allItems();
     }
   }, [isLoading, page, quantity, search]);
 
@@ -44,18 +47,22 @@ const Results: React.FC = () => {
     dispatch(setItems({ items: newItems }));
   };
 
-  const getAllItems = (): void => {
-    const curMaxPage: number = itemsData ? Math.ceil(itemsData.count / 10) : 0;
-    const newItem: Items = itemsData ? itemsData.results.slice(0, quantity) : [];
-    updateItems(newItem);
-    setMaxPage(curMaxPage);
+  const allItems = (): void => {
+    if (itemsData) {
+      const curMaxPage: number = Math.ceil(itemsData.count / 10);
+      const newItem: Items = itemsData.results.slice(0, quantity);
+      updateItems(newItem);
+      setMaxPage(curMaxPage);
+    }
   };
 
-  const searchItem = () => {
-    const curMaxPage = searchData ? Math.ceil(searchData.count / 10) : 0;
-    const newItem = searchData ? searchData.results.slice(0, quantity) : [];
-    updateItems(newItem);
-    setMaxPage(curMaxPage);
+  const searchItems = () => {
+    if (searchData) {
+      const curMaxPage = Math.ceil(searchData.count / 10);
+      const newItem = searchData.results.slice(0, quantity);
+      updateItems(newItem);
+      setMaxPage(curMaxPage);
+    }
   };
 
   return (

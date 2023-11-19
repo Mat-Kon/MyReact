@@ -2,6 +2,7 @@ import ItemBlock from './ItemBlock';
 import { NavLink, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { toggleDetail } from '../store/detailSlice';
+import { IPeople } from '../types/types';
 
 const ItemsBlokList: React.FC = () => {
   const { page } = useParams();
@@ -9,7 +10,7 @@ const ItemsBlokList: React.FC = () => {
   const items = useAppSelector((store) => store.items);
 
   if (items.length > 0 && page) {
-    return items.map((item) => (
+    return items.map((item: IPeople) => (
       <NavLink
         to={`${item.name}`}
         key={item.created}

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["ts-jest", "vite/client"],
+    "types": ["ts-jest", "vite/client", "jest"],
     "target": "ESNext",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,

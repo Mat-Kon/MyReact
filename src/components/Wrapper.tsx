@@ -1,5 +1,5 @@
 import Search from './Search';
-import { MouseEvent, createContext, useEffect, useState } from 'react';
+import { MouseEvent, createContext, useState } from 'react';
 import { Outlet, useNavigate } from 'react-router';
 import { IContext, IQuantity } from '../types/types';
 import { useAppDispatch } from '../hooks/reduxHooks';
@@ -15,10 +15,6 @@ const Wrapper: React.FC = () => {
   const context: IContext = {
     quantity,
   };
-
-  useEffect(() => {
-    navigate('/search-page/1');
-  }, []);
 
   const handlerClick = (e: MouseEvent) => {
     const targElem = e.target as HTMLElement;

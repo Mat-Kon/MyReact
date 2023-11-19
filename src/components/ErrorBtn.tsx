@@ -10,6 +10,7 @@ const ErrorBtn: React.FC = () => {
   if (isError) {
     throw new Error('This is a test error!');
   }
+
   return (
     <button className="error-btn" onClick={handlerErr}>
       Get an error

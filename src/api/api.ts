@@ -1,4 +1,3 @@
-import { ICategory, IPeople, Result } from '../types/types';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 const BASE_URL = 'https://swapi.dev/api/people';

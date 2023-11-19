@@ -21,7 +21,7 @@ interface IPeople {
   gender: string;
   homeworld: string;
   films: string[];
-  species: [];
+  species: never[];
   vehicles: string[];
   starships: string[];
   created: string;
@@ -33,7 +33,7 @@ interface ICategory {
   count: number;
   next: string;
   previous: string;
-  results: IPeople[];
+  results: Items;
 }
 
 interface IContext {
