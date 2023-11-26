@@ -1,42 +1,43 @@
 import Search from './Search';
-import { MouseEvent, createContext, useState } from 'react';
-import { Outlet, useNavigate } from 'react-router';
-import { IContext, IQuantity } from '../types/types';
-import { useAppDispatch } from '../hooks/reduxHooks';
+import { MouseEvent, ReactNode, useEffect, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { toggleDetail } from '../store/detailSlice';
+import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 
-const Quantity = createContext<IQuantity>({ setQuantity: null });
-
-const Wrapper: React.FC = () => {
-  const navigate = useNavigate();
-  const [quantity, setQuantity] = useState(10);
+const Wrapper: React.FC<{ children?: ReactNode }> = ({ children }) => {
   const dispatch = useAppDispatch();
+  const [curPage, setCurPage] = useState('');
+  const router = useRouter();
+  const params = useParams();
+  const isOpen = useAppSelector((store) => store.detail.isOpen);
 
-  const context: IContext = {
-    quantity,
-  };
+  useEffect(() => {
+    if (params) {
+      setCurPage(params.pageNum as string);
+    }
+  }, [params]);
 
   const handlerClick = (e: MouseEvent) => {
     const targElem = e.target as HTMLElement;
-    if (
-      targElem.className === 'results' ||
-      targElem.className === 'wrapper' ||
-      targElem.className === 'search'
-    ) {
-      dispatch(toggleDetail());
-      navigate('/search-page/1');
+    if (isOpen) {
+      if (
+        targElem.className === 'results' ||
+        targElem.className === 'wrapper' ||
+        targElem.className === 'search'
+      ) {
+        dispatch(toggleDetail());
+        router.push(`/search-page/${curPage}`);
+      }
     }
   };
 
   return (
-    <Quantity.Provider value={{ setQuantity }}>
-      <div className="wrapper" onClick={handlerClick}>
-        <Search />
-        <Outlet context={context} />
-      </div>
-    </Quantity.Provider>
+    <div className="wrapper" onClick={handlerClick}>
+      <Search />
+      {children}
+    </div>
   );
 };
 
 export default Wrapper;
-export { Quantity };

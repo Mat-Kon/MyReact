@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
 import { useAppSelector } from '../hooks/reduxHooks';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 type Props = {
   maxPage: number;
@@ -8,12 +9,12 @@ type Props = {
 
 const Pagination: React.FC<Props> = ({ maxPage }) => {
   const { isLoading } = useAppSelector((store) => store.loading);
-  const { page } = useParams();
+  const { pageNum } = useParams();
   const [curPage, setCurPage] = useState(0);
 
   useEffect(() => {
-    if (page) setCurPage(+page);
-  }, [page]);
+    if (pageNum) setCurPage(+pageNum);
+  }, [pageNum]);
 
   const nextPage = () => {
     setCurPage((prev) => prev + 1);
@@ -27,7 +28,7 @@ const Pagination: React.FC<Props> = ({ maxPage }) => {
       <div className="btn-container">
         <Link
           data-testid="prev"
-          to={`/search-page/${curPage - 1}`}
+          href={`/search-page/${curPage - 1}`}
           className="prev"
           onClick={prevPage}
           style={
@@ -36,10 +37,10 @@ const Pagination: React.FC<Props> = ({ maxPage }) => {
               : { pointerEvents: 'auto', backgroundColor: 'yellow' }
           }
         ></Link>
-        <p className="page-number">{page}</p>
+        <p className="page-number">{pageNum}</p>
         <Link
           data-testid="next"
-          to={`/search-page/${curPage + 1}`}
+          href={`/search-page/${curPage + 1}`}
           className="next"
           onClick={nextPage}
           style={

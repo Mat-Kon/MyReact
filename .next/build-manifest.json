@@ -1,0 +1,29 @@
+{
+  "polyfillFiles": ["static/chunks/polyfills.js"],
+  "devFiles": ["static/chunks/react-refresh.js"],
+  "ampDevFiles": [],
+  "lowPriorityFiles": [
+    "static/development/_buildManifest.js",
+    "static/development/_ssgManifest.js"
+  ],
+  "rootMainFiles": [],
+  "pages": {
+    "/_app": ["static/chunks/webpack.js", "static/chunks/main.js", "static/chunks/pages/_app.js"],
+    "/_error": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/_error.js"
+    ],
+    "/search-page/[pageNum]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/search-page/[pageNum].js"
+    ],
+    "/search-page/[pageNum]/[name]": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/search-page/[pageNum]/[name].js"
+    ]
+  },
+  "ampFirstPages": []
+}

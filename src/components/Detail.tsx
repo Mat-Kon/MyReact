@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
 import { IPeople } from '../types/types';
-import { useNavigate, useParams } from 'react-router';
 import { useGetByNameQuery } from '../api/api';
 import { useAppDispatch } from '../hooks/reduxHooks';
 import { toggleDetail } from '../store/detailSlice';
 import Loader from './Loader';
+import { useParams } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 const Detail: React.FC = () => {
   const [curItem, setCurItem] = useState<IPeople | null>(null);
-  const { page, name } = useParams();
-  const navigate = useNavigate();
-  const { data, isLoading } = useGetByNameQuery(name!);
+  const { pageNum, name } = useParams();
+  const { data, isLoading } = useGetByNameQuery(name as string);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     if (name) {
@@ -26,7 +27,7 @@ const Detail: React.FC = () => {
 
   const handlerClick = () => {
     dispatch(toggleDetail());
-    navigate(`/search-page/${page}`);
+    router.push(`/search-page/${pageNum}`);
   };
 
   return (

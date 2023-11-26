@@ -4,6 +4,7 @@ $color-heading: #f0a902;
 $color-dark-blue: #091034;
 $color-blue: #1f2f7b;
 $color-white-blue: #6877c3;
+$color-loader: #00000051;
 
 %pagination-btn {
   @include display-flex(center, center);

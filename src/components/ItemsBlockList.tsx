@@ -1,24 +1,25 @@
 import ItemBlock from './ItemBlock';
-import { NavLink, useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/reduxHooks';
 import { toggleDetail } from '../store/detailSlice';
 import { IPeople } from '../types/types';
+import { useParams } from 'next/navigation';
+import Link from 'next/link';
 
 const ItemsBlokList: React.FC = () => {
-  const { page } = useParams();
+  const { pageNum } = useParams();
   const dispatch = useAppDispatch();
   const items = useAppSelector((store) => store.items);
 
-  if (items.length > 0 && page) {
+  if (items.length > 0 && pageNum) {
     return items.map((item: IPeople) => (
-      <NavLink
-        to={`${item.name}`}
+      <Link
+        href={`${pageNum}/${item.name}`}
         key={item.created}
         className="result__item-wrapper"
         onClick={() => dispatch(toggleDetail())}
       >
         <ItemBlock item={item} />
-      </NavLink>
+      </Link>
     ));
   }
   return <p className="not-found">not found</p>;
