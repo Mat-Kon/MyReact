@@ -24,7 +24,7 @@ class ErrorBoundary extends Component<Props, State> {
     console.log(`This is errorInform: ${errorInfo.componentStack}`);
   };
 
-  render() {
+  render(): ReactNode {
     const { hasError } = this.state;
     if (hasError) {
       return <ErrorPage />;
