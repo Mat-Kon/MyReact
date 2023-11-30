@@ -11,6 +11,11 @@ const InputImage = () => {
   const handleImageUpload = (event: ChangeEvent) => {
     const targetElem = event.target as HTMLInputElement;
     const selectedFile = targetElem.files && targetElem.files[0];
+    // const isToManyFails = targetElem.files && targetElem.files.length > 1;
+
+    // if (isToManyFails) {
+
+    // }
 
     if (selectedFile) {
       if (selectedFile.type !== 'image/png' && selectedFile.type !== 'image/jpeg') {

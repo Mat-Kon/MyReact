@@ -1,6 +1,10 @@
 //Utils
 @import './utils/variables';
 
+//base
+@import './base/base';
+
 //Components
 @import './components/errorPage.scss';
 @import './components/controlledFormPage.scss';
+@import './components/uncontrolledFormPage.scss';
