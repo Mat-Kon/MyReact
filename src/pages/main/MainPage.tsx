@@ -1,11 +1,16 @@
-import { Outlet } from "react-router-dom";
 import Header from "../../components/Header";
+import React, { ReactNode } from "react";
 
-const MainPage = () => {
+interface IMainProps {
+  children?: ReactNode;
+}
+
+const MainPage: React.FC<IMainProps> = ({ children }) => {
   return (
     <>
       <Header />
-      <Outlet />
+      {children}
+      {/* {image && <img src={image} alt="Uploaded" />} */}
     </>
   )
 };
