@@ -110,22 +110,6 @@ const UncontrolledFormPage: React.FC = () => {
 
           <InputImage />
 
-          <div>
-            <label htmlFor="countrySelect">Выберите страну:</label>
-            <select id="countrySelect" ref={countryRef}>
-              <option value="">Выберите страну</option>
-                <option value="latvia">
-                  Latvia
-                </option>
-                <option value="georgia">
-                  Georgia
-                </option>
-                <option value="canada">
-                  Canada
-                </option>
-            </select>
-            {errors.country ? <p className='error-message'>{errors.country}</p> : null}
-          </div>
           <input type='submit' value={'Submit'}/>
         </form>
       </div>
