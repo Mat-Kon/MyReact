@@ -1,16 +1,16 @@
 import React, { FormEvent, useRef, useState } from 'react';
-import { Link, useNavigate, useRoutes } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InputImage from '../../components/InputImg';
 import { userSchema } from '../../validation/yupValid';
 import { ValidationError } from 'yup';
 import { IErrors, IFormData } from '../../types/types';
-import { useAppDispatch, useAppSelector } from '../../hooks/reduxHoks';
+import { useAppDispatch } from '../../hooks/reduxHoks';
 import { setForm } from '../../redux/slices/formSlice';
+import InputCountry from '../../components/InputCountry';
 
 const UncontrolledFormPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  // const formData = useAppSelector((store) => store.form.form);
   const [errors, setErrors] = useState<Partial<IErrors>>({});
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
@@ -20,7 +20,8 @@ const UncontrolledFormPage: React.FC = () => {
   const manRef = useRef<HTMLInputElement>(null);
   const womanRef = useRef<HTMLInputElement>(null);
   const acceptRef = useRef<HTMLInputElement>(null);
-  const countryRef = useRef<HTMLSelectElement>(null);
+  const countryRef = useRef<HTMLInputElement>(null);
+  const imgRef = useRef<HTMLInputElement>(null);
 
   const handlerSubmit = async (event: FormEvent) => {
     event.preventDefault();
@@ -33,6 +34,7 @@ const UncontrolledFormPage: React.FC = () => {
       gender: manRef.current?.checked ? 'man' : womanRef.current?.checked ? 'woman' : '',
       accept: acceptRef.current?.checked ?? false,
       country: countryRef.current?.value ?? '',
+      img: imgRef.current?.value ?? '',
     }
     checkingForm(formData);
   }
@@ -61,29 +63,29 @@ const UncontrolledFormPage: React.FC = () => {
       <h1>Uncontrolled form</h1>
       <Link to={'/'} className='back-btn'>Back</Link>
       <div className='form-container'>
-        <form className='controlled' onSubmit={handlerSubmit}>
-          <label htmlFor='name'> Name:
+        <form className='uncontrolled' onSubmit={handlerSubmit}>
+          <label className="input__name" htmlFor='name'> Name:
             <input type='text' name='name' id='name' ref={nameRef} autoComplete='name'/>
             {errors.name ? <p className='error-message'>{errors.name}</p> : null}
           </label>
 
-          <label htmlFor='age'>Age:
+          <label className='input__age' htmlFor='age'>Age:
             <input type='text' name='age' id='age' ref={ageRef}/>
             {errors.age ? <p className='error-message'>{errors.age}</p> : null}
           </label>
 
-          <label htmlFor='email'>Email:
+          <label className="input__email" htmlFor='email'>Email:
             <input type='text' name='email' id='email' ref={emailRef}/>
             {errors.email ? <p className='error-message'>{errors.email}</p> : null}
           </label>
 
           <fieldset className='passwords'>
             <legend>Passwords</legend>
-            <label htmlFor='passwords-1'> Base:
-              <input type='password' name='passwords-1' id='passwords-1' ref={firstPasRef}/>
+            <label className="input__passwords" htmlFor='password-1'> Base:
+              <input type='password' name='passwords-1' id='password-1' ref={firstPasRef}/>
               {errors.firstPassword ? <p className='error-message'>{errors.firstPassword}</p> : null}
             </label>
-            <label htmlFor='password-2'>Confirm:
+            <label className="input__passwords" htmlFor='password-2'>Confirm:
               <input type='password' name='password-2' id='password-2' ref={secondPasRef}/>
               {errors.secondPassword ? <p className='error-message'>{errors.secondPassword}</p> : null}
             </label>
@@ -91,26 +93,26 @@ const UncontrolledFormPage: React.FC = () => {
 
           <fieldset className='gender'>
             <legend>Gender</legend>
-            <label htmlFor='gender'>
+            <label className="input__genders" htmlFor='man'>
               <input type='radio' name='gender' id='man' ref={manRef} value={'men'}/>
               Man
             </label>
-            <label htmlFor='gender'>
+            <label className="input__genders" htmlFor='woman'>
               <input type='radio' name='gender' id='woman' ref={womanRef} value={'women'}/>
               Woman
             </label>
             {errors.gender ? <p className='error-message'>{errors.gender}</p> : null}
           </fieldset>
 
-          <label htmlFor='accept'>Accept
+          <label className="input__accept" htmlFor='accept'>Accept
             <input type='radio' name='accept' id='accept' ref={acceptRef}/>
-            I agree with <Link to={'?accept'}>that</Link>
-          </label>
+            I agree with my self
             {errors.accept ? <p className='error-message'>{errors.accept}</p> : null}
+          </label>
 
-          <InputImage />
-
-          <input type='submit' value={'Submit'}/>
+          <InputImage imgRef={imgRef} errors={errors}/>
+          <InputCountry selectRef={countryRef} errors={errors} />
+          <input className="input__submit" type='submit' value={'Submit'}/>
         </form>
       </div>
     </>

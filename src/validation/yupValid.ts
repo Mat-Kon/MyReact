@@ -1,6 +1,28 @@
 import { object, string, boolean, ref} from 'yup';
 
 const passwordRegex: RegExp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]{8,}$/;
+const countriesList = [
+  'United States',
+  'United Kingdom',
+  'Canada',
+  'Australia',
+  'Germany',
+  'France',
+  'Japan',
+  'Italy',
+  'Brazil',
+  'Spain',
+  'China',
+  'India',
+  'Russia',
+  'South Korea',
+  'Netherlands',
+  'Mexico',
+  'Switzerland',
+  'Sweden',
+  'Norway',
+  'Denmark'
+]
 
 export const userSchema = object({
   name: string()
@@ -17,5 +39,6 @@ export const userSchema = object({
                 .oneOf([ref('firstPassword')], 'Passwords must match'),
   gender: string().required('Gender is required').oneOf(['man', 'woman'], 'Choose a gender'),
   accept: boolean().required().oneOf([true], 'Choose a accept'),
-  country: string().required().oneOf(['latvia', 'georgia', 'canada'], 'Choose a country'),
+  country: string().required().oneOf(countriesList, 'Choose a country'),
+  img: string().required(),
 });

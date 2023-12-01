@@ -9,14 +9,17 @@ interface IMainProps {
 }
 
 const MainPage: React.FC<IMainProps> = ({ children }) => {
-  const formData = useAppSelector((store) => store.form.form);
+  const { form } = useAppSelector((store) => store.form);
+  const { img } = useAppSelector((store) => store.img);
 
   return (
     <>
       <Header />
       {children}
-      {/* {image && <img src={image} alt="Uploaded" />} */}
-      {formData ? <ViewData formData={formData} /> : null}
+      <div className="data-container">
+        {form ? <ViewData formData={form} /> : null}
+        {img ? <img src={img} alt='image from redux' /> : null}
+      </div>
     </>
   )
 };

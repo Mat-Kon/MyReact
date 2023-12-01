@@ -1,0 +1,119 @@
+.form-container{
+  // @include display-flex();
+  // flex-direction: column;
+  width: 30%;
+  margin: auto;
+  padding: 10px;
+  border-radius: 15px;
+  background-color: $color-form;
+}
+
+.uncontrolled {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.country {
+  display: flex;
+  flex-direction: column;
+}
+
+.passwords {
+  @include display-flex();
+  flex-direction: column;
+  gap: 40px;
+  padding: 5px 5px 20px 5px;
+  border-radius: 10px;
+}
+
+.gender {
+  position: relative;
+  @include display-flex(center, flex-start);
+  width: 50%;
+  border-radius: 10px;
+  padding-bottom: 20px;
+}
+
+.input {
+  &__name,
+  &__age,
+  &__email,
+  &__passwords {
+    position: relative;
+    @include display-flex(space-between);
+    width: 100%;
+    margin: auto;
+  }
+  &__accept,
+  &__file {
+    position: relative;
+    @include display-flex();
+    gap: 5px;
+    width: 100%;
+    padding-bottom: 10px;
+  }
+}
+
+#name,
+#age,
+#email,
+#password-1,
+#password-2,
+#inputValue {
+  width: 80%;
+  border: none;
+  border-radius: 10px;
+  padding: 5px
+}
+
+.country-container {
+  position: relative;
+  @include display-flex();
+  flex-direction: column;
+}
+
+#inputValue {
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-radius: 10px;
+  padding: 5px
+}
+
+.input__country {
+  @include display-flex(space-between);
+  flex-direction: column;
+  width: 80%;
+  border: 1px solid;
+  border-radius: 10px;
+}
+
+.country-list {
+  width: 80%;
+  list-style: none;
+}
+
+.input__submit {
+  width: 30%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background-color: #ffffff;
+  margin: auto;
+  transition: all 0.5s;
+
+  &:hover {
+    background-color: $color-form;
+  }
+}
+
+.error-message {
+  position: absolute;
+  top: 25px;
+  font-size: 14px;
+}
+
+.error-message:nth-child(6) {
+  color: #ffffff;
+}

@@ -7,6 +7,7 @@ export interface IErrors {
   gender?: string,
   accept?: string,
   country?: string,
+  img?: string,
 }
 
 export interface IFormData {
@@ -18,4 +19,5 @@ export interface IFormData {
   gender: string,
   accept: boolean,
   country: string,
+  img?: string,
 }

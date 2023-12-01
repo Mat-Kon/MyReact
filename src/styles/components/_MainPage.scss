@@ -1,0 +1,29 @@
+.header {
+  @include display-flex();
+  width: 100vw;
+  height: 20vh;
+  background-color: $color-header;
+}
+
+.navbar {
+  width: 30%;
+}
+
+.links {
+  @include display-flex();
+  justify-content: space-between;
+  width: 100%;
+  list-style: none;
+}
+
+.links__item > a {
+  color: #000000;
+  text-decoration: none;
+  padding: 5px 10px;
+  background-color: $color-form;
+  border-radius: 10px;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}

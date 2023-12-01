@@ -1,43 +1,51 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { IErrors } from '../types/types';
 import { useAppSelector } from '../hooks/reduxHoks';
 
 interface IInputCountry {
-  ref: React.RefObject<HTMLSelectElement>;
+  selectRef: React.RefObject<HTMLInputElement>;
   errors: Partial<IErrors>;
 }
 
-const InputCountry: React.FC<IInputCountry> = ({ ref, errors }) => {
+const InputCountry: React.FC<IInputCountry> = ({ selectRef, errors }) => {
   const [inputValue, setInputValue] = useState('');
-  const countries = useAppSelector((state) => state.countries);
+  const [countries, setCountries] = useState<string[]>([]);
+  const countriesList = useAppSelector((state) => state.countries.countries);
 
-  const filteredCountries = countries.filter(country =>
-    country.toLowerCase().includes(inputValue.toLowerCase())
-  );
+  const handlerInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value.toLocaleLowerCase());
+    const curValue = event.target.value.toLocaleLowerCase();
+    const filteredCountries = countriesList.filter(country => country.toLowerCase().includes(curValue)) ?? null;
+    if (curValue.length) {
+      setCountries(filteredCountries);
+    } else {
+      setCountries([]);
+    }
+  };
 
-  const handleSelect = (country: string) => {
-    setInputValue(country);
-    onSelect(country);
+  const handlerRadio = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+    setCountries([]);
   };
 
   return (
-    <div>
-      <select id="countrySelect" ref={countryRef}>
-        <option value="">Выберите страну</option>
-          <option value="latvia">
-            Latvia
-          </option>
-          <option value="georgia">
-            Georgia
-          </option>
-          <option value="canada">
-            Canada
-          </option>
-      </select>
+    <div className='country-container'>
+      <label className="input__country" htmlFor="country">
+        <input type="text" id="inputValue" value={inputValue} onChange={handlerInput} ref={selectRef}/>
+        <ul className='country-list'>
+          {countries.length ? (countries.map((country) => (
+            <li key={country} value={country.toLocaleLowerCase()}>
+              <label htmlFor={country.toLocaleLowerCase()}>
+                <input type='radio' name='country'  id={country.toLocaleLowerCase()} value={country} onChange={handlerRadio}/>
+                {country}
+              </label>
+            </li>
+          ))) : null}
+        </ul>
+      </label>
       {errors.country ? <p className='error-message'>{errors.country}</p> : null}
     </div>
   );
 };
 
-export default Autocomplete;
+export default InputCountry;
