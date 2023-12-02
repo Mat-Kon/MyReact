@@ -1,7 +1,7 @@
 import React, { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import InputImage from '../../components/InputImg';
-import { userSchema } from '../../validation/yupValid';
+import { formSchema } from '../../validation/yupValid';
 import { ValidationError } from 'yup';
 import { IErrors, IFormData } from '../../types/types';
 import { useAppDispatch } from '../../hooks/reduxHoks';
@@ -75,7 +75,7 @@ const UncontrolledFormPage: React.FC = () => {
   const checkingForm = async (formData: IFormData ) => {
   
     try {
-      await userSchema.validate(formData, { abortEarly: false });
+      await formSchema.validate(formData, { abortEarly: false });
       setErrors({});
       dispatch(setForm(formData));
       navigate('/');

@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import InputName from '../../components/inputs/InputName';
 
 const ControlledFormPage: React.FC = () => {
+  const [] = useState();
+  const [] = useState();
+  const [] = useState();
+  const [] = useState();
+  const [] = useState();
+  const [] = useState();
+  const [] = useState();
+  const [] = useState();
+
   return (
     <>
       <h1>Controlled form</h1>
       <Link to={'/'} className='back-btn'>Back</Link>
       <div className='form-container'>
         <form className='controlled' action=''>
-          <label htmlFor='name'> Name:
-            <input type='text' name='name' id='name' />
-          </label>
+          <InputName />
 
           <label htmlFor='age'>Age:
             <input type='number' name='age' id='age' />

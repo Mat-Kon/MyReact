@@ -24,7 +24,7 @@ const countriesList = [
   'Denmark'
 ]
 
-export const userSchema = object({
+export const formSchema = object({
   name: string()
         .matches(/^[A-Z][a-zA-Z]*$/, 'Name should start with an uppercase letter')
         .required('Name is required'),
