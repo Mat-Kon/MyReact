@@ -4,6 +4,12 @@
   padding: 0;
 }
 
+#root {
+  @include display-flex();
+  flex-direction: column;
+  width: 100%;
+}
+
 input {
   margin-left: 10px;
 }

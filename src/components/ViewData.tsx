@@ -11,7 +11,7 @@ const ViewData: React.FC<Props> = ({ formData }) => {
       <ul className="data-list">
         {Object.entries(formData).map(([key, value]) =>
           (<li className="data-line" key={key}>
-            <span className="data-name">{key}</span>
+            <span className="data-name">{key.charAt(0).toUpperCase() + key.slice(1)} :</span>
             <p className="data-name">{value}</p>
           </li>)
         )}

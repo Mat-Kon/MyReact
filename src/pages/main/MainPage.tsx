@@ -18,7 +18,7 @@ const MainPage: React.FC<IMainProps> = ({ children }) => {
       {children}
       <div className="data-container">
         {form ? <ViewData formData={form} /> : null}
-        {img ? <img src={img} alt='image from redux' /> : null}
+        {img ? <img src={img} alt='image from redux' width={500} height={500}/> : null}
       </div>
     </>
   )

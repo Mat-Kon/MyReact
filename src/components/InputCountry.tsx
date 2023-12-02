@@ -15,7 +15,7 @@ const InputCountry: React.FC<IInputCountry> = ({ selectRef, errors }) => {
   const handlerInput = (event: ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value.toLocaleLowerCase());
     const curValue = event.target.value.toLocaleLowerCase();
-    const filteredCountries = countriesList.filter(country => country.toLowerCase().includes(curValue)) ?? null;
+    const filteredCountries = countriesList.filter(country => country.slice(0, curValue.length).toLowerCase().includes(curValue)) ?? null;
     if (curValue.length) {
       setCountries(filteredCountries);
     } else {

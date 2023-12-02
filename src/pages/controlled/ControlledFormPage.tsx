@@ -23,7 +23,7 @@ const ControlledFormPage: React.FC = () => {
           <fieldset className='passwords'>
             <legend>Passwords</legend>
             <label htmlFor='passwords-1'> Base:
-              <input type='password' name='passwords-1' id='passwords-1' />
+              <input type='password' name='passwords-1' id='password-1' />
             </label>
             <label htmlFor='password-2'>Confirm:
               <input type='password' name='password-2' id='password-2' />
