@@ -12,6 +12,7 @@ const UncontrolledFormPage: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [errors, setErrors] = useState<Partial<IErrors>>({});
+  const [disableBtn, setDisableBtn] = useState(true);
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
@@ -39,7 +40,40 @@ const UncontrolledFormPage: React.FC = () => {
     checkingForm(formData);
   }
 
+  const handlerSubmitBtn = () => {
+    const linsNumber = 9;
+    const formData = {
+      name: nameRef.current?.value,
+      age: ageRef.current?.value,
+      email: emailRef.current?.value,
+      firstPassword: firstPasRef.current?.value,
+      secondPassword: secondPasRef.current?.value,
+      gender: manRef.current?.checked ? 'man' : womanRef.current?.checked ? 'woman' : '',
+      accept: acceptRef.current?.checked ?? false,
+      country: countryRef.current?.value ?? '',
+      img: imgRef.current?.value ?? '',
+    }
+
+    const isFormCompleted = Object.entries(formData).filter(([_, value]) => {
+      if (value === false || !String(value).length) {
+        return false;
+      } else {
+        return true;
+      }
+    }).length === linsNumber;
+
+    if (isFormCompleted) {
+      setDisableBtn(false);
+    } else {
+      setDisableBtn(true);
+    }
+
+    console.log(isFormCompleted)
+
+  }
+  
   const checkingForm = async (formData: IFormData ) => {
+  
     try {
       await userSchema.validate(formData, { abortEarly: false });
       setErrors({});
@@ -63,7 +97,7 @@ const UncontrolledFormPage: React.FC = () => {
       <h1>Uncontrolled form</h1>
       <Link to={'/'} className='back-btn'>Back</Link>
       <div className='form-container'>
-        <form className='uncontrolled' onSubmit={handlerSubmit}>
+        <form className='uncontrolled' onSubmit={handlerSubmit} onChange={handlerSubmitBtn}>
           <label className="input__name" htmlFor='name'> Name:
             <input type='text' name='name' id='name' ref={nameRef} autoComplete='name'/>
             {errors.name ? <p className='error-message'>{errors.name}</p> : null}
@@ -112,7 +146,7 @@ const UncontrolledFormPage: React.FC = () => {
 
           <InputImage imgRef={imgRef} errors={errors}/>
           <InputCountry selectRef={countryRef} errors={errors} />
-          <input className="input__submit" type='submit' value={'Submit'}/>
+          <input className="input__submit" type='submit' value={'Submit'} disabled={disableBtn} />
         </form>
       </div>
     </>

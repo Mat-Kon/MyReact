@@ -106,9 +106,15 @@
   background-color: #ffffff;
   margin: auto;
   transition: all 0.5s;
-
+  
   &:hover {
     background-color: $color-form;
+  }
+  
+  &:disabled {
+    &:hover {
+      background-color: #ffffff;
+    }
   }
 }
 
