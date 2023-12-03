@@ -69,28 +69,28 @@ const ControlledFormPage: React.FC = () => {
       <div className='form-container'>
         <form className='controlled' onSubmit={handleSubmit(onSubmit, error)}>
           <label htmlFor='name'> Name:
-            <input type='text' id={'name'} {...register('name', { required: true })}/>
+            <input type='text' id={'name'} {...register('name', { required: true })} autoComplete='name'/>
             {errors.name ? <p className='error-message'>{errors.name.message}</p> : null}
           </label>
 
           <label htmlFor='age'>Age:
-            <input type='text' id='age' {...register('age')}/>
+            <input type='text' id='age' {...register('age')} autoComplete='number'/>
             {errors.age ? <p className='error-message'>{errors.age.message}</p> : null}
           </label>
 
           <label htmlFor='email'>Email:
-            <input type='text' id='email' {...register('email')}/>
+            <input type='text' id='email' {...register('email')} autoComplete='email'/>
             {errors.email ? <p className='error-message'>{errors.email.message}</p> : null}
           </label>
 
           <fieldset className='passwords'>
             <legend>Passwords</legend>
             <label htmlFor='password-1'> Base:
-              <input type='password' id='password-1' {...register('firstPassword')}/>
+              <input type='password' id='password-1' {...register('firstPassword')} autoComplete='password'/>
               {errors.firstPassword ? <p className='error-message'>{errors.firstPassword.message}</p> : null}
             </label>
             <label htmlFor='password-2'>Confirm:
-              <input type='password' id='password-2' {...register('secondPassword')}/>
+              <input type='password' id='password-2' {...register('secondPassword')} autoComplete='password'/>
               {errors.secondPassword ? <p className='error-message'>{errors.secondPassword.message}</p> : null}
             </label>
           </fieldset>

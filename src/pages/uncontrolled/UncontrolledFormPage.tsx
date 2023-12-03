@@ -96,28 +96,28 @@ const UncontrolledFormPage: React.FC = () => {
       <div className='form-container'>
         <form className='uncontrolled' onSubmit={handlerSubmit} onChange={handlerSubmitBtn}>
           <label className="input__name" htmlFor='name'> Name:
-            <input type='text' name='name' id='name' ref={nameRef} autoComplete='name' placeholder='name' aria-autocomplete='inline'/>
+            <input type='text' name='name' id='name' ref={nameRef} autoComplete='name' placeholder='name'/>
             {errors.name ? <p className='error-message'>{errors.name}</p> : null}
           </label>
 
           <label className='input__age' htmlFor='age'>Age:
-            <input type='text' name='age' id='age' ref={ageRef} placeholder='age' aria-autocomplete='inline'/>
+            <input type='text' name='age' id='age' ref={ageRef} placeholder='age' autoComplete='number'/>
             {errors.age ? <p className='error-message'>{errors.age}</p> : null}
           </label>
 
           <label className="input__email" htmlFor='email'>Email:
-            <input type='text' name='email' id='email' ref={emailRef} placeholder='email@dom' aria-autocomplete='inline'/>
+            <input type='text' name='email' id='email' ref={emailRef} placeholder='email@dom' autoComplete='email'/>
             {errors.email ? <p className='error-message'>{errors.email}</p> : null}
           </label>
 
           <fieldset className='passwords'>
             <legend>Passwords</legend>
             <label className="input__passwords" htmlFor='password-1'> Base:
-              <input type='password' name='passwords-1' id='password-1' ref={firstPasRef} placeholder='password'/>
+              <input type='password' name='passwords-1' id='password-1' ref={firstPasRef} placeholder='password' autoComplete='password'/>
               {errors.firstPassword ? <p className='error-message'>{errors.firstPassword}</p> : null}
             </label>
             <label className="input__passwords" htmlFor='password-2'>Confirm:
-              <input type='password' name='password-2' id='password-2' ref={secondPasRef} placeholder='confirm password'/>
+              <input type='password' name='password-2' id='password-2' ref={secondPasRef} placeholder='confirm password' autoComplete='password'/>
               {errors.secondPassword ? <p className='error-message'>{errors.secondPassword}</p> : null}
             </label>
           </fieldset>

@@ -63,7 +63,7 @@ export const controlledFormSchema = object({
     }),
   gender: string().required('Gender is required').oneOf(['on'], 'Choose a gender'),
   accept: string().required('Accept is required').oneOf(['on'], 'Choose a accept'),
-  country: string().required('Country is required').oneOf(countriesList, 'Choose current country'),
+  country: string().required('Country is required'),
   img: mixed()
     .required('Image is required')
     .test('fileCount', 'Only one image', (value) => value instanceof FileList && value.length === 1),
