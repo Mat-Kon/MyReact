@@ -1,3 +1,6 @@
+import { InferType } from "yup";
+import { controlledFormSchema } from "../validation/yupValid";
+
 export interface IErrors {
   name?: string,
   age?: string,
@@ -10,7 +13,7 @@ export interface IErrors {
   img?: string,
 }
 
-export interface IFormData {
+export interface IUncontrolledFormData {
   name: string,
   age: string,
   email: string,
@@ -19,5 +22,8 @@ export interface IFormData {
   gender: string,
   accept: boolean,
   country: string,
-  img?: string,
+  img: string,
 }
+
+
+export type IControlledFormData = InferType<typeof controlledFormSchema>

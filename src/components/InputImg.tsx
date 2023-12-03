@@ -1,8 +1,7 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useAppDispatch } from '../hooks/reduxHoks';
-import { setImg } from '../redux/slices/imgSlice';
+import { setImg } from '../redux/slices/imgsSlice';
 import { IErrors } from '../types/types';
-// import { useDispatch } from 'react-redux';
 
 const maxSizeInBytes = 5 * 1024 * 1024;
 

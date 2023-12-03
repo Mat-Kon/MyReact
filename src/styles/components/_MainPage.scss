@@ -28,10 +28,17 @@
   }
 }
 
-.data-container {
+.forms {
   @include display-flex(space-between, flex-start);
   gap: 10px;
+  flex-direction: column;
+  width: 100%
+}
+
+.data-container {
+  @include display-flex(space-between, flex-start);
   width: 70%;
+  gap: 10px;
   padding: 30px 0;
 
   & img {
@@ -43,8 +50,9 @@
 }
 
 .view-data {
-  @include display-flex();
-  width: 30%;
+  @include display-flex(space-between, flex-start);
+  gap: 5px;
+  width: 100%;
 }
 
 .data-list {

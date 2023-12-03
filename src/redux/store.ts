@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import formSlice from "./slices/formSlice";
+import formsSlice from "./slices/formsSlice";
 import countriesSlice from "./slices/countriesSlice";
-import imgSlice from "./slices/imgSlice";
+import imgSlice from "./slices/imgsSlice";
 
 export const rootReducer = combineReducers({
-  form: formSlice,
+  form: formsSlice,
   countries: countriesSlice,
   img: imgSlice,
 });

@@ -1,10 +1,10 @@
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { IErrors } from '../types/types';
 import { useAppSelector } from '../hooks/reduxHoks';
 
 interface IInputCountry {
-  selectRef: React.RefObject<HTMLInputElement>;
   errors: Partial<IErrors>;
+  selectRef?: React.RefObject<HTMLInputElement>;
 }
 
 const InputCountry: React.FC<IInputCountry> = ({ selectRef, errors }) => {
@@ -31,7 +31,7 @@ const InputCountry: React.FC<IInputCountry> = ({ selectRef, errors }) => {
   return (
     <div className='country-container'>
       <label className="input__country" htmlFor="country">
-        <input type="text" id="inputValue" value={inputValue} onChange={handlerInput} ref={selectRef}/>
+        <input type="text" id="inputValue" value={inputValue} onChange={handlerInput} ref={selectRef} placeholder='start typing'/>
         <ul className='country-list'>
           {countries.length ? (countries.map((country) => (
             <li key={country} value={country.toLocaleLowerCase()}>

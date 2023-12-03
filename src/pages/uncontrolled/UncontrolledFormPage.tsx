@@ -1,11 +1,11 @@
 import React, { FormEvent, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import InputImage from '../../components/InputImg';
-import { formSchema } from '../../validation/yupValid';
+import { uncontrolledFormSchema } from '../../validation/yupValid';
 import { ValidationError } from 'yup';
-import { IErrors, IFormData } from '../../types/types';
+import { IErrors, IUncontrolledFormData } from '../../types/types';
 import { useAppDispatch } from '../../hooks/reduxHoks';
-import { setForm } from '../../redux/slices/formSlice';
+import { setForm } from '../../redux/slices/formsSlice';
 import InputCountry from '../../components/InputCountry';
 
 const UncontrolledFormPage: React.FC = () => {
@@ -26,7 +26,7 @@ const UncontrolledFormPage: React.FC = () => {
 
   const handlerSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const formData: IFormData = {
+    const formData: IUncontrolledFormData = {
       name: nameRef.current?.value ?? '',
       age: ageRef.current?.value ?? '',
       email: emailRef.current?.value ?? '',
@@ -67,15 +67,12 @@ const UncontrolledFormPage: React.FC = () => {
     } else {
       setDisableBtn(true);
     }
-
-    console.log(isFormCompleted)
-
   }
   
-  const checkingForm = async (formData: IFormData ) => {
+  const checkingForm = async (formData: IUncontrolledFormData ) => {
   
     try {
-      await formSchema.validate(formData, { abortEarly: false });
+      await uncontrolledFormSchema.validate(formData, { abortEarly: false });
       setErrors({});
       dispatch(setForm(formData));
       navigate('/');
@@ -99,28 +96,28 @@ const UncontrolledFormPage: React.FC = () => {
       <div className='form-container'>
         <form className='uncontrolled' onSubmit={handlerSubmit} onChange={handlerSubmitBtn}>
           <label className="input__name" htmlFor='name'> Name:
-            <input type='text' name='name' id='name' ref={nameRef} autoComplete='name'/>
+            <input type='text' name='name' id='name' ref={nameRef} autoComplete='name' placeholder='name' aria-autocomplete='inline'/>
             {errors.name ? <p className='error-message'>{errors.name}</p> : null}
           </label>
 
           <label className='input__age' htmlFor='age'>Age:
-            <input type='text' name='age' id='age' ref={ageRef}/>
+            <input type='text' name='age' id='age' ref={ageRef} placeholder='age' aria-autocomplete='inline'/>
             {errors.age ? <p className='error-message'>{errors.age}</p> : null}
           </label>
 
           <label className="input__email" htmlFor='email'>Email:
-            <input type='text' name='email' id='email' ref={emailRef}/>
+            <input type='text' name='email' id='email' ref={emailRef} placeholder='email@dom' aria-autocomplete='inline'/>
             {errors.email ? <p className='error-message'>{errors.email}</p> : null}
           </label>
 
           <fieldset className='passwords'>
             <legend>Passwords</legend>
             <label className="input__passwords" htmlFor='password-1'> Base:
-              <input type='password' name='passwords-1' id='password-1' ref={firstPasRef}/>
+              <input type='password' name='passwords-1' id='password-1' ref={firstPasRef} placeholder='password'/>
               {errors.firstPassword ? <p className='error-message'>{errors.firstPassword}</p> : null}
             </label>
             <label className="input__passwords" htmlFor='password-2'>Confirm:
-              <input type='password' name='password-2' id='password-2' ref={secondPasRef}/>
+              <input type='password' name='password-2' id='password-2' ref={secondPasRef} placeholder='confirm password'/>
               {errors.secondPassword ? <p className='error-message'>{errors.secondPassword}</p> : null}
             </label>
           </fieldset>

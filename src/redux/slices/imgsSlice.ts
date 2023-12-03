@@ -1,7 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  img: '',
+interface formState {
+  img: string[],
+}
+
+const initialState: formState = {
+  img: [],
 };
 
 const imgSlice = createSlice({
@@ -9,7 +13,7 @@ const imgSlice = createSlice({
   initialState,
   reducers: {
     setImg: (state, action: PayloadAction<string>) => {
-      state.img = action.payload;
+      state.img = [action.payload, ... state.img];
     },
   },
 });

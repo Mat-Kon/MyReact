@@ -1,79 +1,94 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import InputName from '../../components/inputs/InputName';
+import React from 'react';
+import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
+import { Link, useNavigate } from 'react-router-dom';
+import { IControlledFormData } from '../../types/types';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { controlledFormSchema } from '../../validation/yupValid';
+import { useAppDispatch } from '../../hooks/reduxHoks';
+import { setForm } from '../../redux/slices/formsSlice';
+
 
 const ControlledFormPage: React.FC = () => {
-  const [] = useState();
-  const [] = useState();
-  const [] = useState();
-  const [] = useState();
-  const [] = useState();
-  const [] = useState();
-  const [] = useState();
-  const [] = useState();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors, isValid } } =
+    useForm<IControlledFormData>({
+      mode: 'onChange',
+      resolver: yupResolver(controlledFormSchema),
+  });
+
+  const onSubmit: SubmitHandler<IControlledFormData> = (data) => {
+    const sendData = {...data};
+    const files = data.img as FileList;
+    const fileName = files[0].name;
+    sendData.img = fileName;
+    dispatch(setForm(sendData));
+    navigate('/');
+  }
+  const error: SubmitErrorHandler<IControlledFormData> = (data) => console.log(data);
 
   return (
     <>
       <h1>Controlled form</h1>
       <Link to={'/'} className='back-btn'>Back</Link>
       <div className='form-container'>
-        <form className='controlled' action=''>
-          <InputName />
+        <form className='controlled' onSubmit={handleSubmit(onSubmit, error)}>
+          <label htmlFor='name'> Name:
+            <input type='text' id={'name'} {...register('name', { required: true })}/>
+            {errors.name ? <p className='error-message'>{errors.name.message}</p> : null}
+          </label>
 
           <label htmlFor='age'>Age:
-            <input type='number' name='age' id='age' />
+            <input type='text' id='age' {...register('age')}/>
+            {errors.age ? <p className='error-message'>{errors.age.message}</p> : null}
           </label>
 
           <label htmlFor='email'>Email:
-            <input type='email' name='email' id='email' />
+            <input type='text' id='email' {...register('email')}/>
+            {errors.email ? <p className='error-message'>{errors.email.message}</p> : null}
           </label>
 
           <fieldset className='passwords'>
             <legend>Passwords</legend>
-            <label htmlFor='passwords-1'> Base:
-              <input type='password' name='passwords-1' id='password-1' />
+            <label htmlFor='password-1'> Base:
+              <input type='password' id='password-1' {...register('firstPassword')}/>
+              {errors.firstPassword ? <p className='error-message'>{errors.firstPassword.message}</p> : null}
             </label>
             <label htmlFor='password-2'>Confirm:
-              <input type='password' name='password-2' id='password-2' />
+              <input type='password' id='password-2' {...register('secondPassword')}/>
+              {errors.secondPassword ? <p className='error-message'>{errors.secondPassword.message}</p> : null}
             </label>
           </fieldset>
 
           <fieldset className='gender'>
             <legend>Gender</legend>
             <label htmlFor='man'>
-              <input type='radio' name='man' id='man' />
+              <input type='radio' id='man' {...register('gender')}/>
               Man
             </label>
             <label htmlFor='woman'>
-              <input type='radio' name='woman' id='woman' />
+              <input type='radio' id='woman' {...register('gender')}/>
               Woman
             </label>
+            {errors.gender ? <p className='error-message'>{errors.gender.message}</p> : null}
           </fieldset>
 
-          <label htmlFor='accept'>Accept
-            <input type='radio' name='accept' id='accept' />
-            I agree with <Link to={'?accept'}>that</Link>
+          <label className="accept" htmlFor='accept'>Accept
+            <input type='radio' id='accept' {...register('accept')}/>
+            I agree with my self
+            {errors.accept ? <p className='error-message'>{errors.accept.message}</p> : null}
           </label>
 
           <label htmlFor='file'>Choose a picture
-            <input type="file" accept=".png,.jpeg" name='file' id='file'/>
+            <input type="file" accept=".png,.jpeg" id='file' {...register('img')}/>
+            {errors.img ? <p className='error-message'>{errors.img.message}</p> : null}
           </label>
 
-          <div>
-            <label htmlFor="countrySelect">Выберите страну:</label>
-            <select id="countrySelect">
-              <option value="">Выберите страну</option>
-                <option value="latvia">
-                  Latvia
-                </option>
-                <option value="georgia">
-                  Georgia
-                </option>
-                <option value="canada">
-                  Canada
-                </option>
-            </select>
-          </div>
+          <label htmlFor="countrySelect">Выберите страну:
+            <input type="text" {...register('country')}/>
+            {errors.country ? <p className='error-message'>{errors.country.message}</p> : null}
+          </label>
+          <input className="input__submit" type='submit' value={'Submit'} disabled={!isValid}/>
         </form>
       </div>
     </>
