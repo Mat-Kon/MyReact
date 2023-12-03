@@ -36,6 +36,12 @@
     }
   }
 
+  & .country-item {
+    justify-content: flex-start;
+    gap: 10px;
+    flex: 1;
+  }
+
   & .error-message {
     position: absolute;
     top: 30px;

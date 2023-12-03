@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { SubmitErrorHandler, SubmitHandler, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { IControlledFormData } from '../../types/types';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { controlledFormSchema } from '../../validation/yupValid';
-import { useAppDispatch } from '../../hooks/reduxHoks';
+import { useAppDispatch, useAppSelector } from '../../hooks/reduxHoks';
 import { setForm } from '../../redux/slices/formsSlice';
 import { setImg } from '../../redux/slices/imgsSlice';
 
 
 const ControlledFormPage: React.FC = () => {
+  const countriesList = useAppSelector((store) => store.countries.countries);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors, isValid } } =
@@ -17,6 +18,8 @@ const ControlledFormPage: React.FC = () => {
       mode: 'onChange',
       resolver: yupResolver(controlledFormSchema),
   });
+  const [country, setCountry] = useState('');
+  const [curCountries, setCurCountries] = useState<string[]>([]);
 
   const onSubmit: SubmitHandler<IControlledFormData> = (data) => {
     const sendData = { ...data };
@@ -24,16 +27,6 @@ const ControlledFormPage: React.FC = () => {
     const imgFile = files[0];
 
     if (imgFile) {
-      console.log(imgFile.type)
-      // if (imgFile.type !== 'image/png' && selectedFile.type !== 'image/jpeg') {
-      //   setErrMessage('Only .png and .jpeg formats are allowed');
-      // }
-      // if (imgFile.size > maxSizeInBytes) {
-      //   setValid(false);
-      //   setErrMessage('Maximum of 5 MB');
-      // }
-      // setValid(true);
-
       const reader = new FileReader();
       reader.readAsDataURL(imgFile);
       reader.onload = () => {
@@ -52,6 +45,22 @@ const ControlledFormPage: React.FC = () => {
   };
 
   const error: SubmitErrorHandler<IControlledFormData> = (data) => console.log(data);
+
+  const handlerInput = (event: ChangeEvent<HTMLInputElement>) => {
+    setCountry(event.target.value.toLocaleLowerCase());
+    const curValue = event.target.value.toLocaleLowerCase();
+    const curCountries = countriesList.filter(country => country.slice(0, curValue.length).toLowerCase().includes(curValue)) ?? null;
+    if (curValue.length) {
+      setCurCountries(curCountries);
+    } else {
+      setCurCountries([]);
+    }
+  };
+
+  const handlerRadio = (event: ChangeEvent<HTMLInputElement>) => {
+    setCountry(event.target.value);
+    setCurCountries([]);
+  };
 
   return (
     <>
@@ -110,10 +119,22 @@ const ControlledFormPage: React.FC = () => {
             {errors.img ? <p className='error-message'>{errors.img.message}</p> : null}
           </label>
 
-          <label htmlFor="countrySelect">Выберите страну:
-            <input type="text" {...register('country')}/>
+          <div className='country-container'>
+            <label className="input__country" htmlFor="country">
+              <input type="text" id="inputValue" value={country} {...register('country')} onChange={handlerInput} placeholder='start typing'/>
+              <ul className='country-list'>
+                {curCountries.length ? (curCountries.map((country) => (
+                  <li key={country} value={country.toLocaleLowerCase()}>
+                    <label className='country-item' htmlFor={country.toLocaleLowerCase()}>
+                      <input type='radio' id={country.toLocaleLowerCase()} value={country} onChange={handlerRadio}/>
+                      {country}
+                    </label>
+                  </li>
+                ))) : null}
+              </ul>
+            </label>
             {errors.country ? <p className='error-message'>{errors.country.message}</p> : null}
-          </label>
+          </div>
           <input className="input__submit" type='submit' value={'Submit'} disabled={!isValid}/>
         </form>
       </div>
