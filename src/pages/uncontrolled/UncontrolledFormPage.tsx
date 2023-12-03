@@ -94,14 +94,14 @@ const UncontrolledFormPage: React.FC = () => {
       <h1>Uncontrolled form</h1>
       <Link to={'/'} className='back-btn'>Back</Link>
       <div className='form-container'>
-        <form className='uncontrolled' onSubmit={handlerSubmit} onChange={handlerSubmitBtn}>
+        <form className='uncontrolled' onSubmit={handlerSubmit} onChange={handlerSubmitBtn} autoComplete='username'>
           <label className="input__name" htmlFor='name'> Name:
-            <input type='text' name='name' id='name' ref={nameRef} autoComplete='name' placeholder='name'/>
+            <input type='text' name='username' id='name' ref={nameRef} autoComplete='on' placeholder='name'/>
             {errors.name ? <p className='error-message'>{errors.name}</p> : null}
           </label>
 
           <label className='input__age' htmlFor='age'>Age:
-            <input type='text' name='age' id='age' ref={ageRef} placeholder='age' autoComplete='number'/>
+            <input type='text' name='age' id='age' ref={ageRef} placeholder='age' autoComplete='age'/>
             {errors.age ? <p className='error-message'>{errors.age}</p> : null}
           </label>
 

@@ -32,7 +32,6 @@ const InputImage: React.FC<IInputImgProps> = ({ imgRef, errors }) => {
     }
 
     if (selectedFile) {
-      console.log(selectedFile.type)
       if (selectedFile.type !== 'image/png' && selectedFile.type !== 'image/jpeg') {
         setValid(false);
         setErrMessage('Only .png and .jpeg formats are allowed');

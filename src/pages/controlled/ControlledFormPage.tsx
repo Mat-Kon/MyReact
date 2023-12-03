@@ -74,7 +74,7 @@ const ControlledFormPage: React.FC = () => {
           </label>
 
           <label htmlFor='age'>Age:
-            <input type='text' id='age' {...register('age')} autoComplete='number'/>
+            <input type='text' id='age' {...register('age')} autoComplete='age'/>
             {errors.age ? <p className='error-message'>{errors.age.message}</p> : null}
           </label>
 
