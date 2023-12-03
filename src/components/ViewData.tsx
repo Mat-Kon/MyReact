@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAppSelector } from "../hooks/reduxHoks";
-import { IFormData } from "../types/types";
+import { IUncontrolledFormData } from "../types/types";
 
 interface Props {
-  forms: IFormData[];
+  forms: IUncontrolledFormData[];
 }
 
 
@@ -23,7 +23,7 @@ const ViewData: React.FC<Props> = ({ forms }) => {
     <div className="forms">
       {forms.map((formData, index) => (
         <div className="view-data" key={index}>
-          <ul className="data-list" style={{backgroundColor: last ? "#10ff15" : ""}}>
+          <ul className="data-list" style={{backgroundColor: index === 0 && last ? "#10ff15" : ""}}>
             {Object.entries(formData).map(([key, value]) => (
               <li className="data-line" key={key}>
                 <span className="data-name">{key.charAt(0).toUpperCase() + key.slice(1)} :</span>
@@ -31,7 +31,7 @@ const ViewData: React.FC<Props> = ({ forms }) => {
               </li>
             ))}
           </ul>
-          {img ? <img src={img[index]} alt='image from redux' width={500} height={500} style={{backgroundColor: last ? "#10ff15" : ""}}/> : null}
+          {img ? <img src={img[index]} alt='image from redux' width={500} height={500} style={{backgroundColor: index === 0 && last ? "#10ff15" : ""}}/> : null}
         </div>
       ))}
   </div>

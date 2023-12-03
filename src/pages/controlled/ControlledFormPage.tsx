@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { controlledFormSchema } from '../../validation/yupValid';
 import { useAppDispatch } from '../../hooks/reduxHoks';
 import { setForm } from '../../redux/slices/formsSlice';
+import { setImg } from '../../redux/slices/imgsSlice';
 
 
 const ControlledFormPage: React.FC = () => {
@@ -18,13 +19,38 @@ const ControlledFormPage: React.FC = () => {
   });
 
   const onSubmit: SubmitHandler<IControlledFormData> = (data) => {
-    const sendData = {...data};
-    const files = data.img as FileList;
-    const fileName = files[0].name;
-    sendData.img = fileName;
+    const sendData = { ...data };
+    const files = sendData.img as FileList;
+    const imgFile = files[0];
+
+    if (imgFile) {
+      console.log(imgFile.type)
+      // if (imgFile.type !== 'image/png' && selectedFile.type !== 'image/jpeg') {
+      //   setErrMessage('Only .png and .jpeg formats are allowed');
+      // }
+      // if (imgFile.size > maxSizeInBytes) {
+      //   setValid(false);
+      //   setErrMessage('Maximum of 5 MB');
+      // }
+      // setValid(true);
+
+      const reader = new FileReader();
+      reader.readAsDataURL(imgFile);
+      reader.onload = () => {
+        const base64Image = reader.result as string;
+        dispatch(setImg(base64Image));
+      };
+    }
+    console.log()
+
+    if (data.img && (data.img as FileList)[0] && (data.img as FileList)[0].name) {
+      sendData.img = (data.img as FileList)[0].name;
+    }
+
     dispatch(setForm(sendData));
     navigate('/');
-  }
+  };
+
   const error: SubmitErrorHandler<IControlledFormData> = (data) => console.log(data);
 
   return (
